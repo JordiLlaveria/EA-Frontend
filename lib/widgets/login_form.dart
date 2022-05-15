@@ -1,8 +1,10 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:frontend/models/loginService.dart';
+import 'package:frontend/service/loginService.dart';
+import 'package:frontend/screens/app_screen.dart';
 import 'package:frontend/screens/home_screen.dart';
+import 'package:frontend/screens/register_screen.dart';
 import 'package:frontend/screens/sign_in.dart';
 import 'package:frontend/widgets/input_text.dart';
 
@@ -19,7 +21,6 @@ class _LoginFormState extends State<LoginForm> {
   GlobalKey<FormState> _formkey = GlobalKey();
   late String _email;
   late String _password;
-  Future <bool> code = false as Future<bool>;
   _submit(){
     final isLoggin = _formkey.currentState?.validate();
     print('IsLoggin Form $isLoggin');
@@ -58,15 +59,13 @@ class _LoginFormState extends State<LoginForm> {
             width: double.infinity,
             child: FlatButton(
               color: Color.fromARGB(255, 231, 103, 11),
-              onPressed: (){
-                future: code = service.login(_email, _password);
-                if(code !=false){
+              onPressed: () async{
+                if(await service.login(_email, _password)){
                   final route = MaterialPageRoute(
-                    builder: (context) => HomeScreen());
-                  Navigator.push(context, route);
-                }else{
-                  //POSAR ALERT MESSAGE
-                }
+                     builder: (context) => App());
+                   Navigator.push(context, route); 
+                };                              
+                
               },
               child: Text(
                 'SIGIN',
@@ -93,7 +92,7 @@ class _LoginFormState extends State<LoginForm> {
               FlatButton(
                 onPressed: (){
                   final route = MaterialPageRoute(
-                        builder: (context) => SignIn()); //Canviar a SIGNUP!!
+                        builder: (context) => RegisterScreen());
                       Navigator.push(context, route);
                 },
                 child: Text(

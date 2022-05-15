@@ -1,6 +1,7 @@
 //import 'dart:html';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/register_screen.dart';
 import 'package:frontend/screens/sign_in.dart';
 //import 'package:frontend/screens/sign_in.dart'; 
 import 'package:frontend/widgets/icon_container.dart';
@@ -86,7 +87,7 @@ class _IndexState extends State<Index> {
                   child: FlatButton(
                     onPressed: (){
                       final route = MaterialPageRoute(
-                        builder: (context) => SignIn()); //Canviar a Signup
+                        builder: (context) => RegisterScreen());
                       Navigator.push(context, route);
                     },
                     color: Color.fromARGB(255, 229, 28, 85),

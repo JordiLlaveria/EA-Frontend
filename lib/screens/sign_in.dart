@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/models/loginService.dart';
+import 'package:frontend/service/loginService.dart';
 import 'package:frontend/widgets/login_form.dart';
 import '../widgets/icon_container.dart';
 
@@ -40,7 +40,7 @@ class _SignInState extends State<SignIn> {
                 url: 'imatges/Logo.PNG'
                 ),
                 Text(
-                  'SIGIN',
+                  'SIGN IN',
                   style: TextStyle(
                     fontSize: 30.0,
                     fontFamily: 'FredokaOne'
