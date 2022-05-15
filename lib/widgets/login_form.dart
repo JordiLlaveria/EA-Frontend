@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:frontend/models/loginService.dart';
+import 'package:frontend/screens/home_screen.dart';
 import 'package:frontend/screens/sign_in.dart';
 import 'package:frontend/widgets/input_text.dart';
 
@@ -16,6 +19,7 @@ class _LoginFormState extends State<LoginForm> {
   GlobalKey<FormState> _formkey = GlobalKey();
   late String _email;
   late String _password;
+  Future <bool> code = false as Future<bool>;
   _submit(){
     final isLoggin = _formkey.currentState?.validate();
     print('IsLoggin Form $isLoggin');
@@ -55,7 +59,14 @@ class _LoginFormState extends State<LoginForm> {
             child: FlatButton(
               color: Color.fromARGB(255, 231, 103, 11),
               onPressed: (){
-                future: service.login(_email, _password);
+                future: code = service.login(_email, _password);
+                if(code !=false){
+                  final route = MaterialPageRoute(
+                    builder: (context) => HomeScreen());
+                  Navigator.push(context, route);
+                }else{
+                  //POSAR ALERT MESSAGE
+                }
               },
               child: Text(
                 'SIGIN',

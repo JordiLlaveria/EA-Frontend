@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/screens/home_screen.dart';
+import 'package:frontend/screens/Index_screen.dart';
 import 'package:frontend/screens/sign_in.dart';
 //import 'package:frontend/screens/register_screen.dart';
 import 'package:frontend/screens/sign_in.dart';
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: 'Home',
       routes: <String, WidgetBuilder>{
-        'Home': (BuildContext context) => HomeScreen(),
+        'Home': (BuildContext context) => Index(),
         'SignIn': (BuildContext context) => SignIn(),
         'SignUp': (BuildContext context) => SignIn()  //Canviar a SIGNUP
       },
