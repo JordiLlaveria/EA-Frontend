@@ -1,19 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/screens/register_screen.dart';
+import 'package:frontend/screens/Index_screen.dart';
+import 'package:frontend/screens/sign_in.dart';
+//import 'package:frontend/screens/register_screen.dart';
+import 'package:frontend/screens/sign_in.dart';
 
-void main(){
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget{
-  Widget build(BuildContext context){
+
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Grup 1',
+      title: 'LogIn',
       theme: ThemeData(
-        primarySwatch: Colors.red,
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const RegisterScreen(),
+      initialRoute: 'Home',
+      routes: <String, WidgetBuilder>{
+        'Home': (BuildContext context) => Index(),
+        'SignIn': (BuildContext context) => SignIn(),
+        'SignUp': (BuildContext context) => SignIn()  //Canviar a SIGNUP
+      },
     );
   }
 }
