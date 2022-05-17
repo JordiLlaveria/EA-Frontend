@@ -20,7 +20,7 @@ class _LoginFormState extends State<LoginForm> {
   LoginService service = LoginService();
 
   GlobalKey<FormState> _formkey = GlobalKey();
-  late String _email;
+  late String _user;
   late String _password;
 
   _submit(){
@@ -34,12 +34,12 @@ class _LoginFormState extends State<LoginForm> {
       child: Column(
         children: <Widget>[
           InputText(
-            label: 'Email Address', 
-            hint: 'Email Address', 
+            label: 'User Name', 
+            hint: 'User Name', 
             icon: Icon(Icons.verified_user), 
             keyboard: TextInputType.emailAddress,
             onChanged: (data){
-              _email= data;
+              _user= data;
             },
           ),
           Divider(
@@ -62,12 +62,26 @@ class _LoginFormState extends State<LoginForm> {
             child: FlatButton(
               color: Color.fromARGB(255, 231, 103, 11),
               onPressed: ()async{
-                if(await service.login(_email, _password)){
+                if(await service.login(_user, _password)){
                   final route = MaterialPageRoute(
                     builder: (context) => App());
                   Navigator.push(context, route);
                 }else{
-                  //POSAR ALERT MESSAGE
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text('USER OR PASSWORD INCORRECT'),
+                      content: Text('The User or Paswword do not match with any user in database'),
+                      actions: <Widget> [
+                        FlatButton(
+                          child: Text('OK'),
+                          onPressed: (){
+                            Navigator.of(context).pop();
+                          } ,
+                        ),
+                      ],
+                    )
+                  );
                 }
               },
               child: Text(
@@ -95,7 +109,7 @@ class _LoginFormState extends State<LoginForm> {
               FlatButton(
                 onPressed: (){
                   final route = MaterialPageRoute(
-                        builder: (context) => RegisterScreen()); //Canviar a SIGNUP!!
+                        builder: (context) => RegisterScreen());
                       Navigator.push(context, route);
                 },
                 child: Text(

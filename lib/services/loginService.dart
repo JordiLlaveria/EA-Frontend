@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 
 class LoginService{
-  var baseurl = "http://localhost:3000/api/auth/login";
+  var baseurl = "http://147.83.7.156:3000/api/auth/login";
 
   Future<bool> login(String username, String password) async {
     var res = await http.post(Uri.parse(baseurl),
