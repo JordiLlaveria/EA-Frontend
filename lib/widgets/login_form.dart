@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:frontend/app.dart';
-import 'package:frontend/models/loginService.dart';
+import 'package:frontend/services/loginService.dart';
 import 'package:frontend/screens/Index_screen.dart';
 import 'package:frontend/screens/home_screen.dart';
 import 'package:frontend/screens/register_screen.dart';

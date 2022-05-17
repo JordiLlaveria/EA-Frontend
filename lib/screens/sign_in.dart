@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/models/loginService.dart';
+import 'package:frontend/services/loginService.dart';
 import 'package:frontend/widgets/login_form.dart';
 import '../widgets/icon_container.dart';
 
