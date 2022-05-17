@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/services/registerService.dart';
+import 'package:frontend/services/auth_service.dart';
 import 'package:frontend/widgets/input_text.dart';
 import 'dart:developer';
 
@@ -13,7 +13,7 @@ class RegisterForm extends StatefulWidget{
 
 class _RegisterFormState extends State<RegisterForm>{
 
-  RegisterService service = RegisterService();
+  AuthService service = AuthService();
   GlobalKey<FormState> _formkey = GlobalKey();
 
   late String name;
@@ -116,16 +116,6 @@ class _RegisterFormState extends State<RegisterForm>{
           onChanged: (data){
             phone = data;
           },
-        ),        
-        SizedBox(height: 20),
-        InputText(
-          label: 'Write your location',
-          hint:'[Longitude],[Latitude]',
-          keyboard: TextInputType.text,
-          icon: Icon(Icons.add_location_alt),
-          onChanged: (data){
-            location = data.split(',');
-          },
         ),
         SizedBox(height: 20),
         InputText(
@@ -135,6 +125,16 @@ class _RegisterFormState extends State<RegisterForm>{
           icon: Icon(Icons.chat_bubble_outline),
           onChanged: (data){
             languages = data.split(',');
+          },
+        ),
+        SizedBox(height: 20),
+        InputText(
+          label: 'Write your location',
+          hint:'[Longitude],[Latitude]',
+          keyboard: TextInputType.text,
+          icon: Icon(Icons.add_location_alt),
+          onChanged: (data){
+            location = data.split(',');
           },
         ),
         SizedBox(height: 20),

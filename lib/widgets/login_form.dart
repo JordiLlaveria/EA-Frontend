@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:frontend/app.dart';
-import 'package:frontend/services/loginService.dart';
+import 'package:frontend/services/auth_service.dart';
 import 'package:frontend/screens/Index_screen.dart';
 import 'package:frontend/screens/home_screen.dart';
 import 'package:frontend/screens/register_screen.dart';
@@ -17,7 +17,7 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  LoginService service = LoginService();
+  AuthService service = AuthService();
 
   GlobalKey<FormState> _formkey = GlobalKey();
   late String _user;

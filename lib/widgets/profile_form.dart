@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/services/userService.dart';
+import 'package:frontend/services/user_service.dart';
 import 'package:frontend/widgets/input_text.dart';
 import 'package:frontend/models/user.dart';
 import 'dart:developer';
@@ -31,11 +31,11 @@ class _ProfileFormState extends State<ProfileForm>{
   late String id;
   var storage;
   Future<User> fetchUser() async {
-/*     storage = LocalStorage('Users');
+    storage = LocalStorage('Users');
     await storage.ready;
 
-    name = LocalStorage('Users').getItem('userName'); */
-    return UserService.getUserByName("Antonio");
+    name = LocalStorage('Users').getItem('userName');
+    return UserService.getUserByName(name);
   }
 
   late Future<User> futureUser;
@@ -131,22 +131,22 @@ class _ProfileFormState extends State<ProfileForm>{
                   ),        
                   SizedBox(height: 20),
                   InputText(
-                    label: snapshot.data!.location.toString(),
-          /*           hint:'[Longitude],[Latitude]',
-                    keyboard: TextInputType.text, */
-                    icon: Icon(Icons.add_location_alt),
-                    onChanged: (data){
-                      location = data.split(',');
-                    },
-                  ),
-                  SizedBox(height: 20),
-                  InputText(
                     label: snapshot.data!.languages.toString(),
           /*           hint:'Languages',
                     keyboard: TextInputType.text, */
                     icon: Icon(Icons.chat_bubble_outline),
                     onChanged: (data){
                       languages = data.split(',');
+                    },
+                  ),
+                  SizedBox(height: 20),
+                  InputText(
+                    label: snapshot.data!.location.toString(),
+          /*           hint:'[Longitude],[Latitude]',
+                    keyboard: TextInputType.text, */
+                    icon: Icon(Icons.add_location_alt),
+                    onChanged: (data){
+                      location = data.split(',');
                     },
                   ),
                   SizedBox(height: 20),
