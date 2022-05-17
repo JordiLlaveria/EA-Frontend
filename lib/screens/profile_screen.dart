@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/services/profileService.dart';
+import 'package:frontend/services/userService.dart';
 
 import '../widgets/icon_container.dart';
 import '../widgets/profile_form.dart';

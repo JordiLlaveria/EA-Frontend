@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 
 class RegisterService{
-  var baseurl = "http://147.83.7.156:3000/api/auth/register";
+  var baseurl = "http://localhost:3000/api/auth/register";
 
   Future<bool> register(String name, String surname, String username, String password, String email, String phone, List<String> location, List<String> languages) async {
     var res = await http.post(Uri.parse(baseurl),
