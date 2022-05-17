@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/models/registerService.dart';
+import 'package:frontend/services/auth_service.dart';
 
 import '../widgets/icon_container.dart';
 import '../widgets/register_form.dart';
