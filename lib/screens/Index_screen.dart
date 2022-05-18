@@ -2,18 +2,17 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/register_screen.dart';
-import 'package:frontend/screens/sign_in.dart';
-//import 'package:frontend/screens/sign_in.dart'; 
+import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/widgets/icon_container.dart';
 
-class Index extends StatefulWidget {
-  const Index({ Key? key }) : super(key: key);
+class IndexScreen extends StatefulWidget {
+  const IndexScreen({ Key? key }) : super(key: key);
 
   @override
-  State<Index> createState() => _IndexState();
+  State<IndexScreen> createState() => _IndexScreenState();
 }
 
-class _IndexState extends State<Index> {
+class _IndexScreenState extends State<IndexScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -65,7 +64,7 @@ class _IndexState extends State<Index> {
                   child: FlatButton(
                     onPressed: (){
                       final route = MaterialPageRoute(
-                        builder: (context) => SignIn());
+                        builder: (context) => LoginScreen());
                       Navigator.push(context, route);
                     },
                     color: Color.fromARGB(255, 226, 174, 15),

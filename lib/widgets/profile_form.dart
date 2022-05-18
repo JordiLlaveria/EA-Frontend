@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/services/user_service.dart';
-import 'package:frontend/widgets/input_text.dart';
-import 'package:frontend/models/user.dart';
+import 'package:frontend/widgets/inputmod_text.dart';
+import 'package:frontend/models/user_model.dart';
 import 'dart:developer';
 import '../screens/app_screen.dart';
 import 'package:localstorage/localstorage.dart';
@@ -70,7 +70,7 @@ class _ProfileFormState extends State<ProfileForm>{
               child: Column(
                 children: <Widget>[
                   SizedBox(height: 20),
-                  InputText(
+                  InputModText(
                     label: snapshot.data!.name,
                     /* hint:'Name', */
                     /* keyboard: TextInputType.name, */
@@ -80,7 +80,7 @@ class _ProfileFormState extends State<ProfileForm>{
                     },
                   ),
                   SizedBox(height: 20),
-                  InputText(
+                  InputModText(
                     label: snapshot.data!.surname,
           /*           hint:'Surname', */
           /*           keyboard: TextInputType.name, */
@@ -90,7 +90,7 @@ class _ProfileFormState extends State<ProfileForm>{
                     },
                   ),
                   SizedBox(height: 20),
-                  InputText(
+                  InputModText(
                     label: snapshot.data!.username,
           /*           hint:'Username',
                     keyboard: TextInputType.name, */
@@ -100,7 +100,7 @@ class _ProfileFormState extends State<ProfileForm>{
                     },
                   ),
                   SizedBox(height: 20),
-                  InputText(
+                  InputModText(
                     label: snapshot.data!.password,
           /*           hint:'Password',
                     obsecure: true, */
@@ -110,7 +110,7 @@ class _ProfileFormState extends State<ProfileForm>{
                     },
                   ),
                   SizedBox(height: 20),
-                  InputText(
+                  InputModText(
                     label: snapshot.data!.email,
           /*           hint:'Email',
                     keyboard: TextInputType.emailAddress, */
@@ -120,7 +120,7 @@ class _ProfileFormState extends State<ProfileForm>{
                     },
                   ),
                   SizedBox(height: 20),
-                  InputText(
+                  InputModText(
                     label: snapshot.data!.phone,
           /*           hint:'Phone',
                     keyboard: TextInputType.phone, */
@@ -130,7 +130,7 @@ class _ProfileFormState extends State<ProfileForm>{
                     },
                   ),        
                   SizedBox(height: 20),
-                  InputText(
+                  InputModText(
                     label: snapshot.data!.languages.toString(),
           /*           hint:'Languages',
                     keyboard: TextInputType.text, */
@@ -140,7 +140,7 @@ class _ProfileFormState extends State<ProfileForm>{
                     },
                   ),
                   SizedBox(height: 20),
-                  InputText(
+                  InputModText(
                     label: snapshot.data!.location.toString(),
           /*           hint:'[Longitude],[Latitude]',
                     keyboard: TextInputType.text, */

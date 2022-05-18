@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/screens/Index_screen.dart';
+import 'package:frontend/screens/index_screen.dart';
 import 'package:frontend/screens/register_screen.dart';
-import 'package:frontend/screens/sign_in.dart';
-//import 'package:frontend/screens/register_screen.dart';
-import 'package:frontend/screens/sign_in.dart';
+import 'package:frontend/screens/login_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -21,9 +19,9 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: 'Home',
       routes: <String, WidgetBuilder>{
-        'Home': (BuildContext context) => Index(),
-        'SignIn': (BuildContext context) => SignIn(),
-        'SignUp': (BuildContext context) => RegisterScreen()  //Canviar a SIGNUP
+        'Home': (BuildContext context) => IndexScreen(),
+        'Login': (BuildContext context) => LoginScreen(),
+        'Register': (BuildContext context) => RegisterScreen()  //Canviar a SIGNUP
       },
     );
   }

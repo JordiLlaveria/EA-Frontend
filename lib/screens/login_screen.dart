@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/services/loginService.dart';
+import 'package:frontend/services/auth_service.dart';
 import 'package:frontend/widgets/login_form.dart';
 import '../widgets/icon_container.dart';
 
-class SignIn extends StatefulWidget {
-  SignIn({ Key? key }) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  LoginScreen({ Key? key }) : super(key: key);
 
   @override
-  _SignInState createState() => _SignInState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _SignInState extends State<SignIn> {
+class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -23,8 +23,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: <Color>[
-                Color.fromARGB(255, 166, 105, 44),
-                Color.fromARGB(255, 181, 37, 76)
+                Color.fromARGB(255, 252, 252, 252),
+                Color.fromARGB(255, 255, 255, 255)
               ],
               begin: Alignment.topCenter
             )
