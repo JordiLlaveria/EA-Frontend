@@ -11,4 +11,10 @@ class UserService{
     var decoded = jsonDecode(res.body);
     return User.fromJson(decoded);
   }
+
+  static Future<User> getUserByID(String id) async {
+    var res = await http.get(Uri.parse(baseurl + '/byID/' + id));
+    var decoded = jsonDecode(res.body);
+    return User.fromJson(decoded);
+  }
 }

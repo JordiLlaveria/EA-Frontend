@@ -34,8 +34,8 @@ class _ProfileFormState extends State<ProfileForm>{
     storage = LocalStorage('Users');
     await storage.ready;
 
-    name = LocalStorage('Users').getItem('userName');
-    return UserService.getUserByName(name);
+    id = LocalStorage('Users').getItem('userID');
+    return UserService.getUserByID(id);
   }
 
   late Future<User> futureUser;
