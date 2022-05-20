@@ -19,12 +19,14 @@ class SearchUserWidget extends StatelessWidget {
     //final size = MediaQuery.of(context).size;
 
     return Container(
-      width: 125,
-      height: 200,
+      width: 350,
+      height: 450,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         image: DecorationImage(
-          image: AssetImage(user.photo),
+          image: NetworkImage(
+            user.photo,
+          ),
           fit: BoxFit.cover,
         ),
       ),
@@ -71,7 +73,7 @@ class SearchUserWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            '${user.name} + ${user.surname}',
+            '${user.name} ${user.surname}',
             style: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.bold,

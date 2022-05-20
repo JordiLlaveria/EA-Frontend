@@ -14,16 +14,21 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  List<dynamic> users = [];
-  Future<List<dynamic>> fetchUser() async {
-    users = await UserService.getUsers();
-    return users;
-  }
+  UserService userService = UserService();
+  List<User> users = [];
+  bool _isLoading = true;
 
-  @override
   void initState() {
     super.initState();
-    fetchUser();
+    getUsers();
+  }
+
+  Future<void> getUsers() async {
+    users = await userService.getUsers();
+    setState(() {
+      _isLoading = false;
+    });
+    print(users);
   }
 
   @override
