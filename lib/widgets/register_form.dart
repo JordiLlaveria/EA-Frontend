@@ -29,12 +29,15 @@ class _RegisterFormState extends State<RegisterForm> {
   late String phone;
   late List<String> languages;
   late List<String> location;
+  late var fileName;
+  late var filePath;
 
   void _register() async {
+    print('Trying to register');
     //if(_formKey.currentState!.validate()){
     if (password1 == password2) {
       if (await service.register(name, surname, username, password1, email,
-          phone, languages, location)) {
+          phone, languages, location, fileName)) {
         final route = MaterialPageRoute(builder: (context) => App());
         Navigator.push(context, route);
       }
@@ -191,6 +194,7 @@ class _RegisterFormState extends State<RegisterForm> {
       );
 
   Future pickImage() async {
+    print('Trying to upload image');
     final image = await FilePicker.platform.pickFiles(
       allowMultiple: false,
       type: FileType.custom,
@@ -198,8 +202,8 @@ class _RegisterFormState extends State<RegisterForm> {
     );
     if (image == null) return;
 
-    final fileName = image.files.single.name;
-    final filePath = image.files.single.path!;
+    fileName = image.files.single.name;
+    filePath = image.files.single.path!;
     print(filePath);
     print(fileName);
 

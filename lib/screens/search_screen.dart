@@ -5,7 +5,7 @@ import 'package:frontend/icons/search_icons.dart';
 import '../widgets/bottom_search_user.dart';
 import 'package:frontend/services/user_service.dart';
 import '../models/user_model.dart';
-import '../widgets/search_user_widget.dart';
+import '../widgets/search_user_form.dart';
 import '../widgets/icon_container.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -32,45 +32,51 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(),
-      body: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Column(
-            children: [
-              users.isEmpty
-                  ? Text('No more users')
-                  : Stack(children: users.map(buildUser).toList()),
-              Expanded(child: Container()),
-              BottomSearchUserWidget()
-            ],
-          )));
+  Widget build(BuildContext context) {
+    return Container(
+        child: Scaffold(
+            body: Container(
+                height: double.infinity,
+                width: double.infinity,
+                child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Column(
+                      children: [
+                        users.isEmpty
+                            ? Text('No more users')
+                            : Stack(children: users.map(buildUser).toList()),
+                        Expanded(child: Container()),
+                        BottomSearchUserWidget()
+                      ],
+                    )))));
+  }
 
-  Widget buildAppBar() => AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: [
-          Icon(Icons.chat, color: Colors.grey),
-          SizedBox(width: 16),
-        ],
-        leading: Icon(Icons.person, color: Colors.grey),
-      );
+  // Widget buildAppBar() => AppBar(
+  //       centerTitle: true,
+  //       backgroundColor: Colors.transparent,
+  //       elevation: 0,
+  //       actions: [
+  //         Icon(Icons.chat, color: Colors.grey),
+  //         SizedBox(width: 16),
+  //       ],
+  //       leading: Icon(Icons.person, color: Colors.grey),
+  //     );
 
   @override
   Widget buildUser(dynamic user) {
     final userIndex = users.indexOf(user);
-    final isUserInFocus = userIndex == users.length - 1;
-
-    return Draggable(
-      child: SearchUserWidget(user: user, isUserInFocus: isUserInFocus),
-      feedback: Material(
-        type: MaterialType.transparency,
-        child: SearchUserWidget(user: user, isUserInFocus: isUserInFocus),
-      ),
-      childWhenDragging: Container(),
-      onDragEnd: (details) => onDragEnd(details, users[0]),
-    );
+    print('Inside Draggable');
+    return Container(
+        width: 200,
+        height: 150,
+        child: Draggable(
+            child: SearchUserForm(user: user),
+            feedback: Material(
+              type: MaterialType.transparency,
+              child: SearchUserForm(user: user),
+            ),
+            childWhenDragging: Container(),
+            onDragEnd: (details) => onDragEnd(details, user)));
   }
 
   void onDragEnd(DraggableDetails details, User user) {
@@ -80,6 +86,6 @@ class _SearchScreenState extends State<SearchScreen> {
     } else if (details.offset.dx < -minimumDrag) {
       user.like = true;
     }
-    setState((() => users[1]));
+    setState((() => users.remove(user)));
   }
 }
