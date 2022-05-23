@@ -5,7 +5,8 @@ import 'package:jwt_decode/jwt_decode.dart';
 import 'dart:developer';
 
 class AuthService{
-  var baseurl = "http://localhost:3000/api/auth";
+  static const apiURL = String.fromEnvironment('API_URL', defaultValue: 'http://localhost:3000');
+  var baseurl = apiURL + "/api/auth";
   final LocalStorage storage = LocalStorage('Users');
 
   Future<bool> register(String name, String surname, String username, String password, String email, String phone, List<String> languages, List<String> location) async {
