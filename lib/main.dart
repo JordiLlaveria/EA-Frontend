@@ -8,18 +8,14 @@ import 'dart:io' show Platform;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  if (Platform.isAndroid) {
-    await Firebase.initializeApp();
-  } else {
-    await Firebase.initializeApp(
-        options: FirebaseOptions(
-            apiKey: "AIzaSyDuemCj0-z6L-7gSsTfLrTWvRCz4EJwIt0",
-            authDomain: "flutter-ea-7aa08.firebaseapp.com",
-            projectId: "flutter-ea-7aa08",
-            storageBucket: "flutter-ea-7aa08.appspot.com",
-            messagingSenderId: "170890857564",
-            appId: "1:170890857564:web:df7b485150e8a6a0c32a99"));
-  }
+  await Firebase.initializeApp(
+      options: FirebaseOptions(
+          apiKey: "AIzaSyDuemCj0-z6L-7gSsTfLrTWvRCz4EJwIt0",
+          authDomain: "flutter-ea-7aa08.firebaseapp.com",
+          projectId: "flutter-ea-7aa08",
+          storageBucket: "flutter-ea-7aa08.appspot.com",
+          messagingSenderId: "170890857564",
+          appId: "1:170890857564:web:df7b485150e8a6a0c32a99"));
 
   runApp(MyApp());
 }

@@ -34,58 +34,57 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
         child: Scaffold(
             body: Container(
-                height: double.infinity,
-                width: double.infinity,
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
                 child: Padding(
                     padding: const EdgeInsets.all(8),
                     child: Column(
                       children: [
                         users.isEmpty
                             ? Text('No more users')
-                            : Stack(children: users.map(buildUser).toList()),
+                            : Flexible(
+                                child: Stack(
+                                    children: users.map(buildUser).toList())),
                         Expanded(child: Container()),
                         BottomSearchUserWidget()
                       ],
                     )))));
   }
 
-  // Widget buildAppBar() => AppBar(
-  //       centerTitle: true,
-  //       backgroundColor: Colors.transparent,
-  //       elevation: 0,
-  //       actions: [
-  //         Icon(Icons.chat, color: Colors.grey),
-  //         SizedBox(width: 16),
-  //       ],
-  //       leading: Icon(Icons.person, color: Colors.grey),
-  //     );
-
   @override
   Widget buildUser(dynamic user) {
     final userIndex = users.indexOf(user);
-    print('Inside Draggable');
-    return Container(
-        width: 200,
-        height: 150,
-        child: Draggable(
-            child: SearchUserForm(user: user),
-            feedback: Material(
-              type: MaterialType.transparency,
-              child: SearchUserForm(user: user),
-            ),
-            childWhenDragging: Container(),
-            onDragEnd: (details) => onDragEnd(details, user)));
+    print(userIndex);
+    return Positioned(
+        top: 20,
+        child: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Draggable(
+                child: SearchUserForm(user: user),
+                feedback: Material(
+                  type: MaterialType.transparency,
+                  child: SearchUserForm(user: user),
+                ),
+                childWhenDragging: Container(),
+                onDragEnd: (details) => onDragEnd(details, user))));
   }
 
   void onDragEnd(DraggableDetails details, User user) {
     final minimumDrag = 100;
     if (details.offset.dx > minimumDrag) {
+      print('User is liked');
       user.nolike = true;
     } else if (details.offset.dx < -minimumDrag) {
+      print('User is unliked');
       user.like = true;
     }
+    print('Voy a construir un nuevo user');
     setState((() => users.remove(user)));
+    print(users);
   }
 }

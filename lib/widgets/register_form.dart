@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/services/auth_service.dart';
@@ -30,7 +31,7 @@ class _RegisterFormState extends State<RegisterForm> {
   late List<String> languages;
   late List<String> location;
   late var fileName;
-  late var filePath;
+  late var fileBytes;
 
   void _register() async {
     print('Trying to register');
@@ -194,19 +195,20 @@ class _RegisterFormState extends State<RegisterForm> {
       );
 
   Future pickImage() async {
+    fileName = "";
+    fileBytes = "";
     print('Trying to upload image');
-    final image = await FilePicker.platform.pickFiles(
-      allowMultiple: false,
-      type: FileType.custom,
-      allowedExtensions: ['png', 'jpg'],
-    );
-    if (image == null) return;
+    final result = await FilePicker.platform
+        .pickFiles(type: FileType.any, allowMultiple: false);
 
-    fileName = image.files.single.name;
-    filePath = image.files.single.path!;
-    print(filePath);
-    print(fileName);
+    if (result != null && result.files.isNotEmpty) {
+      final fileBytes = result.files.first.bytes;
+      final fileName = result.files.first.name;
 
-    storage.uploadFile(filePath, fileName).then((value) => print('Done'));
+      // upload file
+      await FirebaseStorage.instance.ref('ea/$fileName').putData(fileBytes!);
+    }
+
+    storage.uploadFile(fileBytes, fileName).then((value) => print('Done'));
   }
 }

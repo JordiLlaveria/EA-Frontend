@@ -9,6 +9,8 @@ class Storage {
   Future<void> uploadFile(String filePath, String fileName) async {
     File file = File(filePath);
 
+    print("Trying to upload the image" + fileName);
+
     try {
       await storage.ref('ea/$fileName').putFile(file);
     } on firebase_core.FirebaseException catch (e) {
@@ -18,6 +20,7 @@ class Storage {
 
   Future<String> downloadURL(String imageName) async {
     String downloadURL = await storage.ref('ea/$imageName').getDownloadURL();
+    print("The URL found is" + downloadURL);
 
     return downloadURL;
   }
