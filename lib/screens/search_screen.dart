@@ -33,45 +33,45 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Scaffold(
-            body: Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Column(
-                      children: [
-                        users.isEmpty
-                            ? Text('No more users')
-                            : Flexible(
-                                child: Stack(
-                                    children: users.map(buildUser).toList())),
-                        Expanded(child: Container()),
-                        BottomSearchUserWidget()
-                      ],
-                    )))));
+    return Center(
+        child: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+            child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    users.isEmpty
+                        ? Center(child: Text('No more users'))
+                        : Expanded(
+                            child:
+                                Stack(children: users.map(buildUser).toList())),
+                    BottomSearchUserWidget()
+                  ],
+                ))));
   }
 
   @override
   Widget buildUser(dynamic user) {
     final userIndex = users.indexOf(user);
-    print(userIndex);
     return Positioned(
         top: 20,
-        child: Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: Draggable(
-                child: SearchUserForm(user: user),
-                feedback: Material(
-                  type: MaterialType.transparency,
-                  child: SearchUserForm(user: user),
-                ),
-                childWhenDragging: Container(),
-                onDragEnd: (details) => onDragEnd(details, user))));
+        bottom: 20,
+        child: Center(
+            child: Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Draggable(
+                    child: SearchUserForm(user: user),
+                    feedback: Material(
+                      type: MaterialType.transparency,
+                      child: SearchUserForm(user: user),
+                    ),
+                    childWhenDragging: Container(),
+                    onDragEnd: (details) => onDragEnd(details, user)))));
   }
 
   void onDragEnd(DraggableDetails details, User user) {
@@ -85,6 +85,5 @@ class _SearchScreenState extends State<SearchScreen> {
     }
     print('Voy a construir un nuevo user');
     setState((() => users.remove(user)));
-    print(users);
   }
 }

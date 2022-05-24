@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class BottomSearchUserWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           CircleAvatar(
             backgroundColor: Colors.white,
