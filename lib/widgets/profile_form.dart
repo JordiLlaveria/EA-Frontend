@@ -31,10 +31,12 @@ class _ProfileFormState extends State<ProfileForm>{
   late String id;
   var storage;
   Future<User> fetchUser() async {
+    log("fetchUser");
     storage = LocalStorage('Users');
     await storage.ready;
-
-    id = LocalStorage('Users').getItem('userID');
+    log("Abans storage");
+    id = storage.getItem('userID');
+    log("Despres storage");
     return UserService.getUserByID(id);
   }
 

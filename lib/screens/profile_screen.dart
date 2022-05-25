@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/services/user_service.dart';
+import 'package:frontend/widgets/map_form.dart';
 
 import '../widgets/icon_container.dart';
 import '../widgets/profile_form.dart';
@@ -51,7 +52,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Divider(
                     height: 10.0,
                   ),
-                  ProfileForm()                
+                  ProfileForm(), 
+                  MapForm()               
                 ],
               )
             ],
