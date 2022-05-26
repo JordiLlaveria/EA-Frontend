@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/services/storage_service.dart';
 import '../models/user_model.dart';
+import '../widgets/bottom_search_user.dart';
 
 class SearchUserForm extends StatefulWidget {
   final User user;
+  late String loctions;
   SearchUserForm({Key? key, required this.user}) : super(key: key);
 
   @override
@@ -13,6 +15,8 @@ class SearchUserForm extends StatefulWidget {
 class _SearchUserState extends State<SearchUserForm> {
   Storage storage = Storage();
   User user;
+
+  String locations = "";
 
   _SearchUserState({required this.user});
   @override
@@ -55,13 +59,34 @@ class _SearchUserState extends State<SearchUserForm> {
                 )),
           ),
           Stack(children: [
-            Row(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                Expanded(child: EmptySpace()),
+                Expanded(child: EmptySpace()),
+                Expanded(child: EmptySpace()),
                 Expanded(
-                  child: UserInformation(user: user),
+                  child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: UserInformation(user: user)),
                 ),
+                Center(
+                    child: ElevatedButton.icon(
+                        icon: Icon(
+                          Icons.add,
+                          color: Colors.white,
+                          size: 30.0,
+                        ),
+                        label: Text('See profile'),
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.transparent,
+                          shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(20.0),
+                          ),
+                        ))),
+                SizedBox(height: 10),
                 // Padding(
                 //   padding: EdgeInsets.only(bottom: 16, right: 8),
                 //   child: Icon(Icons.info, color: Colors.white),
@@ -74,6 +99,28 @@ class _SearchUserState extends State<SearchUserForm> {
     ));
   }
 
+  Widget EmptySpace() => Padding(
+      padding: const EdgeInsets.all(8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Expanded(
+              child: Text(
+            '',
+          )),
+          Expanded(
+            child: Text(
+              '',
+            ),
+          ),
+          Expanded(
+              child: Text(
+            '',
+          )),
+        ],
+      ));
   Widget UserInformation({required User user}) => Padding(
       padding: const EdgeInsets.all(8),
       child: Column(
@@ -94,7 +141,8 @@ class _SearchUserState extends State<SearchUserForm> {
           SizedBox(height: 1),
           Expanded(
             child: Text(
-              '${user.location[0]}',
+              locations = GetLocations(user.location),
+              semanticsLabel: '${locations}',
               style: TextStyle(color: Colors.white),
             ),
           ),
@@ -106,4 +154,13 @@ class _SearchUserState extends State<SearchUserForm> {
           )),
         ],
       ));
+}
+
+String GetLocations(List<dynamic> locations) {
+  String location = "";
+  location = locations[0];
+  for (var i = 1; i < locations.length; i++) {
+    location = location + ", " + locations[i];
+  }
+  return location;
 }

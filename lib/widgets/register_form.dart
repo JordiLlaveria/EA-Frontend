@@ -28,6 +28,7 @@ class _RegisterFormState extends State<RegisterForm> {
   late String password2;
   late String email;
   late String phone;
+  late String photo;
   late List<String> languages;
   late List<String> location;
   late var fileName;
@@ -35,10 +36,11 @@ class _RegisterFormState extends State<RegisterForm> {
 
   void _register() async {
     print('Trying to register');
+    photo = fileName;
     //if(_formKey.currentState!.validate()){
     if (password1 == password2) {
       if (await service.register(name, surname, username, password1, email,
-          phone, languages, location, fileName)) {
+          phone, languages, location, photo)) {
         final route = MaterialPageRoute(builder: (context) => App());
         Navigator.push(context, route);
       }
@@ -141,6 +143,7 @@ class _RegisterFormState extends State<RegisterForm> {
               location = data.split(',');
             },
           ),
+          SizedBox(height: 20),
           photoButton(
               title: 'Pick photo',
               icon: Icons.camera_alt_outlined,
@@ -180,9 +183,12 @@ class _RegisterFormState extends State<RegisterForm> {
       ElevatedButton(
         style: ElevatedButton.styleFrom(
           minimumSize: Size.fromHeight(56),
-          primary: Colors.white,
-          onPrimary: Colors.black,
+          primary: Colors.transparent,
+          onPrimary: Colors.white,
           textStyle: TextStyle(fontSize: 20),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(40),
+          ),
         ),
         child: Row(
           children: [
@@ -198,12 +204,16 @@ class _RegisterFormState extends State<RegisterForm> {
     fileName = "";
     fileBytes = "";
     print('Trying to upload image');
-    final result = await FilePicker.platform
-        .pickFiles(type: FileType.any, allowMultiple: false);
+
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.any,
+      allowMultiple: false,
+    );
 
     if (result != null && result.files.isNotEmpty) {
-      final fileBytes = result.files.first.bytes;
-      final fileName = result.files.first.name;
+      fileBytes = result.files.first.bytes;
+      fileName = result.files.first.name;
+      print('The file name is ' + fileName);
 
       // upload file
       await FirebaseStorage.instance.ref('ea/$fileName').putData(fileBytes!);

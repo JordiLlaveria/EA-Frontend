@@ -3,10 +3,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:frontend/icons/search_icons.dart';
 
 import '../widgets/bottom_search_user.dart';
+import '../screens/filter_user_screen.dart';
 import 'package:frontend/services/user_service.dart';
 import '../models/user_model.dart';
 import '../widgets/search_user_form.dart';
 import '../widgets/icon_container.dart';
+import 'package:localstorage/localstorage.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -17,6 +19,7 @@ class _SearchScreenState extends State<SearchScreen> {
   UserService userService = UserService();
   List<User> users = [];
   bool _isLoading = true;
+  late String name;
 
   void initState() {
     super.initState();
@@ -28,6 +31,13 @@ class _SearchScreenState extends State<SearchScreen> {
     setState(() {
       _isLoading = false;
     });
+    // name = LocalStorage('Users').getItem('userName');
+    // print("The name found is " + name);
+    // for (dynamic i in users) {
+    //   if (users[i].name == name) {
+    //     users.remove(users[i]);
+    //   }
+    // }
     print(users);
   }
 
@@ -49,7 +59,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         : Expanded(
                             child:
                                 Stack(children: users.map(buildUser).toList())),
-                    BottomSearchUserWidget()
+                    BottomSearchButtons()
                   ],
                 ))));
   }
@@ -71,16 +81,70 @@ class _SearchScreenState extends State<SearchScreen> {
                       child: SearchUserForm(user: user),
                     ),
                     childWhenDragging: Container(),
-                    onDragEnd: (details) => onDragEnd(details, user)))));
+                    onDragEnd: (details) => whereMoved(details, user)))));
   }
 
-  void onDragEnd(DraggableDetails details, User user) {
+  Widget BottomSearchButtons() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        // ElevatedButton(
+        //   style: ElevatedButton.styleFrom(
+        //       primary: Colors.white,
+        //       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        //       shape: RoundedRectangleBorder(
+        //         borderRadius: BorderRadius.circular(40),
+        //       )),
+        //   onPressed: () {},
+        //   child: Icon(Icons.replay, color: Colors.yellow),
+        // ),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              primary: Colors.white,
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(40),
+              )),
+          onPressed: () {
+            final route = MaterialPageRoute(
+                builder: (context) => FilterUser(users: users));
+            Navigator.push(context, route);
+          },
+          child: Icon(Icons.filter_alt_rounded, color: Colors.grey),
+        ),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              primary: Colors.white,
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(40),
+              )),
+          onPressed: () {},
+          child: Icon(Icons.close, color: Colors.red),
+        ),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              primary: Colors.white,
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(40),
+              )),
+          onPressed: () {},
+          child: Icon(Icons.favorite, color: Colors.green),
+        ),
+      ],
+    );
+  }
+
+  void ComeBackFromFilter(List<User> users) {}
+
+  void whereMoved(DraggableDetails details, User user) {
     final minimumDrag = 100;
     if (details.offset.dx > minimumDrag) {
-      print('User is liked');
+      print('The user liked is ' + user.name);
       user.nolike = true;
     } else if (details.offset.dx < -minimumDrag) {
-      print('User is unliked');
+      print('The user unliked is ' + user.name);
       user.like = true;
     }
     print('Voy a construir un nuevo user');
