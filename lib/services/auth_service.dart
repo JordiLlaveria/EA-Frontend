@@ -5,8 +5,9 @@ import 'package:jwt_decode/jwt_decode.dart';
 import 'dart:developer';
 import '../models/user_model.dart';
 
-class AuthService {
-  var baseurl = "http://localhost:3000/api/auth";
+class AuthService{
+  static const apiURL = String.fromEnvironment('API_URL', defaultValue: 'https://ea1-backend.mooo.com');
+  var baseurl = apiURL + "/api/auth";
   final LocalStorage storage = LocalStorage('Users');
 
   Future<bool> register(
@@ -38,9 +39,9 @@ class AuthService {
       storage.setItem('token', token.toString());
       Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
       storage.setItem('userID', payload['id']);
-      storage.setItem('userName', name);
-      return true;
-    }
+      /* storage.setItem('userName', name); */
+      return true;  
+    } 
     return false;
   }
 

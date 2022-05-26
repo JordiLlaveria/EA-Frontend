@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/services/user_service.dart';
+import 'package:frontend/widgets/login_form.dart';
+import 'package:frontend/widgets/map_form.dart';
 
 import '../widgets/icon_container.dart';
 import '../widgets/profile_form.dart';
@@ -15,11 +17,10 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget build(BuildContext context) {
-    return Container(
-      child:  Scaffold(
+    return Scaffold(
         body: Container(
-          width: double.infinity,
-          height: double.infinity,
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: <Color>[
@@ -51,14 +52,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Divider(
                     height: 10.0,
                   ),
-                  ProfileForm()                
+                               
                 ],
+              ),
+              ProfileForm(),
+              Divider(
+                height: 20.0,
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                child: MapForm(), 
               )
+  
             ],
           ),
         ),       
-
-      ),
     );
   }  
 }
