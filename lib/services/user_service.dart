@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 
 class UserService{
-  static const apiURL = String.fromEnvironment('API_URL', defaultValue: 'http://localhost:3000');
+  static const apiURL = String.fromEnvironment('API_URL', defaultValue: 'https://ea1-backend.mooo.com');
   static var baseurl = apiURL + "/api/users";
 
   static Future<User> getUserByName(String name) async {

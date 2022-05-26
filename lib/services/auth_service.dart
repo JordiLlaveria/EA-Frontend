@@ -5,7 +5,7 @@ import 'package:jwt_decode/jwt_decode.dart';
 import 'dart:developer';
 
 class AuthService{
-  static const apiURL = String.fromEnvironment('API_URL', defaultValue: 'http://localhost:3000');
+  static const apiURL = String.fromEnvironment('API_URL', defaultValue: 'https://ea1-backend.mooo.com');
   var baseurl = apiURL + "/api/auth";
   final LocalStorage storage = LocalStorage('Users');
 
