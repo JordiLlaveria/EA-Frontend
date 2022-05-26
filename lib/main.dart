@@ -17,11 +17,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute: 'Home',
+      initialRoute: 'Index',
       routes: <String, WidgetBuilder>{
-        'Home': (BuildContext context) => IndexScreen(),
+        'Index': (BuildContext context) => IndexScreen(),
         'Login': (BuildContext context) => LoginScreen(),
-        'Register': (BuildContext context) => RegisterScreen()  //Canviar a SIGNUP
+        'Register': (BuildContext context) => RegisterScreen()
       },
     );
   }

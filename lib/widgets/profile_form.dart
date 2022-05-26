@@ -51,7 +51,7 @@ class _ProfileFormState extends State<ProfileForm>{
       if(password1 == password2){
         if(await service.profile(name, surname, username, password1, email, phone, languages, location)){
             final route = MaterialPageRoute(
-              builder: (context) => App());
+              builder: (context) => AppScreen());
             Navigator.push(context, route); 
         };
       }

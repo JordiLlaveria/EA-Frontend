@@ -39,6 +39,7 @@ dependencies:
   shared_preferences: ^2.0.15
   localstorage: ^4.0.0+1
   jwt_decode: ^0.3.1
+  socket_io_client: ^1.0.2
 
 dev_dependencies:
   flutter_test:

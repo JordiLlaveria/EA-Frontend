@@ -31,7 +31,7 @@ class _RegisterFormState extends State<RegisterForm>{
       if(password1 == password2){
         if(await service.register(name, surname, username, password1, email, phone, languages, location)){
             final route = MaterialPageRoute(
-              builder: (context) => App());
+              builder: (context) => AppScreen());
             Navigator.push(context, route); 
         };
       }

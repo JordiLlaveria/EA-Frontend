@@ -2,21 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:frontend/screens/profile_screen.dart';
 import 'package:frontend/screens/search_screen.dart';
 import 'package:frontend/screens/login_screen.dart';
-import 'package:frontend/screens/xat_screen.dart';
+import 'package:frontend/screens/chat_screen.dart';
 import 'package:frontend/screens/home_screen.dart';
+import 'package:localstorage/localstorage.dart';
 
 
-class App extends StatefulWidget {
+class AppScreen extends StatefulWidget {
+  /* const AppScreen({Key? key}) : super(key: key); */
   @override
-  State<App> createState() => _AppState();
+  State<AppScreen> createState() => _AppScreenState();
 }
 
-class _AppState extends State<App> {
+class _AppScreenState extends State<AppScreen> {
   int currentScreen = 0;
+
+  /* static String username = LocalStorage('Users').getItem('username'); */
 
   List<Widget> screens = [
     HomeScreen(),
-    XatScreen(),
+    ChatScreen(username: "miguelmalu"),
     SearchScreen(),
     ProfileScreen(),
   ];
@@ -45,7 +49,7 @@ class _AppState extends State<App> {
               BottomNavigationBarItem(
                   icon: Icon(Icons.home_filled), label: 'Home'),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.chat_rounded), label: 'Xat'),
+                  icon: Icon(Icons.chat_rounded), label: 'Chat'),
               BottomNavigationBarItem(
                   icon: Icon(Icons.people_rounded), label: 'Search'),
               BottomNavigationBarItem(
