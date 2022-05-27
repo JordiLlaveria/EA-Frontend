@@ -17,6 +17,7 @@ class _SearchUserState extends State<SearchUserForm> {
   User user;
 
   String locations = "";
+  String languages = "";
 
   _SearchUserState({required this.user});
   @override
@@ -149,7 +150,8 @@ class _SearchUserState extends State<SearchUserForm> {
           SizedBox(height: 1),
           Expanded(
               child: Text(
-            '${user.languages[0]}',
+            languages = GetLocations(user.languages),
+            semanticsLabel: '${languages}',
             style: TextStyle(color: Colors.white),
           )),
         ],
@@ -163,4 +165,13 @@ String GetLocations(List<dynamic> locations) {
     location = location + ", " + locations[i];
   }
   return location;
+}
+
+String GetLanguages(List<dynamic> languages) {
+  String languages = "";
+  languages = languages[0];
+  for (var i = 1; i < languages.length; i++) {
+    languages = languages + ", " + languages[i];
+  }
+  return languages;
 }

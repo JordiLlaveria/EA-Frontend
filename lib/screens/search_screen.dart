@@ -106,9 +106,9 @@ class _SearchScreenState extends State<SearchScreen> {
                 borderRadius: BorderRadius.circular(40),
               )),
           onPressed: () {
-            final route = MaterialPageRoute(
-                builder: (context) => FilterUser(users: users));
-            Navigator.push(context, route);
+            // final route = MaterialPageRoute(
+            //     builder: (context) => FilterUser(users: users));
+            // Navigator.push(context, route);
           },
           child: Icon(Icons.filter_alt_rounded, color: Colors.grey),
         ),
