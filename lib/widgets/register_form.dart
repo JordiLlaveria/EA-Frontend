@@ -38,15 +38,16 @@ class _RegisterFormState extends State<RegisterForm> {
     print('Trying to register');
     photo = fileName;
     //if(_formKey.currentState!.validate()){
-    if (password1 == password2) {
-      if (await service.register(name, surname, username, password1, email,
-          phone, languages, location, photo)) {
-        final route = MaterialPageRoute(builder: (context) => App());
-        Navigator.push(context, route);
+      if(password1 == password2){
+        if(await service.register(name, surname, username, password1, email, phone, languages, location, photo)){
+            final route = MaterialPageRoute(
+              builder: (context) => AppScreen());
+            Navigator.push(context, route); 
+        };
       }
-      ;
+      else{
+      };
     } else {}
-    //}
   }
 
   Widget build(BuildContext context) {

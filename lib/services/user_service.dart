@@ -5,18 +5,17 @@ import 'package:http/http.dart' as http;
 
 class UserService {
   static const apiURL = String.fromEnvironment('API_URL',
-      defaultValue: 'https://ea1-backend.mooo.com');
-  static var baseurl = apiURL + "/api/users";
+      defaultValue: 'http://localhost:3000');
+  static var baseURL = apiURL + "/api/users";
 
   static Future<User> getUserByName(String name) async {
-    var res = await http
-        .get(Uri.parse("http://localhost:3000/api/users" + '/' + name));
+    var res = await http.get(Uri.parse(baseURL + '/' + name));
     var decoded = jsonDecode(res.body);
     return User.fromJson(decoded);
   }
 
   Future<List<User>> getUsers() async {
-    var res = await http.get(Uri.parse(baseurl));
+    var res = await http.get(Uri.parse(baseURL));
     List<User> allUsers = [];
     if (res.statusCode == 200) {
       var decoded = jsonDecode(res.body);
@@ -27,8 +26,9 @@ class UserService {
   }
 
   static Future<User> getUserByID(String id) async {
-    var res = await http.get(Uri.parse(baseurl + '/byID/' + id));
+    var res = await http.get(Uri.parse(baseURL + '/byID/' + id));
     var decoded = jsonDecode(res.body);
+    storage.setItem('username', User.fromJson(decoded).username);
     return User.fromJson(decoded);
   }
 }

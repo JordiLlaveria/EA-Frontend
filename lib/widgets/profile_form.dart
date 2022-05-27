@@ -31,12 +31,9 @@ class _ProfileFormState extends State<ProfileForm>{
   late String id;
   var storage;
   Future<User> fetchUser() async {
-    log("fetchUser");
     storage = LocalStorage('Users');
     await storage.ready;
-    log("Abans storage");
     id = storage.getItem('userID');
-    log("Despres storage");
     return UserService.getUserByID(id);
   }
 
@@ -47,6 +44,20 @@ class _ProfileFormState extends State<ProfileForm>{
     super.initState();
     futureUser = fetchUser();
   }
+
+/*   void _profile() async{
+    //if(_formKey.currentState!.validate()){
+      if(password1 == password2){
+        if(await service.profile(name, surname, username, password1, email, phone, languages, location)){
+            final route = MaterialPageRoute(
+              builder: (context) => AppScreen());
+            Navigator.push(context, route); 
+        };
+      }
+      else{
+      }
+    //}
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +71,8 @@ class _ProfileFormState extends State<ProfileForm>{
                   SizedBox(height: 20),
                   InputModText(
                     label: snapshot.data!.name,
+                    /* hint:'Name', */
+                    /* keyboard: TextInputType.name, */
                     icon: Icon(Icons.account_box),
                     onChanged: (data){
                       name = data;
@@ -68,6 +81,8 @@ class _ProfileFormState extends State<ProfileForm>{
                   SizedBox(height: 20),
                   InputModText(
                     label: snapshot.data!.surname,
+          /*           hint:'Surname', */
+          /*           keyboard: TextInputType.name, */
                     icon: Icon(Icons.account_box_outlined),
                     onChanged: (data){
                       surname = data;
@@ -76,6 +91,8 @@ class _ProfileFormState extends State<ProfileForm>{
                   SizedBox(height: 20),
                   InputModText(
                     label: snapshot.data!.username,
+          /*           hint:'Username',
+                    keyboard: TextInputType.name, */
                     icon: Icon(Icons.sentiment_satisfied),
                     onChanged: (data){
                       username = data;
@@ -84,6 +101,8 @@ class _ProfileFormState extends State<ProfileForm>{
                   SizedBox(height: 20),
                   InputModText(
                     label: snapshot.data!.password,
+          /*           hint:'Password',
+                    obsecure: true, */
                     icon: Icon(Icons.lock),
                     onChanged: (data){
                       password1 = data;
@@ -92,6 +111,8 @@ class _ProfileFormState extends State<ProfileForm>{
                   SizedBox(height: 20),
                   InputModText(
                     label: snapshot.data!.email,
+          /*           hint:'Email',
+                    keyboard: TextInputType.emailAddress, */
                     icon: Icon(Icons.email),
                     onChanged: (data){
                       email = data;
@@ -100,6 +121,8 @@ class _ProfileFormState extends State<ProfileForm>{
                   SizedBox(height: 20),
                   InputModText(
                     label: snapshot.data!.phone,
+          /*           hint:'Phone',
+                    keyboard: TextInputType.phone, */
                     icon: Icon(Icons.phone),
                     onChanged: (data){
                       phone = data;
@@ -108,6 +131,8 @@ class _ProfileFormState extends State<ProfileForm>{
                   SizedBox(height: 20),
                   InputModText(
                     label: snapshot.data!.languages.toString(),
+          /*           hint:'Languages',
+                    keyboard: TextInputType.text, */
                     icon: Icon(Icons.chat_bubble_outline),
                     onChanged: (data){
                       languages = data.split(',');
@@ -116,12 +141,35 @@ class _ProfileFormState extends State<ProfileForm>{
                   SizedBox(height: 20),
                   InputModText(
                     label: snapshot.data!.location.toString(),
+          /*           hint:'[Longitude],[Latitude]',
+                    keyboard: TextInputType.text, */
                     icon: Icon(Icons.add_location_alt),
                     onChanged: (data){
                       location = data.split(',');
                     },
                   ),
                   SizedBox(height: 20),
+                  /* Material(
+                    borderRadius: BorderRadius.circular(30),
+                    color: Colors.redAccent,
+                    child: MaterialButton(
+                      padding: EdgeInsets.fromLTRB(20, 25, 20, 25),
+                      minWidth: MediaQuery.of(context).size.width,
+                      onPressed: (){
+                        _profile();
+                      },
+                      child: Text(
+                        "Profile",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ), 
+                  ),
+                  SizedBox(height: 20), */
                 ],
               ),
             );

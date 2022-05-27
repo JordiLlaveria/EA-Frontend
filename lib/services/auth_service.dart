@@ -6,8 +6,9 @@ import 'dart:developer';
 import '../models/user_model.dart';
 
 class AuthService{
-  static const apiURL = String.fromEnvironment('API_URL', defaultValue: 'https://ea1-backend.mooo.com');
-  var baseurl = apiURL + "/api/auth";
+  static const apiURL = String.fromEnvironment('API_URL',
+      defaultValue: 'http://localhost:3000');
+  var baseURL = apiURL + "/api/auth";
   final LocalStorage storage = LocalStorage('Users');
 
   Future<bool> register(
@@ -20,7 +21,7 @@ class AuthService{
       List<String> location,
       List<String> languages,
       String photo) async {
-    var res = await http.post(Uri.parse(baseurl + '/register'),
+    var res = await http.post(Uri.parse(baseURL + '/register'),
         headers: {'content-type': 'application/json'},
         body: json.encode({
           "name": name,
@@ -39,24 +40,26 @@ class AuthService{
       storage.setItem('token', token.toString());
       Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
       storage.setItem('userID', payload['id']);
-      /* storage.setItem('userName', name); */
+      storage.setItem('username', payload['username']);
       return true;  
     } 
     return false;
   }
 
   Future<bool> login(String username, String password) async {
-    var res = await http.post(Uri.parse(baseurl + '/login'),
-        headers: {'content-type': 'application/json'},
-        body: json.encode({"username": username, "password": password}));
+      var res = await http.post(Uri.parse(baseURL + '/login'),
+          headers: {'content-type': 'application/json'},
+          body: json.encode({"username": username, "password": password}));
 
-    if (res.statusCode == 200) {
-      var token = Token.fromJson(await jsonDecode(res.body));
-      storage.setItem('token', token.toString());
-      Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
-      storage.setItem('userID', payload['id']);
-      //name?
-      return true;
+      if (res.statusCode == 200){
+        var token = Token.fromJson(await jsonDecode(res.body));
+        storage.setItem('token', token.toString());
+        Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
+        storage.setItem('userID', payload['id']);
+        storage.setItem('username', payload['username']);
+        return true;
+      }
+      return false;
     }
     return false;
   }

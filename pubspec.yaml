@@ -42,6 +42,7 @@ dependencies:
   shared_preferences: ^2.0.15
   localstorage: ^4.0.0+1
   jwt_decode: ^0.3.1
+  socket_io_client: ^1.0.2
   flutter_svg: ^1.0.3
   provider: ^6.0.2
   image_picker: ^0.8.5+3
@@ -65,10 +66,11 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-  uses-material-design: true
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
+  uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
   assets:

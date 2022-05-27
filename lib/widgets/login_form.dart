@@ -1,8 +1,8 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:frontend/app.dart';
 import 'package:frontend/services/auth_service.dart';
+import 'package:frontend/screens/app_screen.dart';
 import 'package:frontend/screens/index_screen.dart';
 import 'package:frontend/screens/home_screen.dart';
 import 'package:frontend/screens/register_screen.dart';
@@ -64,7 +64,7 @@ class _LoginFormState extends State<LoginForm> {
               onPressed: ()async{
                 if(await service.login(_user, _password)){
                   final route = MaterialPageRoute(
-                    builder: (context) => App());
+                    builder: (context) => AppScreen());
                   Navigator.push(context, route);
                 }else{
                   showDialog(
