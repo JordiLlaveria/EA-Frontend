@@ -128,8 +128,8 @@ class _FilterUserState extends State<FilterUser> {
               padding: EdgeInsets.fromLTRB(20, 25, 20, 25),
               minWidth: MediaQuery.of(context).size.width,
               onPressed: () {
-                final route = MaterialPageRoute(
-                    builder: (context) => FilterUser(users: users));
+                final route =
+                    MaterialPageRoute(builder: (context) => SearchScreen());
                 Navigator.push(context, route);
               },
               child: Text(
