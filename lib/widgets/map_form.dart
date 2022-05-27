@@ -30,6 +30,28 @@ class _MapFormState extends State<MapForm> {
 
   late String id;
   var storage;
+  late User user;
+  bool _isLoading = true;
+
+  Future<void> getUser() async {
+    log("fetchUser");
+    storage = LocalStorage('Users');
+    await storage.ready;
+    log("Abans storage");
+    id = storage.getItem('userID');
+    user = await UserService.getUserByID(id);
+    // setState(() {
+    //   _isLoading = false;
+    // });
+    // name = LocalStorage('Users').getItem('userName');
+    // print("The name found is " + name);
+    // for (dynamic i in users) {
+    //   if (users[i].name == name) {
+    //     users.remove(users[i]);
+    //   }
+    // }
+  }
+
   Future<User> fetchUser() async {
     log("fetchUser");
     storage = LocalStorage('Users');
@@ -45,6 +67,7 @@ class _MapFormState extends State<MapForm> {
   @override
   void initState() {
     super.initState();
+    getUser();
     futureUser = fetchUser();
   }
 
@@ -57,7 +80,9 @@ class _MapFormState extends State<MapForm> {
             return new Scaffold(
               body: new FlutterMap(
                 options: new MapOptions(
-                  center: new LatLng(41.441392, 2.186303), //AQUI!!
+                  //center: new LatLng(41.441392, 2.186303), //AQUI!!
+                  center: new LatLng(double.parse(user.location[0]),
+                      double.parse(user.location[1])), //AQUI!!
                   zoom: 13.0,
                 ),
                 layers: [
@@ -73,7 +98,8 @@ class _MapFormState extends State<MapForm> {
                     Marker(
                         width: 80.0,
                         height: 80.0,
-                        point: new LatLng(41.441392, 2.186303), //AQUÍ!!
+                        point: new LatLng(double.parse(user.location[0]),
+                            double.parse(user.location[1])), //AQUÍ!!
                         builder: (context) => new Container(
                               child: IconButton(
                                 icon: Icon(Icons.location_on),

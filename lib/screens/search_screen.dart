@@ -136,7 +136,7 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  void ComeBackFromFilter(List<User> users) {}
+  // void ComeBackFromFilter(List<User> users) {}
 
   void whereMoved(DraggableDetails details, User user) {
     final minimumDrag = 100;
