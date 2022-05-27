@@ -24,6 +24,12 @@ class InputText extends StatelessWidget {
         keyboardType: this.keyboard,
         obscureText: this.obsecure,
         onChanged:  this.onChanged,
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter some text';
+          }
+          return null;
+        },
         decoration: InputDecoration(
           hintText: this.hint,
           labelText: this.label,
@@ -33,10 +39,20 @@ class InputText extends StatelessWidget {
             fontSize: 15.0
           ),
           suffixIcon: this.icon,
+          suffixIconColor: Colors.white,
           border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
             borderRadius: BorderRadius.circular(20.0)
-          )
-        ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.amber),
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          errorStyle: TextStyle(color: Colors.white)
+        ),   
       ),
     );
   }
