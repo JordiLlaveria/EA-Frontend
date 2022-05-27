@@ -47,19 +47,17 @@ class AuthService{
   }
 
   Future<bool> login(String username, String password) async {
-      var res = await http.post(Uri.parse(baseURL + '/login'),
-          headers: {'content-type': 'application/json'},
-          body: json.encode({"username": username, "password": password}));
+    var res = await http.post(Uri.parse(baseURL + '/login'),
+        headers: {'content-type': 'application/json'},
+        body: json.encode({"username": username, "password": password}));
 
-      if (res.statusCode == 200){
-        var token = Token.fromJson(await jsonDecode(res.body));
-        storage.setItem('token', token.toString());
-        Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
-        storage.setItem('userID', payload['id']);
-        storage.setItem('username', payload['username']);
-        return true;
-      }
-      return false;
+    if (res.statusCode == 200){
+      var token = Token.fromJson(await jsonDecode(res.body));
+      storage.setItem('token', token.toString());
+      Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
+      storage.setItem('userID', payload['id']);
+      storage.setItem('username', payload['username']);
+      return true;
     }
     return false;
   }

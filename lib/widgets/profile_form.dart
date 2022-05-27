@@ -27,6 +27,7 @@ class _ProfileFormState extends State<ProfileForm>{
   late String phone;
   late List<String> languages;
   late List<String> location;
+   late String photo;
 
   late String id;
   var storage;
@@ -146,6 +147,16 @@ class _ProfileFormState extends State<ProfileForm>{
                     icon: Icon(Icons.add_location_alt),
                     onChanged: (data){
                       location = data.split(',');
+                    },
+                  ),
+                  SizedBox(height: 20),
+                  InputModText(
+                    label: snapshot.data!.photo,
+          /*           hint:'[Longitude],[Latitude]',
+                    keyboard: TextInputType.text, */
+                    icon: Icon(Icons.camera),
+                    onChanged: (data){
+                      photo = data;
                     },
                   ),
                   SizedBox(height: 20),

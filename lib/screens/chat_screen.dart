@@ -27,7 +27,8 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   late Socket socket;
-  static const apiURL = String.fromEnvironment('API_URL', defaultValue: 'http://localhost:3000');
+  static const apiURL = String.fromEnvironment('API_URL',
+        defaultValue: 'http://localhost:3000');
 
   @override
   void initState() {
