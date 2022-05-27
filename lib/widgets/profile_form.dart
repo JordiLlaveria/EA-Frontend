@@ -33,8 +33,7 @@ class _ProfileFormState extends State<ProfileForm>{
   Future<User> fetchUser() async {
     storage = LocalStorage('Users');
     await storage.ready;
-
-    id = LocalStorage('Users').getItem('userID');
+    id = storage.getItem('userID');
     return UserService.getUserByID(id);
   }
 
@@ -180,5 +179,4 @@ class _ProfileFormState extends State<ProfileForm>{
           return const CircularProgressIndicator();
         });
   } 
-
 }
