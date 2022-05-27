@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/screens/index_screen.dart';
 import 'package:frontend/screens/register_screen.dart';
 import 'package:frontend/screens/login_screen.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 void main() => runApp(MyApp());
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/services/auth_service.dart';
 import 'package:frontend/widgets/login_form.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import '../widgets/icon_container.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -11,6 +12,30 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  late TutorialCoachMark tutorialCoachMark;
+  List<TargetFocus> targets = <TargetFocus>[];
+
+  GlobalKey key = GlobalKey();
+  GlobalKey key1 = GlobalKey();
+
+  void initTargets(){
+    targets.clear();
+    targets.add(
+      TargetFocus(
+        identify: "key",
+        keyTarget: key,
+        alignSkip: Alignment.lerp(Alignment.bottomLeft, Alignment.bottomCenter, 0.12),
+        paddingFocus: 0,
+        contents: [
+          TargetContent(
+            align: ContentAlign.bottom,
+            padding: EdgeInsets.only(top: 300),
+          )
+        ]
+      )
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
