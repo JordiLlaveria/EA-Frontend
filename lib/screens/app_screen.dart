@@ -16,11 +16,11 @@ class AppScreen extends StatefulWidget {
 class _AppScreenState extends State<AppScreen> {
   int currentScreen = 0;
 
-  /* static String username = LocalStorage('Users').getItem('username'); */
+  static String username = LocalStorage('Users').getItem('username');
 
   List<Widget> screens = [
     HomeScreen(),
-    ChatScreen(username: "miguelmalu"),
+    ChatScreen(username: username),
     SearchScreen(),
     ProfileScreen(),
   ];

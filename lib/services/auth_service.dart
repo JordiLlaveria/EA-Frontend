@@ -19,7 +19,7 @@ class AuthService{
       storage.setItem('token', token.toString());
       Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
       storage.setItem('userID', payload['id']);
-      /* storage.setItem('userName', name); */
+      storage.setItem('username', payload['username']);
       return true;  
     } 
     return false;
@@ -35,7 +35,7 @@ class AuthService{
         storage.setItem('token', token.toString());
         Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
         storage.setItem('userID', payload['id']);
-        //name?
+        storage.setItem('username', payload['username']);
         return true;
       }
       return false;

@@ -66,8 +66,9 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
-          title: const Text('Chat Screen'),
-          backgroundColor: const Color(0xFF271160)),
+          title: const Text('Community Chat'),
+          foregroundColor: Colors.black.withOpacity(0.5),
+          backgroundColor: Color.fromARGB(255, 255, 255, 255)),
       body: SafeArea(
         child: Container(
           color: const Color(0xFFEAEFF2),
@@ -98,6 +99,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                 children: _messages.map((message) {
                                   print(message);
                                   return ChatBubble(
+                                    username: message.username,
                                     date: message.sentAt,
                                     message: message.message,
                                     isMe: message.id == socket.id,
@@ -136,7 +138,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       height: 43,
                       width: 42,
                       child: FloatingActionButton(
-                        backgroundColor: const Color(0xFF271160),
+                        backgroundColor: Colors.blue,
                         onPressed: () async {
                           if (_messageController.text.trim().isNotEmpty) {
                             String message = _messageController.text.trim();
@@ -177,9 +179,11 @@ class ChatBubble extends StatelessWidget {
   final bool isMe;
   final String message;
   final String date;
+  final String username;
 
   ChatBubble({
     Key? key,
+    required this.username,
     required this.message,
     this.isMe = true,
     required this.date,
@@ -200,7 +204,7 @@ class ChatBubble extends StatelessWidget {
             margin: const EdgeInsets.symmetric(vertical: 5.0),
             constraints: BoxConstraints(maxWidth: size.width * .5),
             decoration: BoxDecoration(
-              color: isMe ? const Color(0xFFE3D8FF) : const Color(0xFFFFFFFF),
+              color: isMe ? Color.fromARGB(255, 216, 237, 255) : const Color(0xFFFFFFFF),
               borderRadius: isMe
                   ? const BorderRadius.only(
                       topRight: Radius.circular(11),
@@ -220,11 +224,18 @@ class ChatBubble extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text(
+                  "@"+username/*  ?? '' */,
+                  textAlign: TextAlign.start,
+                  softWrap: true,
+                  style:
+                      const TextStyle(color: Color.fromARGB(255, 64, 116, 151), fontSize: 10),
+                ),
+                Text(
                   message/*  ?? '' */,
                   textAlign: TextAlign.start,
                   softWrap: true,
                   style:
-                      const TextStyle(color: Color(0xFF2E1963), fontSize: 14),
+                      const TextStyle(color: Color.fromARGB(255, 25, 60, 99), fontSize: 14),
                 ),
                 Align(
                   alignment: Alignment.centerRight,
@@ -234,7 +245,7 @@ class ChatBubble extends StatelessWidget {
                       date/*  ?? '' */,
                       textAlign: TextAlign.end,
                       style: const TextStyle(
-                          color: Color(0xFF594097), fontSize: 9),
+                          color: Color.fromARGB(255, 64, 116, 151), fontSize: 9),
                     ),
                   ),
                 )
