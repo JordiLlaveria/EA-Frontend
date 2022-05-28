@@ -1,3 +1,4 @@
+import 'dart:html';
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
@@ -99,27 +100,15 @@ class _RegisterFormState extends State<RegisterForm> {
           onChanged: (data){
             username = data;
           },
-        ),
+        ),      
         SizedBox(height: 20),
-        InputText(
-          label: 'Choose a password',
-          hint:'Password',
-          obsecure: true,
-          icon: Icon(Icons.lock, color: Color.fromARGB(255, 255, 255, 255)),
-          onChanged: (data){
-            password1 = data;
-          },
-        ),
+        passwordInputText(label: "Choose a password", onChanged: (data){
+          password1 = data;
+        }),
         SizedBox(height: 20),
-        InputText(
-          label: 'Repeat your password',
-          hint:'Password',
-          obsecure: true,
-          icon: Icon(Icons.lock, color: Color.fromARGB(255, 255, 255, 255)),
-          onChanged: (data){
-            password2 = data;
-          },
-        ),
+        passwordInputText(label: "Repeat your password", onChanged: (data){
+          password2 = data;
+        }),
         SizedBox(height: 20),
         InputText(
           label: 'Your email',
@@ -227,7 +216,7 @@ class _RegisterFormState extends State<RegisterForm> {
             label: 'Write your location',
             hint: '[Longitude],[Latitude]',
             keyboard: TextInputType.text,
-            icon: Icon(Icons.add_location_alt),
+            icon: Icon(Icons.add_location_alt, color: Color.fromARGB(255, 255, 255, 255),),
             onChanged: (data) {
               location = data.split(',');
             },
@@ -265,50 +254,101 @@ class _RegisterFormState extends State<RegisterForm> {
   );
   } 
 
-  Widget photoButton({
-    required String title,
-    required IconData icon,
-    required VoidCallback onClicked,
-  }) =>
-      ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          minimumSize: Size.fromHeight(56),
-          primary: Colors.transparent,
-          onPrimary: Colors.white,
-          textStyle: TextStyle(fontSize: 20),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(40),
+  // Widget photoButton({
+  //   required String title,
+  //   required IconData icon,
+  //   required VoidCallback onClicked,
+  // }) =>
+  //     ElevatedButton(
+  //       style: ElevatedButton.styleFrom(
+  //         minimumSize: Size.fromHeight(56),
+  //         primary: Colors.transparent,
+  //         onPrimary: Colors.white,
+  //         textStyle: TextStyle(fontSize: 20),
+  //         shape: RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.circular(40),
+  //         ),
+  //       ),
+  //       child: Row(
+  //         children: [
+  //           Icon(icon, size: 28),
+  //           const SizedBox(width: 16),
+  //           Text(title),
+  //         ],
+  //       ),
+  //       onPressed: onClicked,
+  //     );
+
+  // Future pickImage() async {
+  //   fileName = "";
+  //   fileBytes = "";
+  //   print('Trying to upload image');
+
+  //   final result = await FilePicker.platform.pickFiles(
+  //     type: FileType.any,
+  //     allowMultiple: false,
+  //   );
+
+  //   if (result != null && result.files.isNotEmpty) {
+  //     fileBytes = result.files.first.bytes;
+  //     fileName = result.files.first.name;
+  //     print('The file name is ' + fileName);
+
+  //     // upload file
+  //     await FirebaseStorage.instance.ref('ea/$fileName').putData(fileBytes!);
+  //   }
+
+  //   storage.uploadFile(fileBytes, fileName).then((value) => print('Done'));
+  // }
+
+   Widget passwordInputText({
+     required String label,
+     required void Function( String data) onChanged
+   }) {     
+    return Container(
+      child: TextFormField(
+        obscureText: true,
+        onChanged: onChanged,
+        validator: (value) {          
+          if (value == null || value.isEmpty) {
+            return 'Please enter some text';
+          }
+          if (validateStructure(value) == false){
+            return 'Password must have capital letters, numbers and symbols';
+          }
+          if(value.length < 8){
+            return 'Password must have more than 8 characters';
+          }
+        },          
+        decoration: InputDecoration(
+          hintText: 'Password',
+          labelText: label,
+          labelStyle: TextStyle(
+            color: Color.fromARGB(255, 238, 241, 243),
+            fontFamily: 'FredokaOne',
+            fontSize: 15.0
           ),
-        ),
-        child: Row(
-          children: [
-            Icon(icon, size: 28),
-            const SizedBox(width: 16),
-            Text(title),
-          ],
-        ),
-        onPressed: onClicked,
-      );
-
-  Future pickImage() async {
-    fileName = "";
-    fileBytes = "";
-    print('Trying to upload image');
-
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.any,
-      allowMultiple: false,
+          suffixIcon: Icon(Icons.lock, color: Color.fromARGB(255, 255, 255, 255)),
+          suffixIconColor: Colors.white,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+            borderRadius: BorderRadius.circular(20.0)
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.amber),
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          errorStyle: TextStyle(color: Colors.white)
+        ),   
+      ),
     );
-
-    if (result != null && result.files.isNotEmpty) {
-      fileBytes = result.files.first.bytes;
-      fileName = result.files.first.name;
-      print('The file name is ' + fileName);
-
-      // upload file
-      await FirebaseStorage.instance.ref('ea/$fileName').putData(fileBytes!);
-    }
-
-    storage.uploadFile(fileBytes, fileName).then((value) => print('Done'));
+  }
+  bool validateStructure(String value){
+        String  pattern = r"(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)";
+        RegExp regExp = new RegExp(pattern);
+        return regExp.hasMatch(value);
   }
 }
