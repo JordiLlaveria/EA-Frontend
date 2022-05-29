@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/screens/register_screen.dart';
 import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/widgets/icon_container.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class IndexScreen extends StatefulWidget {
   const IndexScreen({ Key? key }) : super(key: key);
@@ -12,7 +13,8 @@ class IndexScreen extends StatefulWidget {
   State<IndexScreen> createState() => _IndexScreenState();
 }
 
-class _IndexScreenState extends State<IndexScreen> {
+class _IndexScreenState extends State<IndexScreen> {  
+
   @override
   Widget build(BuildContext context) {
     return Container(

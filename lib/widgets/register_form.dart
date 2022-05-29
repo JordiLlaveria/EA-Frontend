@@ -142,10 +142,10 @@ class _RegisterFormState extends State<RegisterForm> {
             },
           ),
           SizedBox(height: 20),
-          photoButton(
-              title: 'Pick photo',
-              icon: Icons.camera_alt_outlined,
-              onClicked: () => pickImage()),
+          // photoButton(
+          //     title: 'Pick photo',
+          //     icon: Icons.camera_alt_outlined,
+          //     onClicked: () => pickImage()),
           SizedBox(height: 20),
           Material(
             borderRadius: BorderRadius.circular(30),

@@ -4,7 +4,10 @@ import 'package:frontend/screens/index_screen.dart';
 import 'package:frontend/screens/register_screen.dart';
 import 'package:frontend/screens/login_screen.dart';
 import 'package:flutter/foundation.dart';
+import 'package:frontend/screens/splash_screen.dart';
 import 'dart:io' show Platform;
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,11 +24,11 @@ void main() async {
             messagingSenderId: "170890857564",
             appId: "1:170890857564:web:df7b485150e8a6a0c32a99"));
   }
-
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -36,8 +39,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute: 'Index',
+      initialRoute: 'Splash',
       routes: <String, WidgetBuilder>{
+        'Splash': (BuildContext context) => SplashScreen(),
         'Index': (BuildContext context) => IndexScreen(),
         'Login': (BuildContext context) => LoginScreen(),
         'Register': (BuildContext context) => RegisterScreen()

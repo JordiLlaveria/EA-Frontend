@@ -8,6 +8,7 @@ import 'package:frontend/screens/home_screen.dart';
 import 'package:frontend/screens/register_screen.dart';
 import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/widgets/input_text.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({ Key? key }) : super(key: key);
@@ -62,7 +63,8 @@ class _LoginFormState extends State<LoginForm> {
             child: FlatButton(
               color: Color.fromARGB(255, 231, 103, 11),
               onPressed: ()async{
-                if(await service.login(_user, _password)){
+                if(await service.login(_user, _password)){                
+                  
                   final route = MaterialPageRoute(
                     builder: (context) => AppScreen());
                   Navigator.push(context, route);
