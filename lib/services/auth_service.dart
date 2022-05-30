@@ -20,7 +20,8 @@ class AuthService{
       String phone,
       List<String> location,
       List<String> languages,
-      String photo) async {
+      //String photo
+      ) async {
     var res = await http.post(Uri.parse(baseURL + '/register'),
         headers: {'content-type': 'application/json'},
         body: json.encode({
@@ -32,7 +33,7 @@ class AuthService{
           "phone": phone,
           "location": location,
           "languages": languages,
-          "photo": photo
+          //"photo": photo
         }));
 
     if (res.statusCode == 200) {

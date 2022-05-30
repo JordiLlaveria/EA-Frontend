@@ -50,6 +50,8 @@ dependencies:
   firebase_core: ^1.6.0
   firebase_storage: ^10.0.3
   file_picker: ^4.5.1
+  multi_select_flutter: ^4.1.2
+  multiselect_formfield: ^0.1.7
 
 dev_dependencies:
   flutter_test:
