@@ -8,7 +8,7 @@ import '../models/user_model.dart';
 class AuthService {
   static const apiURL = String.fromEnvironment('API_URL',
       defaultValue:
-          'https://ea1-backend.mooo.com'); //https://ea1-backend.mooo.com //http://localhost:3000
+          'http://localhost:3000');
   var baseURL = apiURL + "/api/auth";
   final LocalStorage storage = LocalStorage('Users');
 

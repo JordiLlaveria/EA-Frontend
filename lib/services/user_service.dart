@@ -6,7 +6,7 @@ import 'package:localstorage/localstorage.dart';
 
 class UserService {
   static const apiURL = String.fromEnvironment('API_URL',
-      defaultValue: 'https://ea1-backend.mooo.com');
+      defaultValue: 'http://localhost:3000');
   static var baseURL = apiURL + "/api/users";
   static final LocalStorage storage = LocalStorage('Users');
 
