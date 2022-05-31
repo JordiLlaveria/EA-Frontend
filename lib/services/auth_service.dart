@@ -5,9 +5,10 @@ import 'package:jwt_decode/jwt_decode.dart';
 import 'dart:developer';
 import '../models/user_model.dart';
 
-class AuthService{
+class AuthService {
   static const apiURL = String.fromEnvironment('API_URL',
-      defaultValue: 'http://localhost:3000'); //https://ea1-backend.mooo.com
+      defaultValue:
+          'https://ea1-backend.mooo.com'); //https://ea1-backend.mooo.com //http://localhost:3000
   var baseURL = apiURL + "/api/auth";
   final LocalStorage storage = LocalStorage('Users');
 
@@ -20,8 +21,7 @@ class AuthService{
       String phone,
       List<String> location,
       List<String> languages,
-      //String photo
-      ) async {
+      String photo) async {
     var res = await http.post(Uri.parse(baseURL + '/register'),
         headers: {'content-type': 'application/json'},
         body: json.encode({
@@ -33,7 +33,7 @@ class AuthService{
           "phone": phone,
           "location": location,
           "languages": languages,
-          //"photo": photo
+          "photo": photo
         }));
 
     if (res.statusCode == 200) {
@@ -42,8 +42,8 @@ class AuthService{
       Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
       storage.setItem('userID', payload['id']);
       storage.setItem('username', payload['username']);
-      return true;  
-    } 
+      return true;
+    }
     return false;
   }
 
@@ -52,7 +52,7 @@ class AuthService{
         headers: {'content-type': 'application/json'},
         body: json.encode({"username": username, "password": password}));
 
-    if (res.statusCode == 200){
+    if (res.statusCode == 200) {
       var token = Token.fromJson(await jsonDecode(res.body));
       storage.setItem('token', token.toString());
       Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
