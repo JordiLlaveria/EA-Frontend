@@ -35,8 +35,9 @@ class AuthService {
           "languages": languages,
           "photo": photo
         }));
-
+    print("Register request has already been done");
     if (res.statusCode == 200) {
+      print("Status 200 received");
       var token = Token.fromJson(await jsonDecode(res.body));
       storage.setItem('token', token.toString());
       Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
@@ -53,11 +54,15 @@ class AuthService {
         body: json.encode({"username": username, "password": password}));
 
     if (res.statusCode == 200) {
+      print("User logged correctly");
       var token = Token.fromJson(await jsonDecode(res.body));
       storage.setItem('token', token.toString());
+      print("The token of the user is " + token.toString());
       Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
       storage.setItem('userID', payload['id']);
+      print("The id of the user is " + payload['id']);
       storage.setItem('username', payload['username']);
+      print("The username of the user is " + payload['username']);
       return true;
     }
     return false;

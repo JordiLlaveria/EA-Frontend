@@ -27,7 +27,7 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Future<void> getUsers() async {
-    users = await userService.getUsers();
+    users = await UserService.getUsers();
     setState(() {
       _isLoading = false;
     });

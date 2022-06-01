@@ -57,7 +57,6 @@ class _RegisterFormState extends State<RegisterForm> {
           final route = MaterialPageRoute(builder: (context) => AppScreen());
           Navigator.push(context, route);
         }
-        ;
       } else {
         showDialog(
             context: context,
