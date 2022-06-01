@@ -5,8 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:localstorage/localstorage.dart';
 
 class UserService {
-  static const apiURL = String.fromEnvironment('API_URL',
-      defaultValue: 'https://ea1-backend.mooo.com');
+  static const apiURL =
+      String.fromEnvironment('API_URL', defaultValue: 'http://localhost:3000');
   static var baseURL = apiURL + "/api/users";
   static final LocalStorage storage = LocalStorage('Users');
 
@@ -16,7 +16,7 @@ class UserService {
     return User.fromJson(decoded);
   }
 
-  Future<List<User>> getUsers() async {
+  static Future<List<User>> getUsers() async {
     var res = await http.get(Uri.parse(baseURL));
     List<User> allUsers = [];
     if (res.statusCode == 200) {
