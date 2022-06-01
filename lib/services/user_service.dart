@@ -5,8 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:localstorage/localstorage.dart';
 
 class UserService {
-  static const apiURL = String.fromEnvironment('API_URL',
-      defaultValue: 'http://localhost:3000');
+  static const apiURL =
+      String.fromEnvironment('API_URL', defaultValue: 'http://localhost:3000');
   static var baseURL = apiURL + "/api/users";
   static final LocalStorage storage = LocalStorage('Users');
 
@@ -32,5 +32,14 @@ class UserService {
     var decoded = jsonDecode(res.body);
     storage.setItem('username', User.fromJson(decoded).username);
     return User.fromJson(decoded);
+  }
+
+  static Future<void> updateUserByID(String id, String token,
+      List<String> peopleliked, List<String> peopledisliked) async {
+    print("Inside updatting user");
+    var res = await http.put(Uri.parse(baseURL + '/byID/' + id),
+        headers: {'content-type': 'application/json', 'x-access-token': token},
+        body: json.encode(
+            {"peopleliked": peopleliked, "peopledisliked": peopledisliked}));
   }
 }

@@ -1,5 +1,5 @@
 class User {
-  String? id;
+  String id = "";
   String name;
   String surname;
   String username;
@@ -9,11 +9,11 @@ class User {
   String photo;
   List<dynamic> languages;
   List<dynamic> location;
-  bool nolike;
-  bool like;
+  List<dynamic>? peopleliked;
+  List<dynamic>? peopledisliked;
 
   User(
-      {this.id,
+      {this.id = "",
       required this.name,
       required this.surname,
       required this.username,
@@ -23,8 +23,8 @@ class User {
       required this.photo,
       required this.languages,
       required this.location,
-      this.nolike = false,
-      this.like = false});
+      this.peopleliked,
+      this.peopledisliked});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
@@ -37,7 +37,9 @@ class User {
         phone: json['phone'],
         photo: json['photo'],
         languages: json['languages']!,
-        location: json['location']!);
+        location: json['location']!,
+        peopleliked: json['peopleliked']!,
+        peopledisliked: json['peopledisliked']!);
   }
 
   static Map<String, dynamic> toJson(User user) {
@@ -51,6 +53,8 @@ class User {
       'photo': user.photo,
       'languages': user.languages,
       'location': user.location,
+      'peopleliked': user.peopleliked,
+      'peopledisliked': user.peopledisliked
     };
   }
 }

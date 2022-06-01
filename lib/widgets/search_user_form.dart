@@ -22,7 +22,7 @@ class _SearchUserState extends State<SearchUserForm> {
   _SearchUserState({required this.user});
   @override
   Widget build(BuildContext context) {
-    print("The user shown is " + user.username);
+    //print("The user shown is " + user.username);
     return Center(
         child: Container(
       height: MediaQuery.of(context).size.height / 1.2,
