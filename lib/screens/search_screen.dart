@@ -19,20 +19,21 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   UserService userService = UserService();
-  List<User> users = [];
-  List<String> peopleliked = [];
-  List<String> peopledisliked = [];
+  List<User> usersAPI = [];
+  List<User> usersToShow = [];
+  List<dynamic> peopleliked = [];
+  List<dynamic> peopledisliked = [];
   late User userselected;
   bool _isLoading = true;
   late String name;
   var storage;
-  late String id;
+  late String id = "";
   late String token;
 
   void initState() {
     super.initState();
-    initiateVariables();
-    getUser(id);
+    //initiateVariables();
+    getUser();
     getUsers();
   }
 
@@ -40,28 +41,61 @@ class _SearchScreenState extends State<SearchScreen> {
     await UserService.updateUserByID(id, token, peopleliked, peopledisliked);
   }
 
-  Future<void> initiateVariables() async {
+  // Future<void> initiateVariables() async {
+  //   storage = LocalStorage('Users');
+  //   await storage.ready;
+  //   id = storage.getItem('userID');
+  //   //print("The id of the user in search screen is " + id);
+  //   token = storage.getItem('token');
+  // }
+
+  Future<void> getUser() async {
     storage = LocalStorage('Users');
     await storage.ready;
     id = storage.getItem('userID');
-    //print("The id of the user in search screen is " + id);
     token = storage.getItem('token');
-  }
-
-  Future<void> getUser(String id) async {
     userselected = await UserService.getUserByID(id);
-    print("The user selected is " + userselected.name);
+    print("The userselected is " + userselected.name);
+    peopleliked = userselected.peopleliked!;
+    peopledisliked = userselected.peopledisliked!;
+    // for (int i = 0; i < userselected.peopleliked!.length; i++) {
+    //   peopleliked[i] = userselected.peopleliked![i];
+    // }
+    // for (int i = 0; i < userselected.peopledisliked!.length; i++) {
+    //   peopledisliked[i] = userselected.peopledisliked![i];
+    // }
   }
 
   Future<void> getUsers() async {
-    users = await UserService.getUsers();
+    usersAPI = await UserService.getUsers();
     setState(() {
       _isLoading = false;
     });
-    print("The id is: " + id);
-    for (int i = 0; i < users.length; i++) {
-      if (users[i].id == id) {
-        users.remove(users[i]);
+    //print("The id is: " + id);
+    bool found = false;
+    for (int i = 0; i < usersAPI.length; i++) {
+      found = false;
+      if (usersAPI[i].id == id) {
+        //users.remove(users[i]);
+        found = true;
+      }
+      if (found == false) {
+        for (int j = 0; j < peopleliked.length; j++) {
+          if (usersAPI[i].id == peopleliked[j] && found == false) {
+            found = true;
+          }
+        }
+      }
+      if (found == false) {
+        for (int j = 0; j < peopledisliked.length; j++) {
+          if (usersAPI[i].id == peopledisliked[j] && found == false) {
+            //users.remove(users[i]);
+            found = true;
+          }
+        }
+      }
+      if (found == false) {
+        usersToShow.add(usersAPI[i]);
       }
     }
     //print(users);
@@ -80,11 +114,11 @@ class _SearchScreenState extends State<SearchScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    users.isEmpty
+                    usersToShow.isEmpty
                         ? Center(child: Text('No more users'))
                         : Expanded(
-                            child:
-                                Stack(children: users.map(buildUser).toList())),
+                            child: Stack(
+                                children: usersToShow.map(buildUser).toList())),
                     BottomSearchButtons()
                   ],
                 ))));
@@ -92,7 +126,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget buildUser(dynamic user) {
-    final userIndex = users.indexOf(user);
+    final userIndex = usersToShow.indexOf(user);
     return Positioned(
         top: 20,
         bottom: 20,
@@ -166,10 +200,15 @@ class _SearchScreenState extends State<SearchScreen> {
 
   void whereMoved(DraggableDetails details, User user) {
     final minimumDrag = 100;
-    print("The id of the user when moved is " + id);
+    //print("The id of the user when moved is " + id);
     if (details.offset.dx > minimumDrag) {
-      print('The user liked is ' + user.name);
       peopleliked.add(user.id);
+      // int position = -1;
+      // for (int i = 0; i < userselected.peopleliked!.length; i++) {
+      //   if (userselected.peopleliked![i] == user.id) {
+      //     position = i;
+      //   }
+      // }
     } else if (details.offset.dx < -minimumDrag) {
       print('The user unliked is ' + user.name);
       peopledisliked.add(user.id);
@@ -177,6 +216,10 @@ class _SearchScreenState extends State<SearchScreen> {
     print('I am going to update user');
     updateUser();
     print('Voy a construir un nuevo user');
-    setState((() => users.remove(user)));
+    setState((() => usersToShow.remove(user)));
+  }
+
+  String findPositionIfExists(User user) {
+    return "";
   }
 }

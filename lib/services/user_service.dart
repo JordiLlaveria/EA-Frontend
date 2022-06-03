@@ -31,11 +31,12 @@ class UserService {
     var res = await http.get(Uri.parse(baseURL + '/byID/' + id));
     var decoded = jsonDecode(res.body);
     storage.setItem('username', User.fromJson(decoded).username);
+    print("The user by id has been found");
     return User.fromJson(decoded);
   }
 
   static Future<void> updateUserByID(String id, String token,
-      List<String> peopleliked, List<String> peopledisliked) async {
+      List<dynamic> peopleliked, List<dynamic> peopledisliked) async {
     print("Inside updatting user");
     var res = await http.put(Uri.parse(baseURL + '/byID/' + id),
         headers: {'content-type': 'application/json', 'x-access-token': token},
