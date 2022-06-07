@@ -1,3 +1,5 @@
+import 'package:geojson/geojson.dart';
+
 class User {
   String? id;
   String name;
@@ -8,7 +10,7 @@ class User {
   String phone;
   String photo;
   List<dynamic> languages;
-  List<dynamic> location;
+  GeoJsonPoint location;
   bool nolike;
   bool like;
 

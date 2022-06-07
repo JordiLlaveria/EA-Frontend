@@ -33,4 +33,15 @@ class UserService {
     storage.setItem('username', User.fromJson(decoded).username);
     return User.fromJson(decoded);
   }
+
+  static Future<List<User>> getUsersByDistance(String distance, String id) async {
+    var res = await http.get(Uri.parse(baseURL + '/' + id + '/distance/' + distance));
+    List<User> allUsers = [];
+    if (res.statusCode == 200) {
+      var decoded = jsonDecode(res.body);
+      decoded.forEach((customer) => allUsers.add(User.fromJson(customer)));
+      return allUsers;
+    }
+    return [];
+  }
 }
