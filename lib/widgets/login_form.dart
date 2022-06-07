@@ -8,6 +8,9 @@ import 'package:frontend/screens/home_screen.dart';
 import 'package:frontend/screens/register_screen.dart';
 import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/widgets/input_text.dart';
+import '../services/sign_google.dart';
+
+import '../models/user_model.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -18,10 +21,12 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   AuthService service = AuthService();
+  Sign signin = Sign();
 
   GlobalKey<FormState> _formkey = GlobalKey();
   late String _user;
   late String _password;
+  late User usergoogle;
 
   _submit() {
     final isLoggin = _formkey.currentState?.validate();
@@ -87,6 +92,29 @@ class _LoginFormState extends State<LoginForm> {
               },
               child: Text(
                 'SIGN IN',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 35.0,
+                    fontFamily: 'FredokOne'),
+              ),
+            ),
+          ),
+          Divider(
+            height: 25.0,
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: FlatButton(
+              color: Color.fromARGB(255, 231, 103, 11),
+              onPressed: () async {
+                if (await signin.signInWithGoogle(context: context) != null) {
+                  final route =
+                      MaterialPageRoute(builder: (context) => AppScreen());
+                  Navigator.push(context, route);
+                }
+              },
+              child: Text(
+                'SIGN IN with Google',
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 35.0,

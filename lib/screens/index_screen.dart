@@ -6,6 +6,10 @@ import 'package:frontend/screens/register_screen.dart';
 import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/widgets/icon_container.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import '../services/sign_google.dart';
+import '../screens/app_screen.dart';
 
 class IndexScreen extends StatefulWidget {
   const IndexScreen({Key? key}) : super(key: key);
@@ -17,6 +21,8 @@ class IndexScreen extends StatefulWidget {
 class _IndexScreenState extends State<IndexScreen> {
   late TutorialCoachMark tutorialCoachMark;
   List<TargetFocus> targets = <TargetFocus>[];
+  Sign signup = Sign();
+  late User? usergoogle;
 
   GlobalKey key = GlobalKey();
   GlobalKey key1 = GlobalKey();
@@ -28,6 +34,13 @@ class _IndexScreenState extends State<IndexScreen> {
     initTarget();
     WidgetsBinding.instance?.addPostFrameCallback(_afterlayaout);
     super.initState();
+  }
+
+  void _signup(BuildContext contextuser) async {
+    if (await signup.signUpWithGoogle(context: contextuser) != null) {
+      final route = MaterialPageRoute(builder: (context) => AppScreen());
+      Navigator.push(context, route);
+    }
   }
 
   void _afterlayaout(_) {
@@ -75,6 +88,31 @@ class _IndexScreenState extends State<IndexScreen> {
       TargetFocus(
           identify: "key2",
           keyTarget: key2,
+          alignSkip:
+              Alignment.lerp(Alignment.bottomLeft, Alignment.centerLeft, 0.12),
+          paddingFocus: 0,
+          contents: [
+            TargetContent(
+                child: Container(
+              child: Column(
+                children: [
+                  Text(
+                    "ARE YOU NEW IN XERRA? SIGN UP! CLICK ON REGISTER",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+            ))
+          ]),
+    );
+    targets.add(
+      TargetFocus(
+          identify: "key3",
+          keyTarget: key3,
           alignSkip:
               Alignment.lerp(Alignment.bottomLeft, Alignment.centerLeft, 0.12),
           paddingFocus: 0,
@@ -166,6 +204,27 @@ class _IndexScreenState extends State<IndexScreen> {
                       color: Color.fromARGB(255, 229, 28, 85),
                       child: Text(
                         'SIGN UP',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'FredokaOne',
+                            fontSize: 30.0),
+                      ),
+                    ),
+                  ),
+                  Divider(
+                    height: 20.0,
+                  ),
+                  SizedBox(
+                    key: key3,
+                    width: double.infinity,
+                    height: 60.0,
+                    child: FlatButton(
+                      onPressed: () {
+                        _signup(context);
+                      },
+                      color: Color.fromARGB(255, 229, 28, 85),
+                      child: Text(
+                        'SIGN UP with Google',
                         style: TextStyle(
                             color: Colors.white,
                             fontFamily: 'FredokaOne',
