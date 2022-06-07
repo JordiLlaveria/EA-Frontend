@@ -53,6 +53,9 @@ dependencies:
   multi_select_flutter: ^4.1.2
   multiselect_formfield: ^0.1.7
 
+  # Chatbot
+  dialog_flowtter: ^0.3.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -77,6 +80,9 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+  # Chatbot
+  - assets/dialog_flow_auth.json
+
   - imatges/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

@@ -4,6 +4,7 @@ import 'package:frontend/screens/search_screen.dart';
 import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/screens/chat_screen.dart';
 import 'package:frontend/screens/home_screen.dart';
+import 'package:frontend/screens/chatbot_screen.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
@@ -22,6 +23,7 @@ class _AppScreenState extends State<AppScreen> {
   List<Widget> screens = [
     HomeScreen(),
     ChatScreen(username: username),
+    ChatbotScreen(),
     SearchScreen(),
     ProfileScreen(),
   ];
@@ -123,6 +125,8 @@ class _AppScreenState extends State<AppScreen> {
                   icon: Icon(Icons.home_filled), label: 'Home',),
               BottomNavigationBarItem(                  
                   icon: Icon(Icons.chat_rounded), label: 'Chat'),
+              BottomNavigationBarItem(                  
+                  icon: Icon(Icons.help_rounded), label: 'Chatbot'),
               BottomNavigationBarItem(
                   icon: Icon(Icons.people_rounded), label: 'Search'),
               BottomNavigationBarItem(
