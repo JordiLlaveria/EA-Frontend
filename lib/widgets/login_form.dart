@@ -94,13 +94,13 @@ class _LoginFormState extends State<LoginForm> {
                 'SIGN IN',
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 35.0,
+                    fontSize: 30.0,
                     fontFamily: 'FredokOne'),
               ),
             ),
           ),
           Divider(
-            height: 25.0,
+            height: 20.0,
           ),
           SizedBox(
             width: double.infinity,
@@ -113,12 +113,19 @@ class _LoginFormState extends State<LoginForm> {
                   Navigator.push(context, route);
                 }
               },
-              child: Text(
-                'SIGN IN with Google',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 35.0,
-                    fontFamily: 'FredokOne'),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.android, color: Colors.white),
+                  SizedBox(width: 20),
+                  Text(
+                    'SIGN IN with Google',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'FredokaOne',
+                        fontSize: 23.0),
+                  )
+                ],
               ),
             ),
           ),

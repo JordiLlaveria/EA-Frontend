@@ -53,7 +53,7 @@ class _RegisterFormState extends State<RegisterForm> {
     if (_formKey.currentState!.validate()) {
       if (password1 == password2) {
         if (await service.register(name, surname, username, password1, email,
-            phone, location, _myLanguages!.cast<String>(), photo)) {
+            phone, location, _myLanguages!.cast<String>(), photo, false)) {
           final route = MaterialPageRoute(builder: (context) => AppScreen());
           Navigator.push(context, route);
         }
@@ -338,7 +338,6 @@ class _RegisterFormState extends State<RegisterForm> {
       // upload file
       await FirebaseStorage.instance.ref('ea/$fileName').putData(fileBytes!);
     }
-
     storage.uploadFile(fileBytes, fileName).then((value) => print('Done'));
   }
 

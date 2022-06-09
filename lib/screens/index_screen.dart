@@ -1,9 +1,10 @@
-import 'dart:html';
+import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/register_screen.dart';
 import 'package:frontend/screens/login_screen.dart';
+import 'package:frontend/screens/register_google_screen.dart';
 import 'package:frontend/widgets/icon_container.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -37,8 +38,22 @@ class _IndexScreenState extends State<IndexScreen> {
   }
 
   void _signup(BuildContext contextuser) async {
-    if (await signup.signUpWithGoogle(context: contextuser) != null) {
-      final route = MaterialPageRoute(builder: (context) => AppScreen());
+    User? user = await signup.credentials(context: contextuser);
+    if (user != null) {
+      var parts = user.displayName?.split(' ');
+      //Separamos el nombre completo que proporciona Google en nombre y apellido, porque así se muestra a los usuarios
+      String? nameUserFound = parts![0].trim();
+      String? surnameUserFound = parts[1].trim();
+      //El username no es más que el nombre y apellido de manera unida
+      String? usernameFound = nameUserFound + surnameUserFound;
+      final route = MaterialPageRoute(
+          builder: (context) => RegisterGoogleScreen(
+                name: nameUserFound,
+                surname: surnameUserFound,
+                username: usernameFound,
+                photo: user.photoURL,
+                email: user.email,
+              ));
       Navigator.push(context, route);
     }
   }
@@ -215,23 +230,29 @@ class _IndexScreenState extends State<IndexScreen> {
                     height: 20.0,
                   ),
                   SizedBox(
-                    key: key3,
-                    width: double.infinity,
-                    height: 60.0,
-                    child: FlatButton(
-                      onPressed: () {
-                        _signup(context);
-                      },
-                      color: Color.fromARGB(255, 229, 28, 85),
-                      child: Text(
-                        'SIGN UP with Google',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'FredokaOne',
-                            fontSize: 30.0),
-                      ),
-                    ),
-                  )
+                      key: key3,
+                      width: double.infinity,
+                      height: 60.0,
+                      child: FlatButton(
+                        onPressed: () {
+                          _signup(context);
+                        },
+                        color: Color.fromARGB(255, 229, 28, 85),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.android, color: Colors.white),
+                            SizedBox(width: 20),
+                            Text(
+                              'SIGN UP with Google',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'FredokaOne',
+                                  fontSize: 25.0),
+                            )
+                          ],
+                        ),
+                      )),
                 ],
               )
             ],

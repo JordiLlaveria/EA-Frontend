@@ -52,41 +52,17 @@ class Sign {
     return user;
   }
 
-  Future<User?> signUpWithGoogle({required BuildContext context}) async {
+  Future<User?> signInWithGoogle({required BuildContext context}) async {
     User? user = await credentials(context: context);
     if (user != null) {
       var parts = user.displayName?.split(' ');
       //Separamos el nombre completo que proporciona Google en nombre y apellido, porque así se muestra a los usuarios
-      String? name = parts![0].trim();
-      String? surname = parts[1].trim();
-      String? username = user.displayName;
-      //Los valores que no proporciona Google se han puesto por defecto, ya que sin estos la API no funciona ya que son requeridos para el funcionamiento de esta
-      String password = "Hola";
-      String? email = user.email;
-      if (user.email == "") {
-        String? email = "jordi@gmail.com";
-      }
-      String? phone = "123467";
-      List? _myLanguages = ["Catalan", "Spanish"];
-      List<String> location = ["41.276162923989475", "1.987217865082827"];
-      String? photo =
-          "unnamed.png"; //Nombre de una foto que esta subida a nuestro Firebase
-
-      if (await service.register(name, surname, username, password, email,
-          phone, location, _myLanguages.cast<String>(), photo)) {
-        print("Register with Google done");
-      }
-    }
-    return user;
-  }
-
-  Future<User?> signInWithGoogle({required BuildContext context}) async {
-    User? user = await credentials(context: context);
-    if (user != null) {
-      String? username = user.displayName;
-      //Como Google no proporciona la contraseña, se utiliza la misma que se ha utilizado en el register por defecto
-      String password = "Hola";
-      if (await service.loginGoogle(username, password)) {
+      String nameUserFound = parts![0].trim();
+      String surnameUserFound = parts[1].trim();
+      String username = nameUserFound + surnameUserFound;
+      //Como Google no proporciona la contraseña, se utiliza la misma que se ha utilizado en el register por defecto, ya que no puede ser Null pero tampoco tiene ninguna utilidad
+      String password = "Google";
+      if (await service.login(username, password)) {
         print("Log in with Google done");
       }
     }

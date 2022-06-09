@@ -29,21 +29,7 @@ class _SearchUserState extends State<SearchUserForm> {
       width: MediaQuery.of(context).size.width / 1.2,
       child: Stack(
         children: [
-          Scaffold(
-              body: FutureBuilder(
-                  future: storage.downloadURL(user.photo),
-                  builder:
-                      (BuildContext context, AsyncSnapshot<String> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done &&
-                        snapshot.hasData) {
-                      return Container(
-                          height: MediaQuery.of(context).size.height,
-                          width: MediaQuery.of(context).size.width,
-                          child:
-                              Image.network(snapshot.data!, fit: BoxFit.cover));
-                    }
-                    return Container();
-                  })),
+          ShowImage(user),
           Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
@@ -88,16 +74,36 @@ class _SearchUserState extends State<SearchUserForm> {
                           ),
                         ))),
                 SizedBox(height: 10),
-                // Padding(
-                //   padding: EdgeInsets.only(bottom: 16, right: 8),
-                //   child: Icon(Icons.info, color: Colors.white),
-                // )
               ],
             ),
           ]),
         ],
       ),
     ));
+  }
+
+  Widget ShowImage(User user) {
+    if (user.fromGoogle == true) {
+      return Scaffold(
+          body: Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: Image.network(user.photo, fit: BoxFit.cover)));
+    } else {
+      return Scaffold(
+          body: FutureBuilder(
+              future: storage.downloadURL(user.photo),
+              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                if (snapshot.connectionState == ConnectionState.done &&
+                    snapshot.hasData) {
+                  return Container(
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                      child: Image.network(snapshot.data!, fit: BoxFit.cover));
+                }
+                return Container();
+              }));
+    }
   }
 
   Widget EmptySpace() => Padding(

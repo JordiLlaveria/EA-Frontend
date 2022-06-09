@@ -11,43 +11,6 @@ class AuthService {
   var baseURL = apiURL + "/api/auth";
   final LocalStorage storage = LocalStorage('Users');
 
-  // Future<bool> registerGoogle(
-  //     String? name,
-  //     String? surname,
-  //     String? username,
-  //     String password,
-  //     String? email,
-  //     String? phone,
-  //     List<String> location,
-  //     List<String> languages,
-  //     String? photo) async {
-  //   var baseURL = apiURL + "/api/auth";
-  //   var res = await http.post(Uri.parse(baseURL + '/register'),
-  //       headers: {'content-type': 'application/json'},
-  //       body: json.encode({
-  //         "name": name,
-  //         "surname": surname,
-  //         "username": username,
-  //         "password": password,
-  //         "mail": email,
-  //         "phone": phone,
-  //         "location": location,
-  //         "languages": languages,
-  //         "photo": photo
-  //       }));
-  //   print("Register request has already been done");
-  //   if (res.statusCode == 200) {
-  //     print("Status 200 received");
-  //     var token = Token.fromJson(await jsonDecode(res.body));
-  //     storage.setItem('token', token.toString());
-  //     Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
-  //     storage.setItem('userID', payload['id']);
-  //     storage.setItem('username', payload['username']);
-  //     return true;
-  //   }
-  //   return false;
-  // }
-
   Future<bool> register(
       String? name,
       String? surname,
@@ -57,20 +20,38 @@ class AuthService {
       String? phone,
       List<String> location,
       List<String> languages,
-      String? photo) async {
-    var res = await http.post(Uri.parse(baseURL + '/register'),
-        headers: {'content-type': 'application/json'},
-        body: json.encode({
-          "name": name,
-          "surname": surname,
-          "username": username,
-          "password": password,
-          "mail": email,
-          "phone": phone,
-          "location": location,
-          "languages": languages,
-          "photo": photo
-        }));
+      String? photo,
+      bool withGoogle) async {
+    var res;
+    if (withGoogle == true) {
+      res = await http.post(Uri.parse(baseURL + '/registerGoogle'),
+          headers: {'content-type': 'application/json'},
+          body: json.encode({
+            "name": name,
+            "surname": surname,
+            "username": username,
+            "password": password,
+            "mail": email,
+            "phone": phone,
+            "location": location,
+            "languages": languages,
+            "photo": photo
+          }));
+    } else {
+      res = await http.post(Uri.parse(baseURL + '/register'),
+          headers: {'content-type': 'application/json'},
+          body: json.encode({
+            "name": name,
+            "surname": surname,
+            "username": username,
+            "password": password,
+            "mail": email,
+            "phone": phone,
+            "location": location,
+            "languages": languages,
+            "photo": photo
+          }));
+    }
     print("Register request has already been done");
     if (res.statusCode == 200) {
       print("Status 200 received");
@@ -79,26 +60,6 @@ class AuthService {
       Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
       storage.setItem('userID', payload['id']);
       storage.setItem('username', payload['username']);
-      return true;
-    }
-    return false;
-  }
-
-  Future<bool> loginGoogle(String? username, String password) async {
-    var res = await http.post(Uri.parse(baseURL + '/login'),
-        headers: {'content-type': 'application/json'},
-        body: json.encode({"username": username, "password": password}));
-
-    if (res.statusCode == 200) {
-      print("User logged correctly");
-      var token = Token.fromJson(await jsonDecode(res.body));
-      storage.setItem('token', token.toString());
-      print("The token of the user is " + token.toString());
-      Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
-      storage.setItem('userID', payload['id']);
-      print("The id of the user is " + payload['id']);
-      storage.setItem('username', payload['username']);
-      print("The username of the user is " + payload['username']);
       return true;
     }
     return false;
