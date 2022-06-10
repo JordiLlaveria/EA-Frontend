@@ -1,4 +1,6 @@
+import 'package:frontend/models/location_model.dart';
 import 'package:geojson/geojson.dart';
+import 'package:geopoint/geopoint.dart';
 
 class User {
   String? id;
@@ -10,7 +12,7 @@ class User {
   String phone;
   String photo;
   List<dynamic> languages;
-  GeoJsonPoint location;
+  Location location;
   bool nolike;
   bool like;
 
@@ -39,7 +41,8 @@ class User {
         phone: json['phone'],
         photo: json['photo'],
         languages: json['languages']!,
-        location: json['location']!);
+        location: Location.fromJson(json['location'])
+        );
   }
 
   static Map<String, dynamic> toJson(User user) {

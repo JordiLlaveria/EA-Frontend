@@ -81,8 +81,8 @@ class _MapFormState extends State<MapForm> {
               body: new FlutterMap(
                 options: new MapOptions(
                   //center: new LatLng(41.441392, 2.186303), //AQUI!!
-                  center: new LatLng(double.parse(user.location[0]),
-                      double.parse(user.location[1])), //AQUI!!
+                  center: new LatLng(double.parse(user.location.coordinates[0]),
+                      double.parse(user.location.coordinates[1])), //AQUI!!
                   zoom: 13.0,
                 ),
                 layers: [
@@ -98,8 +98,8 @@ class _MapFormState extends State<MapForm> {
                     Marker(
                         width: 80.0,
                         height: 80.0,
-                        point: new LatLng(double.parse(user.location[0]),
-                            double.parse(user.location[1])), //AQUÍ!!
+                        point: new LatLng(double.parse(user.location.coordinates[0]),
+                            double.parse(user.location.coordinates[1])), //AQUÍ!!
                         builder: (context) => new Container(
                               child: IconButton(
                                 icon: Icon(Icons.location_on),

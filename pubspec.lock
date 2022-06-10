@@ -192,7 +192,7 @@ packages:
     source: hosted
     version: "1.0.0"
   geopoint:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: geopoint
       url: "https://pub.dartlang.org"
