@@ -46,6 +46,7 @@ class User {
   }
 
   static Map<String, dynamic> toJson(User user) {
+    Map location = Location.toJson(user.location);
     return {
       'name': user.name,
       'surname': user.surname,
@@ -55,7 +56,7 @@ class User {
       'phone': user.phone,
       'photo': user.photo,
       'languages': user.languages,
-      'location': user.location,
+      'location': location,
     };
   }
 }
