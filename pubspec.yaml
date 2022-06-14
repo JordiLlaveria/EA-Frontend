@@ -52,6 +52,8 @@ dependencies:
   file_picker: ^4.5.1
   multi_select_flutter: ^4.1.2
   multiselect_formfield: ^0.1.7
+  geojson: ^1.0.0
+  geopoint: ^1.0.0
 
 dev_dependencies:
   flutter_test:
