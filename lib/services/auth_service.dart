@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:frontend/models/location_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:localstorage/localstorage.dart';
 import 'package:jwt_decode/jwt_decode.dart';
@@ -23,19 +24,12 @@ class AuthService {
       List<String> location,
       List<String> languages,
       String photo) async {
+    Location newLocation =  Location(type: "Point", coordinates: location);
+    User user = User(name: name, surname: surname, username: username, password: password, email: email, phone: phone, photo: photo, location: newLocation, languages: languages);
+
     var res = await http.post(Uri.parse(baseURL + '/register'),
         headers: {'content-type': 'application/json'},
-        body: json.encode({
-          "name": name,
-          "surname": surname,
-          "username": username,
-          "password": password,
-          "mail": email,
-          "phone": phone,
-          "location": location,
-          "languages": languages,
-          "photo": photo
-        }));
+        body: json.encode(User.toJson(user)));
     print("Register request has already been done");
     if (res.statusCode == 200) {
       print("Status 200 received");
