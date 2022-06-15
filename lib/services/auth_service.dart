@@ -44,9 +44,9 @@ class AuthService {
       Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
       storage.setItem('userID', payload['id']);
       storage.setItem('username', payload['username']);
-      // final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-      // await sharedPreferences.setString('user',payload['username']);
-      // await sharedPreferences.setString('userId', payload['id']);
+      final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      await sharedPreferences.setString('user',payload['username']);
+      await sharedPreferences.setString('userId', payload['id']);
       return true;  
     } 
     return false;

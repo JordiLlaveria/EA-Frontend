@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/screens/distance_screen.dart';
 import 'package:frontend/screens/profile_screen.dart';
 import 'package:frontend/screens/search_screen.dart';
 import 'package:frontend/screens/login_screen.dart';
@@ -24,8 +23,7 @@ class _AppScreenState extends State<AppScreen> {
     HomeScreen(),
     ChatScreen(username: username),
     SearchScreen(),
-    ProfileScreen(),
-    DistanceScreen()
+    ProfileScreen()
   ];
 
   GlobalKey keyHome = GlobalKey();
@@ -281,9 +279,7 @@ class _AppScreenState extends State<AppScreen> {
               BottomNavigationBarItem(
                   icon: Icon(Icons.people_rounded, key: keySearch,), label: 'Search'),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.person), label: 'Profile'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.add_location_alt), label: 'Near you'),
+                  icon: Icon(Icons.person), label: 'Profile')
             ],
           ),
         ));
