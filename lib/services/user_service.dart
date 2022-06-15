@@ -16,7 +16,7 @@ class UserService {
     return User.fromJson(decoded);
   }
 
-  Future<List<User>> getUsers() async {
+  static Future<List<User>> getUsers() async {
     var res = await http.get(Uri.parse(baseURL));
     List<User> allUsers = [];
     if (res.statusCode == 200) {
