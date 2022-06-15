@@ -2,6 +2,7 @@ import 'dart:html';
 import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/app_screen.dart';
 import 'package:frontend/screens/register_screen.dart';
 import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/widgets/icon_container.dart';
@@ -23,6 +24,9 @@ class _IndexScreenState extends State<IndexScreen> {
   GlobalKey key1 = GlobalKey();
   GlobalKey key2 = GlobalKey();
   GlobalKey key3 = GlobalKey();
+
+  bool isLogged = false;
+  String user = '';
 
   @override
   void initState() {

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:frontend/models/location_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:localstorage/localstorage.dart';
 import 'package:jwt_decode/jwt_decode.dart';
@@ -24,12 +23,19 @@ class AuthService {
       List<String> location,
       List<String> languages,
       String photo) async {
-    Location newLocation =  Location(type: "Point", coordinates: location);
-    User user = User(name: name, surname: surname, username: username, password: password, email: email, phone: phone, photo: photo, location: newLocation, languages: languages);
-
     var res = await http.post(Uri.parse(baseURL + '/register'),
         headers: {'content-type': 'application/json'},
-        body: json.encode(User.toJson(user)));
+        body: json.encode({
+          "name": name,
+          "surname": surname,
+          "username": username,
+          "password": password,
+          "mail": email,
+          "phone": phone,
+          "location": location,
+          "languages": languages,
+          "photo": photo
+        }));
     print("Register request has already been done");
     if (res.statusCode == 200) {
       print("Status 200 received");
@@ -61,6 +67,10 @@ class AuthService {
       print("The id of the user is " + payload['id']);
       storage.setItem('username', payload['username']);
       print("The username of the user is " + payload['username']);
+
+      final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      await sharedPreferences.setString('user',payload['username']);
+      await sharedPreferences.setString('userId', payload['id']);
       return true;
     }
     return false;

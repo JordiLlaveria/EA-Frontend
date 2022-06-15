@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/app_screen.dart';
 import 'package:frontend/screens/index_screen.dart';
 import 'package:frontend/screens/profile_screen.dart';
 import 'package:frontend/screens/register_screen.dart';
@@ -39,12 +40,12 @@ class _SplashScreenState extends State<SplashScreen> {
       final LocalStorage storage = LocalStorage('Users');
       storage.setItem('username', user);
       var id = sharedPreferences.getString('userId');
-      storage.setItem('usesrID', id);
+      storage.setItem('userID', id);
       final route = MaterialPageRoute(
-        builder: (context) => ProfileScreen()); //Canviar a Signup
+        builder: (context) => AppScreen()); 
       Navigator.push(context, route);
     }
-  }
+  } 
 
   @override
   Widget build(BuildContext context) {
