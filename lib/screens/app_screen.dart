@@ -4,8 +4,11 @@ import 'package:frontend/screens/search_screen.dart';
 import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/screens/chat_screen.dart';
 import 'package:frontend/screens/home_screen.dart';
+import 'package:frontend/screens/videocall_screen.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
+
+import 'activity_screen.dart';
 
 class AppScreen extends StatefulWidget {
   /* const AppScreen({Key? key}) : super(key: key); */
@@ -17,12 +20,15 @@ class _AppScreenState extends State<AppScreen> {
   int currentScreen = 0;
 
   static String username = LocalStorage('Users').getItem('username');
+  static String activityName = '';
 
   List<Widget> screens = [
     HomeScreen(),
     ChatScreen(username: username),
     SearchScreen(),
     ProfileScreen(),
+    ActivityScreen(activityName: activityName),
+    VideoCallScreen(username: username)
   ];
 
   GlobalKey keyHome = GlobalKey();
