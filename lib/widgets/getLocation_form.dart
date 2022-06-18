@@ -3,6 +3,7 @@ import 'package:geolocator/geolocator.dart';
 
 class LocationForm extends StatefulWidget {
   LocationForm({Key? key}) : super(key: key);
+  String _locationMessage = ""; 
 
   @override
   State<LocationForm> createState() => _LocationFormState();
@@ -27,7 +28,7 @@ class _LocationFormState extends State<LocationForm> {
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget> [
+              children: <Widget> [ 
                 FlatButton(
                   onPressed: () {
                     _getCurrentLocation();
