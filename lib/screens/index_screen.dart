@@ -31,7 +31,7 @@ class _IndexScreenState extends State<IndexScreen> {
   @override
   void initState() {
     initTarget();
-    WidgetsBinding.instance.addPostFrameCallback(_afterlayaout);
+    WidgetsBinding.instance?.addPostFrameCallback(_afterlayaout);
     super.initState();
   }
 

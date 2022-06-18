@@ -43,7 +43,7 @@ class _AppScreenState extends State<AppScreen> {
 
   void initState() {
     initTarget();
-    WidgetsBinding.instance.addPostFrameCallback(_afterlayaout);
+    WidgetsBinding.instance?.addPostFrameCallback(_afterlayaout);
     super.initState();
   }
 
@@ -91,8 +91,10 @@ class _AppScreenState extends State<AppScreen> {
                         color: Colors.redAccent,
                         fontSize: 20,
                       ),
-                    ),
-                  )
+                    )
+                  ]
+                  )                
+                )
               )
             ]
         )
