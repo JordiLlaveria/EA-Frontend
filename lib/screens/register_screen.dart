@@ -259,7 +259,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Divider(
                     height: 10.0,
                   ),
-                  LocationForm()
+                  LocationForm(),
                 ],
               )
             ],

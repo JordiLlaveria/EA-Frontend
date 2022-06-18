@@ -21,17 +21,22 @@ class _LocationFormState extends State<LocationForm> {
     return MaterialApp(
       home: Scaffold(
         body: Align(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget> [
-              FlatButton(
-                onPressed: () {
-                  _getCurrentLocation();
-                }, 
-                color: Colors.red,
-                child: Text("Find my Location")
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget> [
+                FlatButton(
+                  onPressed: () {
+                    _getCurrentLocation();
+                  }, 
+                  color: Colors.red,
+                  child: Text("Find my Location")
               )
             ],
+            ),
           ),
         ),
       ),
