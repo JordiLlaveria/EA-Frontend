@@ -8,6 +8,7 @@ import 'package:frontend/screens/home_screen.dart';
 import 'package:frontend/screens/register_screen.dart';
 import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/widgets/input_text.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);

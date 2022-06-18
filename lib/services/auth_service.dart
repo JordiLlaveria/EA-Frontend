@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:localstorage/localstorage.dart';
 import 'package:jwt_decode/jwt_decode.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:developer';
 import '../models/user_model.dart';
 
@@ -43,8 +44,11 @@ class AuthService {
       Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
       storage.setItem('userID', payload['id']);
       storage.setItem('username', payload['username']);
-      return true;
-    }
+      final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      await sharedPreferences.setString('user',payload['username']);
+      await sharedPreferences.setString('userId', payload['id']);
+      return true;  
+    } 
     return false;
   }
 
@@ -63,6 +67,10 @@ class AuthService {
       print("The id of the user is " + payload['id']);
       storage.setItem('username', payload['username']);
       print("The username of the user is " + payload['username']);
+
+      final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      await sharedPreferences.setString('user',payload['username']);
+      await sharedPreferences.setString('userId', payload['id']);
       return true;
     }
     return false;
