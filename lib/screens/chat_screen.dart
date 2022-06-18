@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/screens/videocall_screen.dart';
+//import 'package:frontend/screens/videocall_screen.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:frontend/models/chat_model.dart';
 
@@ -171,12 +171,12 @@ class _ChatScreenState extends State<ChatScreen> {
                         heroTag: null,
                         backgroundColor: Color.fromARGB(255, 158, 217, 107),
                         onPressed: () {
-                          final route = MaterialPageRoute(
+                          /*xfinal route = MaterialPageRoute(
                               //VideoCallScreen
                               builder: (context) => VideoCallScreen(
                                   username:
                                       widget.username)); //Canviar a Signup
-                          Navigator.push(context, route);
+                          Navigator.push(context, route);*/
                         },
                         mini: true,
                         child: const Icon(Icons.video_camera_front_outlined,

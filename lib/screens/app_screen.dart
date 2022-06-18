@@ -4,7 +4,7 @@ import 'package:frontend/screens/search_screen.dart';
 import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/screens/chat_screen.dart';
 import 'package:frontend/screens/home_screen.dart';
-import 'package:frontend/screens/videocall_screen.dart';
+//import 'package:frontend/screens/videocall_screen.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
@@ -28,7 +28,7 @@ class _AppScreenState extends State<AppScreen> {
     SearchScreen(),
     ProfileScreen(),
     ActivityScreen(activityName: activityName),
-    VideoCallScreen(username: username)
+    //VideoCallScreen(username: username)
   ];
 
   GlobalKey keyHome = GlobalKey();
