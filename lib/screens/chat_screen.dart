@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+//import 'package:frontend/screens/videocall_screen.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:frontend/models/chat_model.dart';
 
@@ -34,14 +35,13 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   late Socket socket;
-  static const apiURL = String.fromEnvironment('API_URL',
-        defaultValue: 'http://localhost:3000');
+  static const apiURL =
+      String.fromEnvironment('API_URL', defaultValue: 'http://localhost:3000');
 
   @override
   void initState() {
     try {
-      socket =
-          io(apiURL, <String, dynamic>{
+      socket = io(apiURL, <String, dynamic>{
         "transports": ["websocket"],
         "autoConnect": false,
       });
@@ -72,13 +72,13 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-          centerTitle: true,
-          title: const Text('Community Chat'),
-          foregroundColor: Colors.black.withOpacity(0.5),
-          backgroundColor: Color.fromARGB(255, 255, 255, 255)),
-      body: SafeArea(
-        child: Container(
+        appBar: AppBar(
+            centerTitle: true,
+            title: const Text('Community Chat'),
+            foregroundColor: Colors.black.withOpacity(0.5),
+            backgroundColor: Color.fromARGB(255, 255, 255, 255)),
+        body: SafeArea(
+            child: Container(
           color: const Color(0xFFEAEFF2),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -124,62 +124,76 @@ class _ChatScreenState extends State<ChatScreen> {
                 color: Colors.white,
                 padding: const EdgeInsets.only(
                     bottom: 10, left: 20, right: 10, top: 5),
-                child: Row(
-                  children: <Widget>[
-                    Flexible(
-                      child: Container(
-                        child: TextField(
-                          minLines: 1,
-                          maxLines: 5,
-                          controller: _messageController,
-                          textCapitalization: TextCapitalization.sentences,
-                          decoration: const InputDecoration.collapsed(
-                            hintText: "Type a message",
-                            hintStyle: TextStyle(
-                              color: Colors.grey,
-                            ),
+                child: Row(children: <Widget>[
+                  Flexible(
+                    child: Container(
+                      child: TextField(
+                        minLines: 1,
+                        maxLines: 5,
+                        controller: _messageController,
+                        textCapitalization: TextCapitalization.sentences,
+                        decoration: const InputDecoration.collapsed(
+                          hintText: "Type a message",
+                          hintStyle: TextStyle(
+                            color: Colors.grey,
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 43,
-                      width: 42,
-                      child: FloatingActionButton(
-                        backgroundColor: Colors.blue,
-                        onPressed: () async {
-                          if (_messageController.text.trim().isNotEmpty) {
-                            String message = _messageController.text.trim();
+                  ),
+                  SizedBox(
+                    height: 43,
+                    width: 42,
+                    child: FloatingActionButton(
+                      backgroundColor: Colors.blue,
+                      onPressed: () async {
+                        if (_messageController.text.trim().isNotEmpty) {
+                          String message = _messageController.text.trim();
 
-                            socket.emit(
-                                "message",
-                                ChatModel(
-                                        id: socket.id!,
-                                        message: message,
-                                        username: widget.username,
-                                        sentAt: DateTime.now()
-                                            .toLocal()
-                                            .toString()
-                                            .substring(0, 16))
-                                    .toJson());
+                          socket.emit(
+                              "message",
+                              ChatModel(
+                                      id: socket.id!,
+                                      message: message,
+                                      username: widget.username,
+                                      sentAt: DateTime.now()
+                                          .toLocal()
+                                          .toString()
+                                          .substring(0, 16))
+                                  .toJson());
 
-                            _messageController.clear();
-                          }
+                          _messageController.clear();
+                        }
+                      },
+                      mini: true,
+                      child: Transform.rotate(
+                          angle: 5.79449,
+                          child: const Icon(Icons.send, size: 20)),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 43,
+                    width: 42,
+                    child: FloatingActionButton(
+                        heroTag: null,
+                        backgroundColor: Color.fromARGB(255, 158, 217, 107),
+                        onPressed: () {
+                          /*xfinal route = MaterialPageRoute(
+                              //VideoCallScreen
+                              builder: (context) => VideoCallScreen(
+                                  username:
+                                      widget.username)); //Canviar a Signup
+                          Navigator.push(context, route);*/
                         },
                         mini: true,
-                        child: Transform.rotate(
-                            angle: 5.79449,
-                            child: const Icon(Icons.send, size: 20)),
-                      ),
-                    ),
-                  ],
-                ),
+                        child: const Icon(Icons.video_camera_front_outlined,
+                            size: 20)),
+                  ),
+                ]),
               )
             ],
           ),
-        ),
-      ),
-    );
+        )));
   }
 }
 
@@ -212,7 +226,9 @@ class ChatBubble extends StatelessWidget {
             margin: const EdgeInsets.symmetric(vertical: 5.0),
             constraints: BoxConstraints(maxWidth: size.width * .5),
             decoration: BoxDecoration(
-              color: isMe ? Color.fromARGB(255, 216, 237, 255) : const Color(0xFFFFFFFF),
+              color: isMe
+                  ? Color.fromARGB(255, 216, 237, 255)
+                  : const Color(0xFFFFFFFF),
               borderRadius: isMe
                   ? const BorderRadius.only(
                       topRight: Radius.circular(11),
@@ -232,28 +248,29 @@ class ChatBubble extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text(
-                  "@"+username/*  ?? '' */,
+                  "@" + username /*  ?? '' */,
                   textAlign: TextAlign.start,
                   softWrap: true,
-                  style:
-                      const TextStyle(color: Color.fromARGB(255, 64, 116, 151), fontSize: 10),
+                  style: const TextStyle(
+                      color: Color.fromARGB(255, 64, 116, 151), fontSize: 10),
                 ),
                 Text(
-                  message/*  ?? '' */,
+                  message /*  ?? '' */,
                   textAlign: TextAlign.start,
                   softWrap: true,
-                  style:
-                      const TextStyle(color: Color.fromARGB(255, 25, 60, 99), fontSize: 14),
+                  style: const TextStyle(
+                      color: Color.fromARGB(255, 25, 60, 99), fontSize: 14),
                 ),
                 Align(
                   alignment: Alignment.centerRight,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 7),
                     child: Text(
-                      date/*  ?? '' */,
+                      date /*  ?? '' */,
                       textAlign: TextAlign.end,
                       style: const TextStyle(
-                          color: Color.fromARGB(255, 64, 116, 151), fontSize: 9),
+                          color: Color.fromARGB(255, 64, 116, 151),
+                          fontSize: 9),
                     ),
                   ),
                 )

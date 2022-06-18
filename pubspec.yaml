@@ -54,6 +54,8 @@ dependencies:
   geojson: ^1.0.0
   geopoint: ^1.0.0
 
+  agora_rtc_engine: ^5.2.0
+  permission_handler: ^9.2.0
 
 dev_dependencies:
   flutter_test:

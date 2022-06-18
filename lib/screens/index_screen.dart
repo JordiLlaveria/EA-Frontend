@@ -31,7 +31,7 @@ class _IndexScreenState extends State<IndexScreen> {
   @override
   void initState() {
     initTarget();
-    WidgetsBinding.instance?.addPostFrameCallback(_afterlayaout);
+    WidgetsBinding.instance.addPostFrameCallback(_afterlayaout);
     super.initState();
   }
 
@@ -138,13 +138,13 @@ class _IndexScreenState extends State<IndexScreen> {
                     key: key1,
                     width: double.infinity,
                     height: 60.0,
-                    child: FlatButton(
+                    child: TextButton(
                       onPressed: () {
                         final route = MaterialPageRoute(
                             builder: (context) => LoginScreen());
                         Navigator.push(context, route);
                       },
-                      color: Color.fromARGB(255, 226, 174, 15),
+                      //color: Color.fromARGB(255, 226, 174, 15),
                       child: Text(
                         'SIGN IN',
                         style: TextStyle(
@@ -161,14 +161,14 @@ class _IndexScreenState extends State<IndexScreen> {
                     key: key2,
                     width: double.infinity,
                     height: 60.0,
-                    child: FlatButton(
+                    child: TextButton(
                       onPressed: () {
                         final route = MaterialPageRoute(
                             builder: (context) =>
                                 RegisterScreen()); //Canviar a Signup
                         Navigator.push(context, route);
                       },
-                      color: Color.fromARGB(255, 229, 28, 85),
+                      //color: Color.fromARGB(255, 229, 28, 85),
                       child: Text(
                         'SIGN UP',
                         style: TextStyle(
