@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:frontend/services/user_service.dart';
 import 'package:frontend/widgets/login_form.dart';
 import 'package:frontend/widgets/map_form.dart';
-
+import 'package:frontend/widgets/logout_form.dart';
+import 'package:frontend/screens/index_screen.dart';
 import '../widgets/icon_container.dart';
 import '../widgets/profile_form.dart';
 import 'app_screen.dart';
@@ -63,8 +64,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
                 child: MapForm(), 
-              )
-  
+              ),
+              Divider(
+                height: 50.0,
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                child: LogoutForm(),
+              ),
             ],
           ),
         ),       
