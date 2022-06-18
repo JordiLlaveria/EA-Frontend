@@ -259,7 +259,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Divider(
                     height: 10.0,
                   ),
-                  LocationForm(),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    child: LocationForm(),
+                  )
                 ],
               )
             ],
