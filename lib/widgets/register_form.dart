@@ -259,12 +259,12 @@ class _RegisterFormState extends State<RegisterForm> {
                   location = data.split(',');
                 },
               ),
-              Container(
+              Container( //AQUI FAIG LA CRIDA A LA FUNCIÓ PER OBTENIR LES COORDENADES!
                 child: Column(
                   children: <Widget> [
                     FlatButton(
                       onPressed: () {
-                        _getCurrentLocation();
+                        var data = _getCurrentLocation(); //LA FUNCIÓ ESTÀ AL FINAL DE TOT
                       },
                       color: Colors.red,
                       child: Text("Find My Location"),
@@ -405,8 +405,10 @@ class _RegisterFormState extends State<RegisterForm> {
   }
 }
 
+//FUNCIÓ PER OBTENIR LES DADES
 void _getCurrentLocation() async {
   final cordenades = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-  print(cordenades);
+  print("${cordenades.latitude}, ${cordenades.longitude}");
 }
+
 
