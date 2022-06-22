@@ -406,9 +406,10 @@ class _RegisterFormState extends State<RegisterForm> {
 }
 
 //FUNCIÓ PER OBTENIR LES DADES
-void _getCurrentLocation() async {
+Future<String> _getCurrentLocation() async {
   final cordenades = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-  print("${cordenades.latitude}, ${cordenades.longitude}");
+  print("${cordenades.latitude}, ${cordenades.longitude}"); //Funciona
+  String dades = "${cordenades.latitude}, ${cordenades.longitude}";
+  print(dades); //Funciona
+  return dades;
 }
-
-
