@@ -3,6 +3,8 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+
+  geolocator_windows
   agora_rtc_engine
   permission_handler_windows
 )
