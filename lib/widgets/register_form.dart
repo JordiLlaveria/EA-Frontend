@@ -78,7 +78,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   title: Text('PASSWORD IS NOT THE SAME'),
                   content: Text('Please write the same password twice'),
                   actions: <Widget>[
-                    FlatButton(
+                    TextButton(
                       child: Text('OK'),
                       onPressed: () {
                         Navigator.of(context).pop();

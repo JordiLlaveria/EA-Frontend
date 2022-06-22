@@ -8,6 +8,7 @@ import 'package:frontend/screens/home_screen.dart';
 import 'package:frontend/screens/register_screen.dart';
 import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/widgets/input_text.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -60,8 +61,8 @@ class _LoginFormState extends State<LoginForm> {
           ),
           SizedBox(
             width: double.infinity,
-            child: FlatButton(
-              color: Color.fromARGB(255, 231, 103, 11),
+            child: TextButton(
+              //color: Color.fromARGB(255, 231, 103, 11),
               onPressed: () async {
                 if (await service.login(_user, _password)) {
                   final route =
@@ -75,7 +76,7 @@ class _LoginFormState extends State<LoginForm> {
                             content: Text(
                                 'The User or Paswword do not match with any user in database'),
                             actions: <Widget>[
-                              FlatButton(
+                              TextButton(
                                 child: Text('OK'),
                                 onPressed: () {
                                   Navigator.of(context).pop();
@@ -104,7 +105,7 @@ class _LoginFormState extends State<LoginForm> {
                 'New in Xerra? Try to',
                 style: TextStyle(fontFamily: 'FredokaOne'),
               ),
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   final route =
                       MaterialPageRoute(builder: (context) => RegisterScreen());

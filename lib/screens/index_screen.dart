@@ -2,9 +2,11 @@ import 'dart:html';
 import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/app_screen.dart';
 import 'package:frontend/screens/register_screen.dart';
 import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/widgets/icon_container.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class IndexScreen extends StatefulWidget {
@@ -22,6 +24,9 @@ class _IndexScreenState extends State<IndexScreen> {
   GlobalKey key1 = GlobalKey();
   GlobalKey key2 = GlobalKey();
   GlobalKey key3 = GlobalKey();
+
+  bool isLogged = false;
+  String user = '';
 
   @override
   void initState() {
@@ -133,13 +138,13 @@ class _IndexScreenState extends State<IndexScreen> {
                     key: key1,
                     width: double.infinity,
                     height: 60.0,
-                    child: FlatButton(
+                    child: TextButton(
                       onPressed: () {
                         final route = MaterialPageRoute(
                             builder: (context) => LoginScreen());
                         Navigator.push(context, route);
                       },
-                      color: Color.fromARGB(255, 226, 174, 15),
+                      //color: Color.fromARGB(255, 226, 174, 15),
                       child: Text(
                         'SIGN IN',
                         style: TextStyle(
@@ -156,14 +161,14 @@ class _IndexScreenState extends State<IndexScreen> {
                     key: key2,
                     width: double.infinity,
                     height: 60.0,
-                    child: FlatButton(
+                    child: TextButton(
                       onPressed: () {
                         final route = MaterialPageRoute(
                             builder: (context) =>
                                 RegisterScreen()); //Canviar a Signup
                         Navigator.push(context, route);
                       },
-                      color: Color.fromARGB(255, 229, 28, 85),
+                      //color: Color.fromARGB(255, 229, 28, 85),
                       child: Text(
                         'SIGN UP',
                         style: TextStyle(
