@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/services/auth_service.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
-import 'package:frontend/widgets/getLocation_form.dart';
 import '../widgets/icon_container.dart';
 import '../widgets/register_form.dart';
 import 'app_screen.dart';
@@ -256,14 +255,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     height: 10.0,
                   ),
                   RegisterForm(keyName: keyName, keyUsername: keyUsername, keyLanguages: keyLanguages, keyButton: keyButton,),
-                  Divider(
-                    height: 10.0,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                    child: LocationForm(),
-                  )
                 ],
               )
             ],

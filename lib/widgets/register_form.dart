@@ -9,6 +9,7 @@ import 'package:frontend/services/storage_service.dart';
 import 'package:frontend/widgets/input_text.dart';
 import 'dart:developer';
 import 'package:file_picker/file_picker.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:multiselect_formfield/multiselect_formfield.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
@@ -247,7 +248,7 @@ class _RegisterFormState extends State<RegisterForm> {
               ),
               SizedBox(height: 20),
               InputText(
-                label: 'Write your location',
+                label: 'Your location',
                 hint: '[Longitude],[Latitude]',
                 keyboard: TextInputType.text,
                 icon: Icon(
@@ -257,6 +258,19 @@ class _RegisterFormState extends State<RegisterForm> {
                 onChanged: (data) {
                   location = data.split(',');
                 },
+              ),
+              Container(
+                child: Column(
+                  children: <Widget> [
+                    FlatButton(
+                      onPressed: () {
+                        _getCurrentLocation();
+                      },
+                      color: Colors.red,
+                      child: Text("Find My Location"),
+                    )
+                  ]
+                  ),
               ),
               SizedBox(height: 20),
               photoButton(
@@ -390,3 +404,9 @@ class _RegisterFormState extends State<RegisterForm> {
     return regExp.hasMatch(value);
   }
 }
+
+void _getCurrentLocation() async {
+  final cordenades = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  print(cordenades);
+}
+
