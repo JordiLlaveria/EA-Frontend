@@ -48,6 +48,19 @@ class _RegisterFormState extends State<RegisterForm> {
   late var fileName;
   late var fileBytes;
 
+  final _controller = TextEditingController();
+  
+  void onPressedMethod(String location){
+    _controller.text = location;
+    print(_controller.text);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   void _register() async {
     photo = fileName;
     _formKey.currentState!.save();
@@ -77,6 +90,7 @@ class _RegisterFormState extends State<RegisterForm> {
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
@@ -247,24 +261,19 @@ class _RegisterFormState extends State<RegisterForm> {
                 ),
               ),
               SizedBox(height: 20),
-              InputText(
+              locationInputText(
                 label: 'Your location',
-                hint: '[Longitude],[Latitude]',
-                keyboard: TextInputType.text,
-                icon: Icon(
-                  Icons.add_location_alt,
-                  color: Color.fromARGB(255, 255, 255, 255),
-                ),
                 onChanged: (data) {
                   location = data.split(',');
                 },
               ),
-              Container( //AQUI FAIG LA CRIDA A LA FUNCIÓ PER OBTENIR LES COORDENADES!
+              Container(
                 child: Column(
                   children: <Widget> [
                     FlatButton(
-                      onPressed: () {
-                        var data = _getCurrentLocation(); //LA FUNCIÓ ESTÀ AL FINAL DE TOT
+                      onPressed: () async {
+                        var location = await _getCurrentLocation();
+                        onPressedMethod(location.toString());
                       },
                       color: Colors.red,
                       child: Text("Find My Location"),
@@ -403,13 +412,41 @@ class _RegisterFormState extends State<RegisterForm> {
     RegExp regExp = new RegExp(pattern);
     return regExp.hasMatch(value);
   }
+
+  Widget locationInputText(
+      {required String label, required void Function(String data) onChanged}) {
+    return Container(
+      child: TextFormField(
+        onChanged: onChanged,
+        controller: _controller,
+        decoration: InputDecoration(
+            hintText: '[Longitude],[Latitude]',
+            labelText: label,
+            labelStyle: TextStyle(
+                color: Color.fromARGB(255, 238, 241, 243),
+                fontFamily: 'FredokaOne',
+                fontSize: 15.0),
+            suffixIcon:
+                Icon(Icons.add_location_alt, color: Color.fromARGB(255, 255, 255, 255)),
+            suffixIconColor: Colors.white,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+                borderRadius: BorderRadius.circular(20.0)),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.amber),
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            errorStyle: TextStyle(color: Colors.white)),
+      ),
+    );
+  }
 }
 
-//FUNCIÓ PER OBTENIR LES DADES
 Future<String> _getCurrentLocation() async {
   final cordenades = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-  print("${cordenades.latitude}, ${cordenades.longitude}"); //Funciona
-  String dades = "${cordenades.latitude}, ${cordenades.longitude}";
-  print(dades); //Funciona
-  return dades;
+  String cord = "${cordenades.latitude}, ${cordenades.longitude}";
+  return cord;
 }
