@@ -3,7 +3,7 @@ import 'package:geojson/geojson.dart';
 import 'package:geopoint/geopoint.dart';
 
 class User {
-  String? id;
+  String id = "";
   String name;
   String surname;
   String username;
@@ -12,13 +12,15 @@ class User {
   String phone;
   String photo;
   List<dynamic> languages;
+  List<dynamic>? peopleliked;
+  List<dynamic>? peopledisliked;
   Location location;
   bool nolike;
   bool like;
   bool fromGoogle;
 
   User(
-      {this.id,
+      {this.id = "",
       required this.name,
       required this.surname,
       required this.username,
@@ -28,6 +30,8 @@ class User {
       required this.photo,
       required this.languages,
       required this.location,
+      this.peopleliked,
+      this.peopledisliked,
       required this.fromGoogle,
       this.nolike = false,
       this.like = false});
@@ -43,6 +47,8 @@ class User {
         phone: json['phone'],
         photo: json['photo'],
         languages: json['languages']!,
+        peopleliked: json['peopleliked']!,
+        peopledisliked: json['peopledisliked']!),
         location: Location.fromJson(json['location'])),
         fromGoogle: json['fromGoogle']);
   }
@@ -59,6 +65,8 @@ class User {
       'photo': user.photo,
       'languages': user.languages,
       'location': location,
+      'peopleliked': user.peopleliked,
+      'peopledisliked': user.peopledisliked
       'fromGoogle': user.fromGoogle
     };
   }

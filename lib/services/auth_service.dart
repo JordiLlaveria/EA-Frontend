@@ -55,7 +55,7 @@ class AuthService {
     }
     print("Register request has already been done");
     if (res.statusCode == 200) {
-      print("Status 200 received");
+      //print("Status 200 received");
       var token = Token.fromJson(await jsonDecode(res.body));
       storage.setItem('token', token.toString());
       Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
@@ -78,7 +78,7 @@ class AuthService {
       print("User logged correctly");
       var token = Token.fromJson(await jsonDecode(res.body));
       storage.setItem('token', token.toString());
-      print("The token of the user is " + token.toString());
+      //print("The token of the user is " + token.toString());
       Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
       storage.setItem('userID', payload['id']);
       print("The id of the user is " + payload['id']);

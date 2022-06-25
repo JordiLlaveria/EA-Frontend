@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:frontend/services/storage_service.dart';
 import '../models/location_model.dart';
 import '../models/user_model.dart';
-import '../widgets/bottom_search_user.dart';
 
 class SearchUserForm extends StatefulWidget {
   final User user;
@@ -23,7 +22,7 @@ class _SearchUserState extends State<SearchUserForm> {
   _SearchUserState({required this.user});
   @override
   Widget build(BuildContext context) {
-    print("The user shown is " + user.username);
+    //print("The user shown is " + user.username);
     return Center(
         child: Container(
       height: MediaQuery.of(context).size.height / 1.2,
