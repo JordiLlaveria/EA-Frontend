@@ -54,7 +54,6 @@ class _SearchScreenState extends State<SearchScreen> {
     id = storage.getItem('userID');
     token = storage.getItem('token');
     userselected = await UserService.getUserByID(id);
-    print("The userselected is " + userselected.name);
     peopleliked = userselected.peopleliked!;
     peopledisliked = userselected.peopledisliked!;
   }
@@ -342,7 +341,6 @@ class _SearchScreenState extends State<SearchScreen> {
     if (movement > minimumDrag) {
       peopleliked.add(user.id);
     } else if (movement < -minimumDrag) {
-      print('The user unliked is ' + user.name);
       peopledisliked.add(user.id);
     }
     print('I am going to update user');
@@ -363,7 +361,6 @@ class _SearchScreenState extends State<SearchScreen> {
       //   }
       // }
     } else if (details.offset.dx < -minimumDrag) {
-      print('The user unliked is ' + user.name);
       peopledisliked.add(user.id);
     }
     print('I am going to update user');

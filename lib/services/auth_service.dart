@@ -4,6 +4,7 @@ import 'package:localstorage/localstorage.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:developer';
+import '../models/location_model.dart';
 import '../models/user_model.dart';
 
 class AuthService {
@@ -18,42 +19,24 @@ class AuthService {
       String? username,
       String password,
       String? email,
-      String? phone,
+      String phone,
       List<String> location,
       List<String> languages,
       String? photo,
       bool withGoogle) async {
+    if(name!=null && surname!=null && username!=null && email!=null && photo!=null){
+    Location newLocation =  Location(type: "Point", coordinates: location);    
     var res;
-    print(location);
-    print("Location printed");
     if (withGoogle == true) {
+      User user = User(name: name, surname: surname, username: username, password: password, email: email, phone: phone, photo: photo, location: newLocation, languages: languages, fromGoogle:true);
       res = await http.post(Uri.parse(baseURL + '/registerGoogle'),
           headers: {'content-type': 'application/json'},
-          body: json.encode({
-            "name": name,
-            "surname": surname,
-            "username": username,
-            "password": password,
-            "mail": email,
-            "phone": phone,
-            "location": location,
-            "languages": languages,
-            "photo": photo
-          }));
-    } else {
+          body: json.encode(User.toJson(user)));
+    } else {      
+      User user = User(name: name, surname: surname, username: username, password: password, email: email, phone: phone, photo: photo, location: newLocation, languages: languages, fromGoogle:false);
       res = await http.post(Uri.parse(baseURL + '/register'),
           headers: {'content-type': 'application/json'},
-          body: json.encode({
-            "name": name,
-            "surname": surname,
-            "username": username,
-            "password": password,
-            "mail": email,
-            "phone": phone,
-            "location": location,
-            "languages": languages,
-            "photo": photo
-          }));
+          body: json.encode(User.toJson(user)));
     }
     print("Register request has already been done");
     if (res.statusCode == 200) {
@@ -70,8 +53,13 @@ class AuthService {
       await sharedPreferences.setString('userId', payload['id']);
       return true;
     }
+    else{
+      return false;
+    }    
+    }
     return false;
   }
+  
 
   Future<bool> login(String username, String password) async {
     var res = await http.post(Uri.parse(baseURL + '/login'),

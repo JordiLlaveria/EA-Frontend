@@ -420,7 +420,7 @@ class _RegisterFormState extends State<RegisterForm> {
         onChanged: onChanged,
         controller: _controller,
         decoration: InputDecoration(
-            hintText: '[Longitude],[Latitude]',
+            hintText: 'Longitude, Latitude',
             labelText: label,
             labelStyle: TextStyle(
                 color: Color.fromARGB(255, 238, 241, 243),
