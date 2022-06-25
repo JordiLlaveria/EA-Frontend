@@ -15,6 +15,7 @@ class User {
   Location location;
   bool nolike;
   bool like;
+  bool fromGoogle;
 
   User(
       {this.id,
@@ -27,6 +28,7 @@ class User {
       required this.photo,
       required this.languages,
       required this.location,
+      required this.fromGoogle,
       this.nolike = false,
       this.like = false});
 
@@ -41,8 +43,8 @@ class User {
         phone: json['phone'],
         photo: json['photo'],
         languages: json['languages']!,
-        location: Location.fromJson(json['location'])
-        );
+        location: Location.fromJson(json['location'])),
+        fromGoogle: json['fromGoogle']);
   }
 
   static Map<String, dynamic> toJson(User user) {
@@ -57,6 +59,7 @@ class User {
       'photo': user.photo,
       'languages': user.languages,
       'location': location,
+      'fromGoogle': user.fromGoogle
     };
   }
 }

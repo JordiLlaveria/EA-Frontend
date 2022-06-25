@@ -7,35 +7,52 @@ import 'dart:developer';
 import '../models/user_model.dart';
 
 class AuthService {
-  static const apiURL = String.fromEnvironment('API_URL',
-      defaultValue:
-          'http://localhost:3000');
+  static const apiURL =
+      String.fromEnvironment('API_URL', defaultValue: 'http://localhost:3000');
   var baseURL = apiURL + "/api/auth";
   final LocalStorage storage = LocalStorage('Users');
 
   Future<bool> register(
-      String name,
-      String surname,
-      String username,
+      String? name,
+      String? surname,
+      String? username,
       String password,
-      String email,
-      String phone,
+      String? email,
+      String? phone,
       List<String> location,
       List<String> languages,
-      String photo) async {
-    var res = await http.post(Uri.parse(baseURL + '/register'),
-        headers: {'content-type': 'application/json'},
-        body: json.encode({
-          "name": name,
-          "surname": surname,
-          "username": username,
-          "password": password,
-          "mail": email,
-          "phone": phone,
-          "location": location,
-          "languages": languages,
-          "photo": photo
-        }));
+      String? photo,
+      bool withGoogle) async {
+    var res;
+    if (withGoogle == true) {
+      res = await http.post(Uri.parse(baseURL + '/registerGoogle'),
+          headers: {'content-type': 'application/json'},
+          body: json.encode({
+            "name": name,
+            "surname": surname,
+            "username": username,
+            "password": password,
+            "mail": email,
+            "phone": phone,
+            "location": location,
+            "languages": languages,
+            "photo": photo
+          }));
+    } else {
+      res = await http.post(Uri.parse(baseURL + '/register'),
+          headers: {'content-type': 'application/json'},
+          body: json.encode({
+            "name": name,
+            "surname": surname,
+            "username": username,
+            "password": password,
+            "mail": email,
+            "phone": phone,
+            "location": location,
+            "languages": languages,
+            "photo": photo
+          }));
+    }
     print("Register request has already been done");
     if (res.statusCode == 200) {
       print("Status 200 received");
