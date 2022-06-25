@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/services/storage_service.dart';
+import '../models/location_model.dart';
 import '../models/user_model.dart';
 import '../widgets/bottom_search_user.dart';
 
@@ -156,7 +157,7 @@ class _SearchUserState extends State<SearchUserForm> {
           SizedBox(height: 1),
           Expanded(
               child: Text(
-            languages = GetLocations(user.languages),
+            languages = GetLanguages(user.languages),
             semanticsLabel: '${languages}',
             style: TextStyle(color: Colors.white),
           )),
@@ -164,20 +165,20 @@ class _SearchUserState extends State<SearchUserForm> {
       ));
 }
 
-String GetLocations(List<dynamic> locations) {
+String GetLocations(Location locations) {
   String location = "";
-  location = locations[0];
-  for (var i = 1; i < locations.length; i++) {
-    location = location + ", " + locations[i];
+  location = locations.coordinates[0].toString();
+  for (var i = 1; i < locations.coordinates.length; i++) {
+    location = location + ", " + locations.coordinates[i].toString();
   }
   return location;
 }
 
-String GetLanguages(List<dynamic> languages) {
+String GetLanguages(List<dynamic> languagesList) {
   String languages = "";
-  languages = languages[0];
-  for (var i = 1; i < languages.length; i++) {
-    languages = languages + ", " + languages[i];
+  languages = languagesList[0];
+  for (var i = 1; i < languagesList.length; i++) {
+    languages = languages + ", " + languagesList[i];
   }
   return languages;
 }
