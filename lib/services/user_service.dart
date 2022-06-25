@@ -42,5 +42,17 @@ class UserService {
         headers: {'content-type': 'application/json', 'x-access-token': token},
         body: json.encode(
             {"peopleliked": peopleliked, "peopledisliked": peopledisliked}));
+
+  static Future<List<User>> getUsersByDistance(String distance, String id) async {
+    var res = await http.get(Uri.parse(baseURL + '/' + id + '/distance/' + distance));    
+    List<User> allUsers = [];
+    if (res.statusCode == 200) {   
+      var decoded = jsonDecode(res.body);
+      decoded.forEach((customer) => allUsers.add(User.fromJson(customer)));
+      print("Users by distance get correct");      
+      return allUsers;
+    }
+    return [];
+
   }
 }

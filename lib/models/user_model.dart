@@ -1,3 +1,7 @@
+import 'package:frontend/models/location_model.dart';
+import 'package:geojson/geojson.dart';
+import 'package:geopoint/geopoint.dart';
+
 class User {
   String id = "";
   String name;
@@ -8,9 +12,12 @@ class User {
   String phone;
   String photo;
   List<dynamic> languages;
-  List<dynamic> location;
   List<dynamic>? peopleliked;
   List<dynamic>? peopledisliked;
+  Location location;
+  bool nolike;
+  bool like;
+  bool fromGoogle;
 
   User(
       {this.id = "",
@@ -24,7 +31,10 @@ class User {
       required this.languages,
       required this.location,
       this.peopleliked,
-      this.peopledisliked});
+      this.peopledisliked,
+      required this.fromGoogle,
+      this.nolike = false,
+      this.like = false});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
@@ -37,12 +47,14 @@ class User {
         phone: json['phone'],
         photo: json['photo'],
         languages: json['languages']!,
-        location: json['location']!,
         peopleliked: json['peopleliked']!,
-        peopledisliked: json['peopledisliked']!);
+        peopledisliked: json['peopledisliked']!),
+        location: Location.fromJson(json['location'])),
+        fromGoogle: json['fromGoogle']);
   }
 
   static Map<String, dynamic> toJson(User user) {
+    Map location = Location.toJson(user.location);
     return {
       'name': user.name,
       'surname': user.surname,
@@ -52,9 +64,10 @@ class User {
       'phone': user.phone,
       'photo': user.photo,
       'languages': user.languages,
-      'location': user.location,
+      'location': location,
       'peopleliked': user.peopleliked,
       'peopledisliked': user.peopledisliked
+      'fromGoogle': user.fromGoogle
     };
   }
 }

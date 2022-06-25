@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:localstorage/localstorage.dart';
 import 'package:jwt_decode/jwt_decode.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:developer';
 import '../models/user_model.dart';
 
@@ -12,29 +13,47 @@ class AuthService {
   final LocalStorage storage = LocalStorage('Users');
 
   Future<bool> register(
-      String name,
-      String surname,
-      String username,
+      String? name,
+      String? surname,
+      String? username,
       String password,
-      String email,
-      String phone,
+      String? email,
+      String? phone,
       List<String> location,
       List<String> languages,
-      String photo) async {
-    var res = await http.post(Uri.parse(baseURL + '/register'),
-        headers: {'content-type': 'application/json'},
-        body: json.encode({
-          "name": name,
-          "surname": surname,
-          "username": username,
-          "password": password,
-          "mail": email,
-          "phone": phone,
-          "location": location,
-          "languages": languages,
-          "photo": photo
-        }));
-    //print("Register request has already been done");
+      String? photo,
+      bool withGoogle) async {
+    var res;
+    if (withGoogle == true) {
+      res = await http.post(Uri.parse(baseURL + '/registerGoogle'),
+          headers: {'content-type': 'application/json'},
+          body: json.encode({
+            "name": name,
+            "surname": surname,
+            "username": username,
+            "password": password,
+            "mail": email,
+            "phone": phone,
+            "location": location,
+            "languages": languages,
+            "photo": photo
+          }));
+    } else {
+      res = await http.post(Uri.parse(baseURL + '/register'),
+          headers: {'content-type': 'application/json'},
+          body: json.encode({
+            "name": name,
+            "surname": surname,
+            "username": username,
+            "password": password,
+            "mail": email,
+            "phone": phone,
+            "location": location,
+            "languages": languages,
+            "photo": photo
+          }));
+    }
+    print("Register request has already been done");
     if (res.statusCode == 200) {
       //print("Status 200 received");
       var token = Token.fromJson(await jsonDecode(res.body));
@@ -42,8 +61,11 @@ class AuthService {
       Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
       storage.setItem('userID', payload['id']);
       storage.setItem('username', payload['username']);
-      return true;
-    }
+      final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      await sharedPreferences.setString('user',payload['username']);
+      await sharedPreferences.setString('userId', payload['id']);
+      return true;  
+    } 
     return false;
   }
 
@@ -62,6 +84,10 @@ class AuthService {
       print("The id of the user is " + payload['id']);
       storage.setItem('username', payload['username']);
       print("The username of the user is " + payload['username']);
+
+      final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      await sharedPreferences.setString('user',payload['username']);
+      await sharedPreferences.setString('userId', payload['id']);
       return true;
     }
     return false;

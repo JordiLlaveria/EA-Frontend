@@ -9,6 +9,7 @@ import 'package:frontend/services/storage_service.dart';
 import 'package:frontend/widgets/input_text.dart';
 import 'dart:developer';
 import 'package:file_picker/file_picker.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:multiselect_formfield/multiselect_formfield.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
@@ -47,13 +48,26 @@ class _RegisterFormState extends State<RegisterForm> {
   late var fileName;
   late var fileBytes;
 
+  final _controller = TextEditingController();
+  
+  void onPressedMethod(String location){
+    _controller.text = location;
+    print(_controller.text);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   void _register() async {
     photo = fileName;
     _formKey.currentState!.save();
     if (_formKey.currentState!.validate()) {
       if (password1 == password2) {
         if (await service.register(name, surname, username, password1, email,
-            phone, location, _myLanguages!.cast<String>(), photo)) {
+            phone, location, _myLanguages!.cast<String>(), photo, false)) {
           final route = MaterialPageRoute(builder: (context) => AppScreen());
           Navigator.push(context, route);
         }
@@ -64,7 +78,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   title: Text('PASSWORD IS NOT THE SAME'),
                   content: Text('Please write the same password twice'),
                   actions: <Widget>[
-                    FlatButton(
+                    TextButton(
                       child: Text('OK'),
                       onPressed: () {
                         Navigator.of(context).pop();
@@ -76,6 +90,7 @@ class _RegisterFormState extends State<RegisterForm> {
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
@@ -246,17 +261,25 @@ class _RegisterFormState extends State<RegisterForm> {
                 ),
               ),
               SizedBox(height: 20),
-              InputText(
-                label: 'Write your location',
-                hint: '[Longitude],[Latitude]',
-                keyboard: TextInputType.text,
-                icon: Icon(
-                  Icons.add_location_alt,
-                  color: Color.fromARGB(255, 255, 255, 255),
-                ),
+              locationInputText(
+                label: 'Your location',
                 onChanged: (data) {
                   location = data.split(',');
                 },
+              ),
+              Container(
+                child: Column(
+                  children: <Widget> [
+                    FlatButton(
+                      onPressed: () async {
+                        var location = await _getCurrentLocation();
+                        onPressedMethod(location.toString());
+                      },
+                      color: Colors.red,
+                      child: Text("Find My Location"),
+                    )
+                  ]
+                  ),
               ),
               SizedBox(height: 20),
               photoButton(
@@ -338,7 +361,6 @@ class _RegisterFormState extends State<RegisterForm> {
       // upload file
       await FirebaseStorage.instance.ref('ea/$fileName').putData(fileBytes!);
     }
-
     storage.uploadFile(fileBytes, fileName).then((value) => print('Done'));
   }
 
@@ -389,4 +411,41 @@ class _RegisterFormState extends State<RegisterForm> {
     RegExp regExp = new RegExp(pattern);
     return regExp.hasMatch(value);
   }
+
+  Widget locationInputText(
+      {required String label, required void Function(String data) onChanged}) {
+    return Container(
+      child: TextFormField(
+        onChanged: onChanged,
+        controller: _controller,
+        decoration: InputDecoration(
+            hintText: '[Longitude],[Latitude]',
+            labelText: label,
+            labelStyle: TextStyle(
+                color: Color.fromARGB(255, 238, 241, 243),
+                fontFamily: 'FredokaOne',
+                fontSize: 15.0),
+            suffixIcon:
+                Icon(Icons.add_location_alt, color: Color.fromARGB(255, 255, 255, 255)),
+            suffixIconColor: Colors.white,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+                borderRadius: BorderRadius.circular(20.0)),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.amber),
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            errorStyle: TextStyle(color: Colors.white)),
+      ),
+    );
+  }
+}
+
+Future<String> _getCurrentLocation() async {
+  final cordenades = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  String cord = "${cordenades.latitude}, ${cordenades.longitude}";
+  return cord;
 }
