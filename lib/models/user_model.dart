@@ -48,8 +48,8 @@ class User {
         photo: json['photo'],
         languages: json['languages']!,
         peopleliked: json['peopleliked']!,
-        peopledisliked: json['peopledisliked']!),
-        location: Location.fromJson(json['location'])),
+        peopledisliked: json['peopledisliked']!,
+        location: Location.fromJson(json['location']),
         fromGoogle: json['fromGoogle']);
   }
 
@@ -66,7 +66,7 @@ class User {
       'languages': user.languages,
       'location': location,
       'peopleliked': user.peopleliked,
-      'peopledisliked': user.peopledisliked
+      'peopledisliked': user.peopledisliked,
       'fromGoogle': user.fromGoogle
     };
   }
