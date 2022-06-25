@@ -44,13 +44,13 @@ class _RegisterFormState extends State<RegisterForm> {
   late String phone;
   late String photo;
   late List? _myLanguages = [];
-  late List<String> location;
+  late List<String> location = [];
   late var fileName;
   late var fileBytes;
 
   final _controller = TextEditingController();
-  
-  void onPressedMethod(String location){
+
+  void onPressedMethod(String location) {
     _controller.text = location;
     print(_controller.text);
   }
@@ -268,18 +268,19 @@ class _RegisterFormState extends State<RegisterForm> {
                 },
               ),
               Container(
-                child: Column(
-                  children: <Widget> [
-                    FlatButton(
-                      onPressed: () async {
-                        var location = await _getCurrentLocation();
-                        onPressedMethod(location.toString());
-                      },
-                      color: Colors.red,
-                      child: Text("Find My Location"),
-                    )
-                  ]
-                  ),
+                child: Column(children: <Widget>[
+                  FlatButton(
+                    onPressed: () async {
+                      var locationstring = await _getCurrentLocation();
+                      var parts = locationstring.split(',');
+                      location.add(parts[0].trim());
+                      location.add(parts[1].trim());
+                      onPressedMethod(location.toString());
+                    },
+                    color: Colors.red,
+                    child: Text("Find My Location"),
+                  )
+                ]),
               ),
               SizedBox(height: 20),
               photoButton(
@@ -425,8 +426,8 @@ class _RegisterFormState extends State<RegisterForm> {
                 color: Color.fromARGB(255, 238, 241, 243),
                 fontFamily: 'FredokaOne',
                 fontSize: 15.0),
-            suffixIcon:
-                Icon(Icons.add_location_alt, color: Color.fromARGB(255, 255, 255, 255)),
+            suffixIcon: Icon(Icons.add_location_alt,
+                color: Color.fromARGB(255, 255, 255, 255)),
             suffixIconColor: Colors.white,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20.0),
@@ -445,7 +446,9 @@ class _RegisterFormState extends State<RegisterForm> {
 }
 
 Future<String> _getCurrentLocation() async {
-  final cordenades = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  final cordenades = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high);
   String cord = "${cordenades.latitude}, ${cordenades.longitude}";
+  print(cord);
   return cord;
 }

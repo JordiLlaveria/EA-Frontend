@@ -24,6 +24,8 @@ class AuthService {
       String? photo,
       bool withGoogle) async {
     var res;
+    print(location);
+    print("Location printed");
     if (withGoogle == true) {
       res = await http.post(Uri.parse(baseURL + '/registerGoogle'),
           headers: {'content-type': 'application/json'},
@@ -57,15 +59,17 @@ class AuthService {
     if (res.statusCode == 200) {
       //print("Status 200 received");
       var token = Token.fromJson(await jsonDecode(res.body));
+      print('The token is ' + token.toString());
       storage.setItem('token', token.toString());
       Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
       storage.setItem('userID', payload['id']);
       storage.setItem('username', payload['username']);
-      final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-      await sharedPreferences.setString('user',payload['username']);
+      final SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      await sharedPreferences.setString('user', payload['username']);
       await sharedPreferences.setString('userId', payload['id']);
-      return true;  
-    } 
+      return true;
+    }
     return false;
   }
 
@@ -85,8 +89,9 @@ class AuthService {
       storage.setItem('username', payload['username']);
       print("The username of the user is " + payload['username']);
 
-      final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-      await sharedPreferences.setString('user',payload['username']);
+      final SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      await sharedPreferences.setString('user', payload['username']);
       await sharedPreferences.setString('userId', payload['id']);
       return true;
     }

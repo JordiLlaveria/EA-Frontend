@@ -58,22 +58,6 @@ class _SearchUserState extends State<SearchUserForm> {
                       alignment: Alignment.bottomCenter,
                       child: UserInformation(user: user)),
                 ),
-                Center(
-                    child: ElevatedButton.icon(
-                        icon: Icon(
-                          Icons.add,
-                          color: Colors.white,
-                          size: 30.0,
-                        ),
-                        label: Text('See profile'),
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.transparent,
-                          shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(20.0),
-                          ),
-                        ))),
-                SizedBox(height: 10),
               ],
             ),
           ]),

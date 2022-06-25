@@ -1,6 +1,7 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/widgets/input_text.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:multiselect_formfield/multiselect_formfield.dart';
 import '../screens/app_screen.dart';
 import '../services/auth_service.dart';
@@ -30,6 +31,13 @@ class RegisterGoogleForm extends StatefulWidget {
       email: email);
 }
 
+final _controller = TextEditingController();
+
+void onPressedMethod(String location) {
+  _controller.text = location;
+  print(_controller.text);
+}
+
 class _RegisterGoogleFormState extends State<RegisterGoogleForm> {
   String? name;
   String? surname;
@@ -39,7 +47,7 @@ class _RegisterGoogleFormState extends State<RegisterGoogleForm> {
   late String password = "Google";
   late String phone;
   late List? _myLanguages = [];
-  late List<String> location;
+  late List<String> location = [];
   late String photoName = name! + "" + surname! + ".jpg";
   _RegisterGoogleFormState(
       {required this.name,
@@ -215,18 +223,28 @@ class _RegisterGoogleFormState extends State<RegisterGoogleForm> {
                 ),
               ),
               SizedBox(height: 20),
-              InputText(
-                label: 'Write your location',
-                hint: '[Longitude],[Latitude]',
-                keyboard: TextInputType.text,
-                icon: Icon(
-                  Icons.add_location_alt,
-                  color: Color.fromARGB(255, 255, 255, 255),
-                ),
+              locationInputText(
+                label: 'Your location',
                 onChanged: (data) {
                   location = data.split(',');
                 },
               ),
+              Container(
+                child: Column(children: <Widget>[
+                  FlatButton(
+                    onPressed: () async {
+                      var locationstring = await _getCurrentLocation();
+                      var parts = locationstring.split(',');
+                      location.add(parts[0].trim());
+                      location.add(parts[1].trim());
+                      onPressedMethod(location.toString());
+                    },
+                    color: Colors.red,
+                    child: Text("Find My Location"),
+                  )
+                ]),
+              ),
+              SizedBox(height: 20),
             ]),
           ),
           SizedBox(height: 20),
@@ -258,4 +276,43 @@ class _RegisterGoogleFormState extends State<RegisterGoogleForm> {
       ),
     );
   }
+
+  Widget locationInputText(
+      {required String label, required void Function(String data) onChanged}) {
+    return Container(
+      child: TextFormField(
+        onChanged: onChanged,
+        controller: _controller,
+        decoration: InputDecoration(
+            hintText: '[Longitude],[Latitude]',
+            labelText: label,
+            labelStyle: TextStyle(
+                color: Color.fromARGB(255, 238, 241, 243),
+                fontFamily: 'FredokaOne',
+                fontSize: 15.0),
+            suffixIcon: Icon(Icons.add_location_alt,
+                color: Color.fromARGB(255, 255, 255, 255)),
+            suffixIconColor: Colors.white,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+                borderRadius: BorderRadius.circular(20.0)),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.amber),
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            errorStyle: TextStyle(color: Colors.white)),
+      ),
+    );
+  }
+}
+
+Future<String> _getCurrentLocation() async {
+  final cordenades = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high);
+  String cord = "${cordenades.latitude}, ${cordenades.longitude}";
+  print(cord);
+  return cord;
 }

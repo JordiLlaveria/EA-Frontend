@@ -87,7 +87,8 @@ class _SearchScreenState extends State<SearchScreen> {
           }
         }
       }
-      if (languageselected != null) {
+      if (languageselected != null &&
+          languageselected != 'No language filter') {
         matchlanguage = false;
         for (int j = 0; j < usersAPI[i].languages.length; j++) {
           if (usersAPI[i].languages[j] == languageselected) {
@@ -180,7 +181,8 @@ class _SearchScreenState extends State<SearchScreen> {
       'Italian',
       'German',
       'Portuguese',
-      'Russian'
+      'Russian',
+      'No language filter'
     ];
     return Container(
         height: MediaQuery.of(context).size.height / 20,
@@ -209,33 +211,34 @@ class _SearchScreenState extends State<SearchScreen> {
                 items: languages.map(buildMenuItem).toList(),
                 onChanged: (value) => setState(() {
                   languageselected = value;
-                  getUser();
+                  usersToShow = [];
+                  //getUser();
                   getUsers();
                   build(context);
                 }),
               )),
             ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  primary: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(40),
-                  )),
-              onPressed: () {
-                // style:
-                // ButtonStyle(overlayColor: MaterialStateProperty.resolveWith<Color?>(
-                //   (Set<MaterialState> states) {
-                //     if (states.contains(MaterialState.pressed)) return Colors.green;
-                //     return null;
-                //   },
-                // ));
-                // final route = MaterialPageRoute(
-                //     builder: (context) => FilterUser(users: usersToShow));
-                // Navigator.push(context, route);
-              },
-              child: Icon(Icons.filter_alt_rounded, color: Colors.grey),
-            ),
+            // ElevatedButton(
+            //   style: ElevatedButton.styleFrom(
+            //       primary: Colors.white,
+            //       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(40),
+            //       )),
+            //   onPressed: () {
+            //     // style:
+            //     // ButtonStyle(overlayColor: MaterialStateProperty.resolveWith<Color?>(
+            //     //   (Set<MaterialState> states) {
+            //     //     if (states.contains(MaterialState.pressed)) return Colors.green;
+            //     //     return null;
+            //     //   },
+            //     // ));
+            //     // final route = MaterialPageRoute(
+            //     //     builder: (context) => FilterUser(users: usersToShow));
+            //     // Navigator.push(context, route);
+            //   },
+            //   child: Icon(Icons.filter_alt_rounded, color: Colors.grey),
+            // ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                   primary: Colors.white,
@@ -273,7 +276,8 @@ class _SearchScreenState extends State<SearchScreen> {
       'Italian',
       'German',
       'Portuguese',
-      'Russian'
+      'Russian',
+      'No language filter'
     ];
     return Container(
         height: MediaQuery.of(context).size.height / 20,
@@ -295,16 +299,16 @@ class _SearchScreenState extends State<SearchScreen> {
                 }),
               )),
             ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  primary: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(40),
-                  )),
-              onPressed: () {},
-              child: Icon(Icons.filter_alt_rounded, color: Colors.grey),
-            ),
+            // ElevatedButton(
+            //   style: ElevatedButton.styleFrom(
+            //       primary: Colors.white,
+            //       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(40),
+            //       )),
+            //   onPressed: () {},
+            //   child: Icon(Icons.filter_alt_rounded, color: Colors.grey),
+            // ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                   primary: Colors.white,
@@ -370,18 +374,4 @@ class _SearchScreenState extends State<SearchScreen> {
 
   DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
       value: item, child: Text(item, style: TextStyle(fontSize: 20)));
-
-  // MaterialStateProperty<Color>? getColor(Color color, Color colorpressed) {
-  //   final getColor = (Set<MaterialState> states) {
-  //     if (states.contains(MaterialState.pressed)) {
-  //       return colorpressed;
-  //     } else {
-  //       return color;
-  //     }
-  //   };
-  // }
-
-  // String findPositionIfExists(User user) {
-  //   return "";
-  // }
 }
