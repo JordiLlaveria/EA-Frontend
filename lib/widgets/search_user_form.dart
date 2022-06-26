@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/services/storage_service.dart';
+import '../models/location_model.dart';
 import '../models/user_model.dart';
-import '../widgets/bottom_search_user.dart';
 
 class SearchUserForm extends StatefulWidget {
   final User user;
@@ -22,28 +22,14 @@ class _SearchUserState extends State<SearchUserForm> {
   _SearchUserState({required this.user});
   @override
   Widget build(BuildContext context) {
-    print("The user shown is " + user.username);
+    //print("The user shown is " + user.username);
     return Center(
         child: Container(
       height: MediaQuery.of(context).size.height / 1.2,
       width: MediaQuery.of(context).size.width / 1.2,
       child: Stack(
         children: [
-          Scaffold(
-              body: FutureBuilder(
-                  future: storage.downloadURL(user.photo),
-                  builder:
-                      (BuildContext context, AsyncSnapshot<String> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done &&
-                        snapshot.hasData) {
-                      return Container(
-                          height: MediaQuery.of(context).size.height,
-                          width: MediaQuery.of(context).size.width,
-                          child:
-                              Image.network(snapshot.data!, fit: BoxFit.cover));
-                    }
-                    return Container();
-                  })),
+          ShowImage(user),
           Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
@@ -72,32 +58,36 @@ class _SearchUserState extends State<SearchUserForm> {
                       alignment: Alignment.bottomCenter,
                       child: UserInformation(user: user)),
                 ),
-                Center(
-                    child: ElevatedButton.icon(
-                        icon: Icon(
-                          Icons.add,
-                          color: Colors.white,
-                          size: 30.0,
-                        ),
-                        label: Text('See profile'),
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.transparent,
-                          shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(20.0),
-                          ),
-                        ))),
-                SizedBox(height: 10),
-                // Padding(
-                //   padding: EdgeInsets.only(bottom: 16, right: 8),
-                //   child: Icon(Icons.info, color: Colors.white),
-                // )
               ],
             ),
           ]),
         ],
       ),
     ));
+  }
+
+  Widget ShowImage(User user) {
+    if (user.fromGoogle == true) {
+      return Scaffold(
+          body: Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: Image.network(user.photo, fit: BoxFit.cover)));
+    } else {
+      return Scaffold(
+          body: FutureBuilder(
+              future: storage.downloadURL(user.photo),
+              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                if (snapshot.connectionState == ConnectionState.done &&
+                    snapshot.hasData) {
+                  return Container(
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                      child: Image.network(snapshot.data!, fit: BoxFit.cover));
+                }
+                return Container();
+              }));
+    }
   }
 
   Widget EmptySpace() => Padding(
@@ -150,7 +140,7 @@ class _SearchUserState extends State<SearchUserForm> {
           SizedBox(height: 1),
           Expanded(
               child: Text(
-            languages = GetLocations(user.languages),
+            languages = GetLanguages(user.languages),
             semanticsLabel: '${languages}',
             style: TextStyle(color: Colors.white),
           )),
@@ -158,20 +148,20 @@ class _SearchUserState extends State<SearchUserForm> {
       ));
 }
 
-String GetLocations(List<dynamic> locations) {
+String GetLocations(Location locations) {
   String location = "";
-  location = locations[0];
-  for (var i = 1; i < locations.length; i++) {
-    location = location + ", " + locations[i];
+  location = locations.coordinates[0].toString();
+  for (var i = 1; i < locations.coordinates.length; i++) {
+    location = location + ", " + locations.coordinates[i].toString();
   }
   return location;
 }
 
-String GetLanguages(List<dynamic> languages) {
+String GetLanguages(List<dynamic> languagesList) {
   String languages = "";
-  languages = languages[0];
-  for (var i = 1; i < languages.length; i++) {
-    languages = languages + ", " + languages[i];
+  languages = languagesList[0];
+  for (var i = 1; i < languagesList.length; i++) {
+    languages = languages + ", " + languagesList[i];
   }
   return languages;
 }

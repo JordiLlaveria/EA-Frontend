@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/services/auth_service.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
-
 import '../widgets/icon_container.dart';
 import '../widgets/register_form.dart';
 import 'app_screen.dart';
@@ -26,7 +25,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   void initState() {
     initTarget();
-    WidgetsBinding.instance.addPostFrameCallback(_afterlayaout);
+    WidgetsBinding.instance?.addPostFrameCallback(_afterlayaout);
     super.initState();
   }
 
@@ -225,17 +224,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Divider(
                     height: 10.0,
                   ),
-                  RegisterForm(
-                    keyName: keyName,
-                    keyUsername: keyUsername,
-                    keyLanguages: keyLanguages,
-                    keyButton: keyButton,
-                  )
+                  RegisterForm(keyName: keyName, keyUsername: keyUsername, keyLanguages: keyLanguages, keyButton: keyButton,),
                 ],
               )
             ],
           ),
-        ),
+        ),       
       ),
     );
   }

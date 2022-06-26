@@ -8,6 +8,7 @@ import 'package:frontend/screens/chat_screen.dart';
 import 'package:frontend/screens/home_screen.dart';
 import 'package:frontend/screens/user_activities.dart';
 import 'package:frontend/screens/videocall_screen.dart';
+ 
 import 'package:localstorage/localstorage.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
@@ -95,12 +96,170 @@ class _AppScreenState extends State<AppScreen> {
                         color: Colors.redAccent,
                         fontSize: 20,
                       ),
+                    )
+                  ]
+                  )                
+                )
+              )
+            ]
+        )
+    );
+
+    targets.add(
+        TargetFocus(
+            identify: "Home",
+            keyTarget: keyHome,
+            shape: ShapeLightFocus.Circle,
+            enableOverlayTab: true,
+            contents: [
+              TargetContent(
+                  align: ContentAlign.top,
+                  child: Container(
+                    child:Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Icon(Icons.home_filled, color: Colors.redAccent, size: 150),                        
+                                               
+                        Text(
+                          "HOME SCREEN",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black54,
+                            fontSize: 30.0,
+                            fontFamily: 'FredokaOne'                            
+                          ),
+                        ),
+                        Text("In the home screen you can find all the activities around you and sign in to the ones you like",
+                            style: TextStyle(
+                                color: Colors.redAccent,
+                                fontSize: 20,
+                            ),),
+                      ],
                     ),
-                  ],
-                ),
-              ))
-        ]));
-  }
+                  )
+              )
+            ]
+        )
+    );
+
+    targets.add(
+        TargetFocus(
+            identify: "Chat",
+            keyTarget: keyChat,
+            shape: ShapeLightFocus.Circle,
+            enableOverlayTab: true,
+            contents: [
+              TargetContent(
+                  align: ContentAlign.top,
+                  child: Container(
+                    child:Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Icon(Icons.chat_rounded, color: Colors.redAccent, size: 150),                        
+                                               
+                        Text(
+                          "CHAT SCREEN",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black54,
+                            fontSize: 30.0,
+                            fontFamily: 'FredokaOne'                            
+                          ),
+                        ),
+                        Text("In the chat screen you can speak with the users you like",
+                            style: TextStyle(
+                                color: Colors.redAccent,
+                                fontSize: 20,
+                            ),),
+                      ],
+                    ),
+                  )
+              )
+            ]
+        )
+    );
+
+    targets.add(
+        TargetFocus(
+            identify: "Search",
+            keyTarget: keySearch,
+            shape: ShapeLightFocus.Circle,
+            enableOverlayTab: true,
+            contents: [
+              TargetContent(
+                  align: ContentAlign.top,
+                  child: Container(
+                    child:Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Icon(Icons.people_rounded, color: Colors.redAccent, size: 150),                        
+                                               
+                        Text(
+                          "SEARCH SCREEN",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black54,
+                            fontSize: 30.0,
+                            fontFamily: 'FredokaOne'                            
+                          ),
+                        ),
+                        Text("In the search screen you can find users that speak different languages to start chatting with them",
+                            style: TextStyle(
+                                color: Colors.redAccent,
+                                fontSize: 20,
+                            ),),
+                      ],
+                    ),
+                  )
+              )
+
+              
+            ]
+        )
+    );
+    
+    targets.add(
+        TargetFocus(
+            identify: "Profile",
+            keyTarget: keyProfile,
+            shape: ShapeLightFocus.Circle,
+            enableOverlayTab: true,
+            contents: [
+              TargetContent(
+                  align: ContentAlign.top,
+                  child: Container(
+                    child:Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Icon(Icons.person, color: Colors.redAccent, size: 150),                        
+                                               
+                        Text(
+                          "PROFILE SCREEN",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black54,
+                            fontSize: 30.0,
+                            fontFamily: 'FredokaOne'                            
+                          ),
+                        ),
+                        Text("In the profile screen you can see your data and modify it",
+                            style: TextStyle(
+                                color: Colors.redAccent,
+                                fontSize: 20,
+                            ),),
+                      ],
+                    ),
+                  )
+              )             
+            ]
+        )
+    );
+    }
+
 
   @override
   Widget build(BuildContext context) {
@@ -124,16 +283,15 @@ class _AppScreenState extends State<AppScreen> {
             unselectedItemColor: Colors.black.withOpacity(0.5),
             selectedItemColor: Colors.blue,
             items: [
+              BottomNavigationBarItem(                                  
+                  icon: Icon(Icons.home_filled, key: keyHome,), label: 'Home',),
+              BottomNavigationBarItem(                  
+                  icon: Icon(Icons.chat_rounded, key: keyChat,), label: 'Chat'),
+
               BottomNavigationBarItem(
-                icon: Icon(Icons.home_filled),
-                label: 'Home',
-              ),
+                  icon: Icon(Icons.people_rounded, key: keySearch,), label: 'Search'),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.chat_rounded), label: 'Chat'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.people_rounded), label: 'Search'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.person), label: 'Profile'),
+                  icon: Icon(Icons.person), label: 'Profile')
             ],
           ),
         ));

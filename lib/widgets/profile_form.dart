@@ -141,7 +141,7 @@ class _ProfileFormState extends State<ProfileForm>{
                   ),
                   SizedBox(height: 20),
                   InputModText(
-                    label: snapshot.data!.location.toString(),
+                    label: snapshot.data!.location.coordinates[0].toString() + ", " + snapshot.data!.location.coordinates[1].toString(),
           /*           hint:'[Longitude],[Latitude]',
                     keyboard: TextInputType.text, */
                     icon: Icon(Icons.add_location_alt),
