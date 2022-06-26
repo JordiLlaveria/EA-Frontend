@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/screens/past_activities.dart';
 import 'package:frontend/screens/profile_screen.dart';
 import 'package:frontend/screens/search_screen.dart';
 import 'package:frontend/screens/user_activities.dart';
@@ -14,18 +13,19 @@ import '../models/activities_model.dart';
 import '../models/user_model.dart';
 import 'activity_screen.dart';
 import 'add_activity_screen.dart';
+import 'home_screen.dart';
 
-class HomeScreen extends StatefulWidget {
-  final String username;
-
-  const HomeScreen({required this.username});
+class PastActivities extends StatefulWidget {
+  const PastActivities();
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _PastActivitiesState createState() => _PastActivitiesState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _PastActivitiesState extends State<PastActivities> {
   String username = LocalStorage('Users').getItem('username');
+  String idUser = LocalStorage('Users').getItem('userID');
+
   List<Activity> activities = [];
   bool _isLoading = true;
   late String name;
@@ -34,33 +34,33 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void initState() {
     super.initState();
-    getActivities();
+    getActivitiesByDate();
   }
 
-  Future<void> getActivities() async {
-    activities = await ActivityService.getActivities();
+  Future<void> getActivitiesByDate() async {
+    activities = await ActivityService.getActivitiesByDate();
+
     setState(() {
       _isLoading = false;
     });
   }
 
-  /*void toggle() {
-    setState(() => viewMode = !viewMode);
-  }*/
-
   void onSelected(BuildContext context, int item) {
     switch (item) {
       case 0:
-        setState(() {});
+        var newPage = MaterialPageRoute(
+            builder: (context) =>
+                HomeScreen(username: username)); //Canviar a Signup
+        Navigator.push(context, newPage);
         break;
       case 1:
-        final route = MaterialPageRoute(builder: (context) => UserActivities());
-        Navigator.push(context, route);
-
+        var newPage = MaterialPageRoute(
+            builder: (context) => UserActivities()); //Canviar a Signup
+        Navigator.push(context, newPage);
         break;
       case 2:
-        var route = MaterialPageRoute(builder: (context) => PastActivities());
-        Navigator.push(context, route);
+        setState(() {});
+
         break;
     }
   }
@@ -70,10 +70,10 @@ class _HomeScreenState extends State<HomeScreen> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-            appBar: AppBar(
+          appBar: AppBar(
               backgroundColor: Color.fromARGB(166, 211, 62, 59),
               title: Text(
-                "Xerra!",
+                "Activity Archive",
                 style: TextStyle(color: Colors.black),
               ),
               leading: Container(
@@ -113,69 +113,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Text('Activity Archive')
                               ])),
                         ]),
-              ),
-              actions: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(right: 20.0),
-                  child: IconButton(
-                    color: Colors.black,
-                    //hoverColor: Color.fromARGB(166, 211, 62, 59),
-                    icon: Icon(Icons.note_add, size: 25, color: Colors.black),
-                    onPressed: () {
-                      final route = MaterialPageRoute(
-                          builder: (context) =>
-                              AddActivityScreen()); //Canviar a Signup
-                      Navigator.push(context, route);
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(right: 20.0),
-                  child: Row(
-                      /* children: [
-                      Text('MAP',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 192, 62, 68),
-                          )),
-                      Switch(
-                          value: viewMode,
-                          activeColor: Color.fromARGB(255, 192, 62, 68),
-                          inactiveTrackColor: Color.fromARGB(255, 192, 62, 68),
-                          onChanged: (val) {
-                            toggle();
-                          }),
-                      Text('LIST',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 192, 62, 68),
-                          )),
-                    ],*/
-                      ),
-                ),
+              )),
+          body: Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                _activityList(activities, locations, username)
               ],
             ),
-            body: Container(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  viewMode
-                      ? _activityList(activities, locations, username)
-                      : _mapList(),
-                ],
-              ),
-            ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                // Add your onPressed code here!
-              },
-              //label: const Text(''),
-              child: const Icon(Icons.filter_alt),
-              backgroundColor: Color.fromARGB(255, 192, 62, 68),
-            )));
+          ),
+        ));
   }
 }
 

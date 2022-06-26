@@ -22,7 +22,7 @@ class _LogoutFormState extends State<LogoutForm> {
                 MaterialPageRoute(builder: (context) => const IndexScreen()),
                 (route) => false);
           },
-          color: Colors.yellow,
+          color: Color.fromARGB(255, 214, 214, 214),
           child: Text('LOGOUT', style: TextStyle(color: Colors.white),),
         ),
       ),
