@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/index_screen.dart';
 
+import '../helper/preferences_helper.dart';
+
 class LogoutForm extends StatefulWidget {
   LogoutForm({Key? key}) : super(key: key);
 
@@ -14,10 +16,11 @@ class _LogoutFormState extends State<LogoutForm> {
     return Scaffold(
       body: Center(
         child: RaisedButton(
-          onPressed: () {
-            final route = MaterialPageRoute(
-                            builder: (context) => IndexScreen()); //Canviar a Signup
-                        Navigator.push(context, route);
+          onPressed: () async {
+            await SharedPreferencesHelper.shared.removeToken();
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => const IndexScreen()),
+                (route) => false);
           },
           color: Colors.yellow,
           child: Text('LOGOUT', style: TextStyle(color: Colors.white),),

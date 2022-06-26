@@ -47,6 +47,7 @@ class AuthService {
       final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
       await sharedPreferences.setString('user',payload['username']);
       await sharedPreferences.setString('userId', payload['id']);
+      await sharedPreferences.setString('token', token.toString());
       return true;  
     } 
     return false;
@@ -71,6 +72,7 @@ class AuthService {
       final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
       await sharedPreferences.setString('user',payload['username']);
       await sharedPreferences.setString('userId', payload['id']);
+      await sharedPreferences.setString('token', token.toString());
       return true;
     }
     return false;

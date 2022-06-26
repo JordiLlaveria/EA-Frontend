@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 //import 'package:frontend/screens/videocall_screen.dart';
 import 'package:socket_io_client/socket_io_client.dart';
-import 'package:frontend/models/chat_model.dart';
+import 'package:frontend/models/group_chat_model.dart';
 
-class ChatScreen extends StatefulWidget {
+class GroupChatScreen extends StatefulWidget {
   final String username;
-  const ChatScreen({
+  const GroupChatScreen({
     Key? key,
     required this.username,
   }) : super(key: key);
@@ -14,17 +14,11 @@ class ChatScreen extends StatefulWidget {
   _ChatScreenState createState() => _ChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
-
-
-  
-
-
-
+class _ChatScreenState extends State<GroupChatScreen> {
 
   final TextEditingController _messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
-  final List<ChatModel> _messages = [];
+  final List<GroupChat> _messages = [];
 
   final bool _showSpinner = false;
   final bool _showVisibleWidget = false;
@@ -54,7 +48,7 @@ class _ChatScreenState extends State<ChatScreen> {
       });
 
       socket.on('message', (data) {
-        var message = ChatModel.fromJson(data);
+        var message = GroupChat.fromJson(data);
         setStateIfMounted(() {
           _messages.add(message);
         });
@@ -152,7 +146,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
                           socket.emit(
                               "message",
-                              ChatModel(
+                              GroupChat(
                                       id: socket.id!,
                                       message: message,
                                       username: widget.username,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/screens/profile_screen.dart';
 import 'package:frontend/screens/search_screen.dart';
 import 'package:frontend/screens/login_screen.dart';
-import 'package:frontend/screens/chat_screen.dart';
+import 'package:frontend/screens/shuffle/shuffle_screen.dart';
 import 'package:frontend/screens/home_screen.dart';
 //import 'package:frontend/screens/videocall_screen.dart';
 import 'package:localstorage/localstorage.dart';
@@ -24,7 +24,7 @@ class _AppScreenState extends State<AppScreen> {
 
   List<Widget> screens = [
     HomeScreen(),
-    ChatScreen(username: username),
+    ShuffleView(),
     SearchScreen(),
     ProfileScreen(),
     ActivityScreen(activityName: activityName),
