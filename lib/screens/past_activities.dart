@@ -259,7 +259,7 @@ Widget _activityList(
                                       Navigator.push(context, route);
                                     },
                                     mini: true,
-                                    child: const Icon(Icons.edit, size: 20)),
+                                    child: const Icon(Icons.add, size: 20)),
                               ),
                             ),
                           ]),

@@ -56,8 +56,14 @@ class ActivityService {
     return Activity.fromJson(decoded);
   }
 
-  static Future addActivity(String name, String description, String organizerId,
-      String language, List<String> location, String date, String token) async {
+  static Future<void> addActivity(
+      String name,
+      String description,
+      String organizerId,
+      String language,
+      List<String> location,
+      String date,
+      String token) async {
     var res = await http.post(Uri.parse(baseURL + '/'),
         headers: {'content-type': 'application/json', 'x-access-token': token},
         body: json.encode({
