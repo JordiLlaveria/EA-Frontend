@@ -15,7 +15,7 @@ class ShuffleList extends StatelessWidget {
       builder: (_) => ListView.builder(
         itemCount: vm.userList.length,
         itemBuilder: (context,index){
-          return ShuffleCard(user: vm.userList[index],);
+          return ShuffleCard(user: vm.userList[index]);
         },
       ),
     );

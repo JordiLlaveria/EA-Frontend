@@ -2,6 +2,7 @@ import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:dialog_flowtter/dialog_flowtter.dart';
+import 'package:frontend/screens/app_screen.dart';
 
 class ChatbotScreen extends StatelessWidget {
   @override
@@ -82,8 +83,12 @@ class _ChatbotState extends State<Chatbot> {
         automaticallyImplyLeading: false,
           leading: new IconButton(
             icon: new Icon(Icons.arrow_back, color: Colors.black.withOpacity(0.5)),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
+            onPressed: () {
+                final route = MaterialPageRoute(
+                          builder: (context) =>
+                              AppScreen());
+                      Navigator.push(context, route);
+              }),
           centerTitle: true,
           title: const Text('Chatbot'),
           foregroundColor: Colors.black.withOpacity(0.5),
@@ -106,14 +111,25 @@ class _ChatbotState extends State<Chatbot> {
                     decoration: new InputDecoration.collapsed(hintText: 'Type for help'),
                   ),
                 ),
-                IconButton(
+/*                 IconButton(
                   color: Colors.blue,
                   icon: Icon(Icons.send),
                   onPressed: () {
                     sendMessage(_controller.text);
                     _controller.clear();
                   },
-                ),
+                ), */
+                FloatingActionButton(
+                      backgroundColor: Colors.blue,
+                      onPressed: () {
+                        sendMessage(_controller.text);
+                        _controller.clear();
+                      },
+                      mini: true,
+                      child: Transform.rotate(
+                          angle: 5.79449,
+                          child: const Icon(Icons.send, size: 20)),
+                    ),
               ],
             ),
           ),

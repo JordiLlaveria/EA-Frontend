@@ -6,8 +6,7 @@ import 'package:frontend/screens/search_screen.dart';
 import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/screens/shuffle/shuffle_screen.dart';
 import 'package:frontend/screens/home_screen.dart';
-//import 'package:frontend/screens/videocall_screen.dart';
-import 'package:frontend/screens/chat/chatbot_screen.dart';
+import 'package:frontend/screens/chat/videocall_screen.dart';
 import 'package:frontend/screens/user_activities.dart';
 
 import 'package:localstorage/localstorage.dart';

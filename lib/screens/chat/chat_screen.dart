@@ -6,19 +6,23 @@ import 'package:frontend/helper/get_it.dart';
 import 'package:frontend/helper/socket_helper.dart';
 import 'package:frontend/helper/stream_controller_helper.dart';
 import 'package:frontend/screens/chat/chat_view_model_list.dart';
+import 'package:frontend/screens/chat/videocall_screen.dart';
 import 'package:frontend/screens/shuffle/shuffle_view_model_list.dart';
 import 'package:frontend/screens/chat/chat_message_list_view.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class ChatScreen extends StatefulWidget {
   final String receiverID;
   final String clientName;
 
+  final String username = LocalStorage('Users').getItem('username');
+
   // ignore: use_key_in_widget_constructors
-  const ChatScreen({required this.receiverID, required this.clientName});
+  ChatScreen({required this.receiverID, required this.clientName});
 
   @override
   _ChatScreenState createState() => _ChatScreenState();
@@ -147,20 +151,20 @@ class _ChatScreenState extends BaseState<ChatScreen> {
               height: 0.20,
             ),
             Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+              color: Colors.white,
+                padding: const EdgeInsets.only(
+                    bottom: 10, left: 20, right: 10, top: 5),
+              child: Row(children: <Widget>[
                   Flexible(
-                    flex: 6,
                     child: Container(
-                      padding: EdgeInsets.all(8),
                       child: TextField(
-                        maxLines: null,
-                        style: TextStyle(fontSize: 16.0),
+                        minLines: 1,
+                        maxLines: 5,
                         controller: _messageController,
-                        decoration: InputDecoration.collapsed(
+                        textCapitalization: TextCapitalization.sentences,
+                        decoration: const InputDecoration.collapsed(
                           border: UnderlineInputBorder(),
-                          hintText: 'Message',
+                          hintText: 'Type a message',
                           hintStyle: TextStyle(color: Colors.grey),
                         ),
                         onChanged: (text) => {
@@ -171,19 +175,43 @@ class _ChatScreenState extends BaseState<ChatScreen> {
                       ),
                     ),
                   ),
-                  Flexible(
-                      flex: 1,
-                      child: IconButton(
-                          icon: Icon(Icons.send),
-                          onPressed: () {
-                            if (_messageController.text.trim().isNotEmpty) {
-                              SocketHelper.shared.sendMessage(
-                                  receiver: widget.receiverID,
-                                  message: _messageController.text);
-                                SocketHelper.shared.removeUsersWriting(receiver: widget.receiverID);
-                              _messageController.clear();
-                            }
-                          }))
+                  SizedBox(
+                      height: 43,
+                      width: 42,
+                      child: FloatingActionButton(
+                      backgroundColor: Colors.blue,
+                      onPressed: () {
+                        if (_messageController.text.trim().isNotEmpty) {
+                          SocketHelper.shared.sendMessage(
+                              receiver: widget.receiverID,
+                              message: _messageController.text);
+                            SocketHelper.shared.removeUsersWriting(receiver: widget.receiverID);
+                          _messageController.clear();
+                        }
+                      },
+                      mini: true,
+                      child: Transform.rotate(
+                          angle: 5.79449,
+                          child: const Icon(Icons.send, size: 20)),
+                  )),
+                  SizedBox(
+                  height: 43,
+                  width: 42,
+                  child: FloatingActionButton(
+                      heroTag: null,
+                      backgroundColor: Color.fromARGB(255, 158, 217, 107),
+                      onPressed: () {
+                        final route = MaterialPageRoute(
+                            //VideoCallScreen
+                            builder: (context) => VideoCallScreen(
+                                username:
+                                    widget.username)); //Canviar a Signup
+                        Navigator.push(context, route);
+                      },
+                      mini: true,
+                      child: const Icon(Icons.video_camera_front_outlined,
+                          size: 20)),
+                ),
                 ],
               ),
             )
