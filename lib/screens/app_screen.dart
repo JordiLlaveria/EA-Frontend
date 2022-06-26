@@ -5,6 +5,7 @@ import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/screens/shuffle/shuffle_screen.dart';
 import 'package:frontend/screens/home_screen.dart';
 //import 'package:frontend/screens/videocall_screen.dart';
+import 'package:frontend/screens/chat/chatbot_screen.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
@@ -282,7 +283,6 @@ class _AppScreenState extends State<AppScreen> {
                   icon: Icon(Icons.home_filled, key: keyHome,), label: 'Home',),
               BottomNavigationBarItem(                  
                   icon: Icon(Icons.chat_rounded, key: keyChat,), label: 'Chat'),
-
               BottomNavigationBarItem(
                   icon: Icon(Icons.people_rounded, key: keySearch,), label: 'Search'),
               BottomNavigationBarItem(

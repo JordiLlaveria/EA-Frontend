@@ -67,12 +67,17 @@ class _ChatScreenState extends State<GroupChatScreen> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
-            centerTitle: true,
-            title: const Text('Community Chat'),
-            foregroundColor: Colors.black.withOpacity(0.5),
-            backgroundColor: Color.fromARGB(255, 255, 255, 255)),
+          automaticallyImplyLeading: false,
+          leading: new IconButton(
+            icon: new Icon(Icons.arrow_back, color: Colors.black.withOpacity(0.5)),
+            onPressed: () => Navigator.of(context).pop(),
+          ), 
+          centerTitle: true,
+          title: const Text('Community Chat'),
+          foregroundColor: Colors.black.withOpacity(0.5),
+          backgroundColor: Color.fromARGB(255, 255, 255, 255)),
         body: SafeArea(
-            child: Container(
+          child: Container(
           color: const Color(0xFFEAEFF2),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,

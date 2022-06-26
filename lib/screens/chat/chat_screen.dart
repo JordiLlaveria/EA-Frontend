@@ -64,7 +64,7 @@ class _ChatScreenState extends BaseState<ChatScreen> {
           child: Container(
             child: Stack(
               children: [
-                // Pop Button
+                // Pop Button - Back
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Align(

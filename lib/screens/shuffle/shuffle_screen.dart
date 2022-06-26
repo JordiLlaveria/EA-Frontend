@@ -3,6 +3,7 @@ import 'package:frontend/helper/get_it.dart';
 import 'package:frontend/helper/preferences_helper.dart';
 import 'package:frontend/helper/socket_helper.dart';
 import 'package:frontend/models/group_chat_model.dart';
+import 'package:frontend/screens/chat/chatbot_screen.dart';
 import 'package:frontend/screens/chat/group_chat_screen.dart';
 import 'package:frontend/screens/shuffle/shuffle_view_model_list.dart';
 import 'package:frontend/screens/shuffle/shuffle_list_screen.dart';
@@ -58,9 +59,18 @@ class _ShuffleViewState extends BaseState<ShuffleView> {
           IconButton(
               icon: Icon(Icons.groups),
               onPressed: () {
-                Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => GroupChatScreen(username: username)),
-                    (route) => false);
+                final route = MaterialPageRoute(
+                          builder: (context) =>
+                              GroupChatScreen(username: username));
+                      Navigator.push(context, route);
+              }),
+          IconButton(
+              icon: Icon(Icons.smart_toy_rounded),
+              onPressed: () {
+                final route = MaterialPageRoute(
+                          builder: (context) =>
+                              ChatbotScreen());
+                      Navigator.push(context, route);
               })
         ],
       ),
