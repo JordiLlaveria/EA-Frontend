@@ -4,6 +4,7 @@ import 'dart:js_util';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:frontend/screens/home_screen.dart';
 import 'package:frontend/services/activity_service.dart';
 import 'package:frontend/services/user_service.dart';
 import 'package:latlong2/latlong.dart';
@@ -21,8 +22,9 @@ class AddActivityScreen extends StatefulWidget {
 }
 
 class _AddActivityScreenState extends State<AddActivityScreen> {
-  static String token = LocalStorage('Users').getItem('token');
   static String organizerId = LocalStorage('Users').getItem('userID');
+  static String username = LocalStorage('Users').getItem('username');
+  static String token = LocalStorage('Users').getItem('token').toString();
 
   late Activity newActivity;
   final TextEditingController nameAct = TextEditingController();
@@ -37,11 +39,9 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
     super.initState();
   }
 
-  Future<Activity> addActivity(String name, String description, String language,
+  Future<void> addActivity(String name, String description, String language,
       String latitude, String longitude, String date) async {
     var dateFormatted = DateTime.parse(date);
-    print(dateFormatted);
-    print(date);
 
     List<String> locationFormat = [];
     locationFormat.add(latitude);
@@ -49,7 +49,7 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
 
     var newActivity = await ActivityService.addActivity(
         name, description, organizerId, language, locationFormat, date, token);
-    return newActivity;
+    //return newActivity;
   }
 
   @override
@@ -243,9 +243,10 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
                         latAct.text,
                         lonAct.text,
                         dateAct.text);
+                    setState(() {});
                     final route = MaterialPageRoute(
                         builder: (context) =>
-                            AddActivityScreen()); //Canviar a Signup
+                            HomeScreen(username: username)); //Canviar a Signup
                     Navigator.push(context, route);
                   },
                   child: const Text('Create Activity'),

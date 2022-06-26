@@ -74,9 +74,26 @@ class _ActivityScreenState extends State<ActivityScreen> {
                         child: CircularProgressIndicator(),
                       )),
             floatingActionButton: FloatingActionButton.extended(
-              onPressed: () {
-                addUserToActivity(idUser, activity.id);
-                setState(() {});
+              onPressed: () async {
+                bool success = await addUserToActivity(idUser, activity.id);
+                if (success == true)
+                  setState(() {});
+                else {
+                  showDialog<String>(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      title: const Text('Error!'),
+                      content:
+                          const Text('You have already joined this activity'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, 'OK'),
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    ),
+                  );
+                }
 
                 // Falten Alerts
               },

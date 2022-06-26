@@ -274,7 +274,7 @@ class _UpdateActivityScreenState extends State<UpdateActivityScreen> {
                     updateActivity(activity.id, nameUp, desUp, lanUp, latUp,
                         lonUp, dateUp);
 
-                    setState(() {});
+                    //setState(() {});
                     final route = MaterialPageRoute(
                         builder: (context) =>
                             UserActivities()); //Canviar a Signup
