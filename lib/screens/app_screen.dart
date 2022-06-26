@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/activity_screen.dart';
+import 'package:frontend/screens/add_activity_screen.dart';
 import 'package:frontend/screens/profile_screen.dart';
 import 'package:frontend/screens/search_screen.dart';
 import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/screens/chat_screen.dart';
 import 'package:frontend/screens/home_screen.dart';
+import 'package:frontend/screens/user_activities.dart';
 import 'package:frontend/screens/videocall_screen.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
-
-import 'activity_screen.dart';
 
 class AppScreen extends StatefulWidget {
   /* const AppScreen({Key? key}) : super(key: key); */
@@ -23,12 +24,15 @@ class _AppScreenState extends State<AppScreen> {
   static String activityName = '';
 
   List<Widget> screens = [
-    HomeScreen(),
+    HomeScreen(username: username),
     ChatScreen(username: username),
     SearchScreen(),
     ProfileScreen(),
-    ActivityScreen(activityName: activityName),
-    VideoCallScreen(username: username)
+    ActivityScreen(activityName: activityName, username: username),
+    VideoCallScreen(username: username),
+    AddActivityScreen(),
+    UserActivities(),
+    ActivityScreen(activityName: activityName, username: username)
   ];
 
   GlobalKey keyHome = GlobalKey();
@@ -43,7 +47,7 @@ class _AppScreenState extends State<AppScreen> {
 
   void initState() {
     initTarget();
-    WidgetsBinding.instance.addPostFrameCallback(_afterlayaout);
+    WidgetsBinding.instance?.addPostFrameCallback(_afterlayaout);
     super.initState();
   }
 
