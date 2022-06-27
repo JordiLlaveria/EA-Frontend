@@ -75,7 +75,8 @@ class _ActivityScreenState extends State<ActivityScreen> {
                       )),
             floatingActionButton: FloatingActionButton.extended(
               onPressed: () async {
-                bool success = await addUserToActivity(idUser, activity.id);
+                bool success =
+                    await addUserToActivity(idUser, activity.id.toString());
                 if (success == true)
                   setState(() {});
                 else {
@@ -220,6 +221,24 @@ Widget _activity(Activity activity) {
                       SizedBox(width: 25, height: 60)
                     ],
                   ),
+                  Row(
+                    children: [
+                      SizedBox(
+                          height: 30,
+                          width: 30,
+                          child: Icon(Icons.accessible,
+                              color: Color.fromARGB(234, 80, 80, 80))),
+                      SizedBox(width: 25, height: 60),
+                      Text('Accessibility: ',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: Colors.black,
+                          )),
+                      SizedBox(width: 25, height: 60),
+                      _accessibility(activity),
+                    ],
+                  ),
                   Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                     Column(children: [
                       SizedBox(
@@ -240,48 +259,46 @@ Widget _activity(Activity activity) {
 
 Widget _Map(Activity activity) {
   return Container(
-    alignment: Alignment.center,
-    height: 250,
-    width: 150,
-    margin: const EdgeInsets.only(left: 60),
-    child: new FlutterMap(
-      options: new MapOptions(
-        //center: new LatLng(41.441392, 2.186303), //AQUI!!
-        center: new LatLng(double.parse(activity.location.coordinates[0]),
-            double.parse(activity.location.coordinates[1])), //AQUI!!
-        zoom: 13.0,
-      ),
-      layers: [
-        new TileLayerOptions(
-          urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-          subdomains: ['a', 'b', 'c'],
-          attributionBuilder: (_) {
-            return Text("© OpenStreetMap contributors");
-          },
-        ),
-        new MarkerLayerOptions(markers: [
-          Marker(
-              width: 80.0,
-              height: 80.0,
-              point: new LatLng(double.parse(activity.location.coordinates[0]),
-                  double.parse(activity.location.coordinates[1])), //AQUÍ!!
-              builder: (context) => new Container(
-                    child: IconButton(
-                      icon: Icon(Icons.location_on),
-                      color: Color.fromARGB(255, 192, 62, 68),
-                      iconSize: 45.0,
-                      onPressed: () {
-                        print('Marker tapped');
-                      },
-                    ),
-                  ))
-        ])
-      ],
-    ),
-  );
+      alignment: Alignment.center,
+      height: 250,
+      width: 150,
+      margin: const EdgeInsets.only(left: 60),
+      child: FlutterMap(
+          options: new MapOptions(
+            //center: new LatLng(41.441392, 2.186303), //AQUI!!
+            center: new LatLng(activity.location.coordinates[0],
+                activity.location.coordinates[1]), //AQUI!!
+            zoom: 13.0,
+          ),
+          layers: [
+            new TileLayerOptions(
+              urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+              subdomains: ['a', 'b', 'c'],
+              attributionBuilder: (_) {
+                return Text("© OpenStreetMap contributors");
+              },
+            ),
+            new MarkerLayerOptions(markers: [
+              Marker(
+                  width: 80.0,
+                  height: 80.0,
+                  point: new LatLng(activity.location.coordinates[0],
+                      activity.location.coordinates[1]), //AQUÍ!!
+                  builder: (context) => new Container(
+                        child: IconButton(
+                          icon: Icon(Icons.location_on),
+                          color: Colors.red,
+                          iconSize: 45.0,
+                          onPressed: () {
+                            print('Marker tapped');
+                          },
+                        ),
+                      ))
+            ])
+          ]));
 }
 
-Widget _userList(List<dynamic> users) {
+Widget _userList(List<dynamic>? users) {
   return Expanded(
       child: Container(
           margin: const EdgeInsets.only(left: 60),
@@ -291,9 +308,9 @@ Widget _userList(List<dynamic> users) {
               children: <Widget>[
                 ListView.builder(
                     shrinkWrap: true,
-                    itemCount: users.length,
+                    itemCount: users?.length,
                     itemBuilder: (context, index) {
-                      return Text(users[index]['username'],
+                      return Text(users?[index]['username'],
                           style: TextStyle(
                             fontSize: 22,
                             color: Color.fromARGB(234, 80, 80, 80),
@@ -313,4 +330,15 @@ String getDate(Activity activity) {
   var newDt = DateFormat.yMMMEd().format(date);
   print(newDt);
   return newDt;
+}
+
+Widget _accessibility(Activity activity) {
+  if (activity.accessibility == true) {
+    return Icon(
+      Icons.check_box,
+      color: Colors.green,
+    );
+  } else {
+    return Icon(Icons.indeterminate_check_box_outlined, color: Colors.red);
+  }
 }

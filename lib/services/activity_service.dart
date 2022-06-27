@@ -3,6 +3,7 @@ import 'package:frontend/models/activities_model.dart';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 
+import '../models/location_model.dart';
 import '../models/user_model.dart';
 
 class ActivityService {
@@ -63,17 +64,22 @@ class ActivityService {
       String language,
       List<String> location,
       String date,
+      bool accessible,
       String token) async {
+    Location newLocation = Location(type: "Point", coordinates: location);
+
+    Activity newActivity = Activity(
+        name: name,
+        description: description,
+        language: language,
+        organizer: organizerId,
+        location: newLocation,
+        date: date,
+        accessibility: accessible);
+
     var res = await http.post(Uri.parse(baseURL + '/'),
         headers: {'content-type': 'application/json', 'x-access-token': token},
-        body: json.encode({
-          "name": name,
-          "description": description,
-          "language": language,
-          "organizer": organizerId,
-          "location": location,
-          "date": date
-        }));
+        body: json.encode(Activity.toJson(newActivity)));
 
     print("New activity request has already been done");
 
@@ -83,17 +89,30 @@ class ActivityService {
     }
   }
 
-  static Future<void> updateActivity(String id, String name, String description,
-      String language, List<String> location, String date, String token) async {
-    var res = await http.put(Uri.parse(baseURL + '/' + id),
+  static Future<void> updateActivity(
+      String id,
+      String name,
+      String description,
+      String organizerId,
+      String language,
+      List<String> location,
+      String date,
+      bool accessible,
+      String token) async {
+    Location newLocation = Location(type: "Point", coordinates: location);
+
+    Activity newActivity = Activity(
+        name: name,
+        description: description,
+        language: language,
+        organizer: organizerId,
+        location: newLocation,
+        date: date,
+        accessibility: accessible);
+
+    var res = await http.put(Uri.parse(baseURL + '/' + id.toString()),
         headers: {'content-type': 'application/json', 'x-access-token': token},
-        body: json.encode({
-          "name": name,
-          "description": description,
-          "language": language,
-          "location": location,
-          "date": date
-        }));
+        body: json.encode(Activity.toJson(newActivity)));
 
     print("Activity Update Requested");
 
@@ -102,6 +121,7 @@ class ActivityService {
       //return Activity.fromJson(json.decode(res.body));
     }
   }
+
   static Future<List<Activity>> getActivitiesByDistance(
       String distance, String id) async {
     var res =
@@ -109,7 +129,8 @@ class ActivityService {
     List<Activity> allActivities = [];
     if (res.statusCode == 200) {
       var decoded = jsonDecode(res.body);
-      decoded.forEach((activity) => allActivities.add(Activity.fromJson(activity)));
+      decoded.forEach(
+          (activity) => allActivities.add(Activity.fromJson(activity)));
       print("Activities by distance get correct");
       return allActivities;
     }
@@ -117,7 +138,7 @@ class ActivityService {
   }
 
   static Future<bool> addUserToActivity(
-      String idUser, String idActivity) async {
+      String idUser, String? idActivity) async {
     var res = await http.post(Uri.parse(baseURL + '/adduseractivity'),
         headers: {'content-type': 'application/json'},
         body: json.encode({

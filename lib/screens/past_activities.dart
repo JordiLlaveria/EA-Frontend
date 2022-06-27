@@ -123,6 +123,7 @@ class _PastActivitiesState extends State<PastActivities> {
               ],
             ),
           ),
+          bottomNavigationBar: _navigation(widget),
         ));
   }
 }
@@ -269,5 +270,32 @@ Widget _activityList(
 Widget _mapList() {
   return Container(
     child: Text('MAP'),
+  );
+}
+
+_navigation(widget) {
+  int currentScreen = 0;
+
+  return BottomNavigationBar(
+    currentIndex: currentScreen,
+    onTap: (index) {
+      widget.setState(() {
+        currentScreen = index;
+      });
+    },
+    type: BottomNavigationBarType.fixed,
+    backgroundColor: Colors.white,
+    unselectedItemColor: Colors.black.withOpacity(0.5),
+    selectedItemColor: Colors.blue,
+    items: [
+      BottomNavigationBarItem(
+        icon: Icon(Icons.home_filled),
+        label: 'Home',
+      ),
+      BottomNavigationBarItem(icon: Icon(Icons.chat_rounded), label: 'Chat'),
+      BottomNavigationBarItem(
+          icon: Icon(Icons.people_rounded), label: 'Search'),
+      BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+    ],
   );
 }

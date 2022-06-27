@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:html';
 import 'dart:js_util';
 
 import 'package:flutter/material.dart';
@@ -39,6 +40,8 @@ class _UpdateActivityScreenState extends State<UpdateActivityScreen> {
   final TextEditingController latAct = TextEditingController();
   final TextEditingController languageAct = TextEditingController();
 
+  static bool accessible = false;
+
   void initState() {
     super.initState();
   }
@@ -48,16 +51,40 @@ class _UpdateActivityScreenState extends State<UpdateActivityScreen> {
     return activity;
   }
 
-  Future<void> updateActivity(String id, String name, String description,
-      String language, String latitude, String longitude, String date) async {
+  Future<void> updateActivity(
+      String id,
+      String name,
+      String description,
+      String language,
+      String latitude,
+      String longitude,
+      bool accessible,
+      String date) async {
     var dateFormatted = DateTime.parse(date);
 
     List<String> locationFormat = [];
     locationFormat.add(latitude);
     locationFormat.add(longitude);
 
+    print(id);
+    print(description);
+    print(organizerId);
+    print(language);
+    print(locationFormat.toString());
+    print(date);
+    print(accessible);
+    print(token);
+
     var newActivity = await ActivityService.updateActivity(
-        id, name, description, language, locationFormat, date, token);
+        id,
+        name,
+        description,
+        organizerId,
+        language,
+        locationFormat,
+        date,
+        accessible,
+        token);
   }
 
   @override
@@ -164,7 +191,7 @@ class _UpdateActivityScreenState extends State<UpdateActivityScreen> {
                     child: TextField(
                         controller: lonAct,
                         decoration: new InputDecoration(
-                          hintText: activity.location.coordinates[0],
+                          hintText: activity.location.coordinates[0].toString(),
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10.0)),
@@ -186,7 +213,7 @@ class _UpdateActivityScreenState extends State<UpdateActivityScreen> {
                     child: TextField(
                         controller: latAct,
                         decoration: new InputDecoration(
-                          hintText: activity.location.coordinates[1],
+                          hintText: activity.location.coordinates[1].toString(),
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10.0)),
@@ -226,13 +253,33 @@ class _UpdateActivityScreenState extends State<UpdateActivityScreen> {
                                   width: 2)),
                         ))),
                 SizedBox(height: 20),
+                Row(
+                  children: [
+                    Text('Accessibility: ',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color.fromARGB(255, 85, 85, 85),
+                        )),
+                    SizedBox(width: 20),
+                    Container(
+                        child: Checkbox(
+                      checkColor: Colors.white,
+                      value: accessible,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          accessible = value!;
+                        });
+                      },
+                    )),
+                  ],
+                ),
+                SizedBox(height: 20),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     primary: Color.fromARGB(255, 192, 62, 68),
                     padding: EdgeInsets.all(6.0),
                   ),
                   onPressed: () {
-                    print('pressed');
                     String nameUp, desUp, lanUp, latUp, lonUp, dateUp;
 
                     if (nameAct.text == '') {
@@ -246,21 +293,18 @@ class _UpdateActivityScreenState extends State<UpdateActivityScreen> {
                     else
                       desUp = descriptionAct.text;
 
-                    print('nameAct' + descriptionAct.text);
-                    print('nameUp' + desUp);
-                    print('activityName' + activity.description);
                     if (languageAct.text == '')
                       lanUp = activity.language;
                     else
                       lanUp = languageAct.text;
 
                     if (latAct.text == '')
-                      latUp = activity.location.coordinates[0];
+                      latUp = activity.location.coordinates[0].toString();
                     else
                       latUp = latAct.text;
 
                     if (lonAct.text == '')
-                      lonUp = activity.location.coordinates[1];
+                      lonUp = activity.location.coordinates[1].toString();
                     else
                       lonUp = lonAct.text;
 
@@ -270,9 +314,10 @@ class _UpdateActivityScreenState extends State<UpdateActivityScreen> {
                       dateUp = dateAct.text;
 
                     print(nameUp + desUp + lanUp + latUp + lonUp + dateUp);
+                    print(activity.id.toString());
 
-                    updateActivity(activity.id, nameUp, desUp, lanUp, latUp,
-                        lonUp, dateUp);
+                    updateActivity(activity.id.toString(), nameUp, desUp, lanUp,
+                        latUp, lonUp, accessible, dateUp);
 
                     //setState(() {});
                     final route = MaterialPageRoute(
@@ -289,11 +334,18 @@ class _UpdateActivityScreenState extends State<UpdateActivityScreen> {
 
 String getDate(Activity activity) {
   DateTime date = DateTime.parse(activity.date);
-  String dateF = date.year.toString() +
-      '-' +
-      date.month.toString() +
-      '-' +
-      date.day.toString();
+  String month, day;
+
+  if (date.month.toString().length == 1)
+    month = '0' + date.month.toString();
+  else
+    month = date.month.toString();
+  if (date.day.toString().length == 1)
+    day = '0' + date.day.toString();
+  else
+    day = date.month.toString();
+
+  String dateF = date.year.toString() + '-' + month + '-' + day;
   var newDt = DateFormat.yMd().format(date);
   return dateF;
 }
