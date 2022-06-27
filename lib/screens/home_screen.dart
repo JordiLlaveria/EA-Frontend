@@ -147,7 +147,7 @@ Widget _activityList(List<Activity> activities, String locations) {
                                         children: <Widget>[
                                           Text(
                                               locations = GetLocations(
-                                                activities[index].location,
+                                                activities[index].location.coordinates,
                                               ),
                                               semanticsLabel: '${locations}',
                                               style: TextStyle(
