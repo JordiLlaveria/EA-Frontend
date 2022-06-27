@@ -177,7 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            floatingActionButton: FloatingActionButton(
+            floatingActionButton: FloatingActionButton.extended(
               onPressed: () {
                
                 setState(() {
@@ -185,8 +185,8 @@ class _HomeScreenState extends State<HomeScreen> {
                    build(context);                 
                 });                
               },
-              //label: const Text(''),
-              child: const Icon(Icons.filter_alt),
+              label: const Text('Near you'),
+              icon: const Icon(Icons.add_location_rounded),
               backgroundColor: Color.fromARGB(255, 192, 62, 68),
             )));
   }

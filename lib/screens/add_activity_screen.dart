@@ -87,8 +87,9 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
     );
   }*/
 
-  Column buildForm() {
-    return Column(children: [
+  ListView buildForm() {
+    return ListView(
+      children: [
       Container(
           padding: EdgeInsets.fromLTRB(50, 25, 20, 25),
           width: double.maxFinite,
@@ -231,7 +232,7 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
                         ))),
                 SizedBox(height: 20),
                 Row(
-                  children: [
+                  children: [                    
                     Text('Accessibility: ',
                         style: TextStyle(
                           fontSize: 16,
