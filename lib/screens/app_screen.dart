@@ -4,8 +4,9 @@ import 'package:frontend/screens/add_activity_screen.dart';
 import 'package:frontend/screens/profile_screen.dart';
 import 'package:frontend/screens/search_screen.dart';
 import 'package:frontend/screens/login_screen.dart';
-import 'package:frontend/screens/chat_screen.dart';
+import 'package:frontend/screens/shuffle/shuffle_screen.dart';
 import 'package:frontend/screens/home_screen.dart';
+import 'package:frontend/screens/chat/videocall_screen.dart';
 import 'package:frontend/screens/user_activities.dart';
 
 import 'package:localstorage/localstorage.dart';
@@ -25,7 +26,7 @@ class _AppScreenState extends State<AppScreen> {
 
   List<Widget> screens = [
     HomeScreen(username: username),
-    ChatScreen(username: username),
+    ShuffleView(),
     SearchScreen(),
     ProfileScreen(),
     ActivityScreen(activityName: activityName, username: username),

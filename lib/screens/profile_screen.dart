@@ -66,11 +66,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: MapForm(), 
               ),
               Divider(
-                height: 50.0,
+                height: 10.0,
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
+                height: 50.0,
                 child: LogoutForm(),
               ),
             ],

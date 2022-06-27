@@ -9,8 +9,11 @@ import 'dart:io' show Platform;
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'helper/get_it.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  XuGetIt.setup();
 
   if (defaultTargetPlatform == TargetPlatform.android) {
     await Firebase.initializeApp();

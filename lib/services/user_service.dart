@@ -27,6 +27,17 @@ class UserService {
     return [];
   }
 
+    static Future<List<User>> getPeopleLikedByID(String id) async {
+    var res = await http.get(Uri.parse(baseURL + '/peopleLiked/' + id));
+    List<User> allUsers = [];
+    if (res.statusCode == 200) {
+      var decoded = jsonDecode(res.body);
+      decoded.forEach((customer) => allUsers.add(User.fromJson(customer)));
+      return allUsers;
+    }
+    return [];
+  }
+
   static Future<User> getUserByID(String id) async {
     var res = await http.get(Uri.parse(baseURL + '/byID/' + id));
     var decoded = jsonDecode(res.body);
