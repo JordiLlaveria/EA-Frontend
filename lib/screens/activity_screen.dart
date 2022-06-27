@@ -247,8 +247,8 @@ Widget _Map(Activity activity) {
     child: new FlutterMap(
       options: new MapOptions(
         //center: new LatLng(41.441392, 2.186303), //AQUI!!
-        center: new LatLng(double.parse(activity.location[0]),
-            double.parse(activity.location[1])), //AQUI!!
+        center: new LatLng(double.parse(activity.location.coordinates[0]),
+            double.parse(activity.location.coordinates[1])), //AQUI!!
         zoom: 13.0,
       ),
       layers: [
@@ -263,8 +263,8 @@ Widget _Map(Activity activity) {
           Marker(
               width: 80.0,
               height: 80.0,
-              point: new LatLng(double.parse(activity.location[0]),
-                  double.parse(activity.location[1])), //AQUÍ!!
+              point: new LatLng(double.parse(activity.location.coordinates[0]),
+                  double.parse(activity.location.coordinates[1])), //AQUÍ!!
               builder: (context) => new Container(
                     child: IconButton(
                       icon: Icon(Icons.location_on),

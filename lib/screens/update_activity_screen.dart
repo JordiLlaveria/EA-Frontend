@@ -164,7 +164,7 @@ class _UpdateActivityScreenState extends State<UpdateActivityScreen> {
                     child: TextField(
                         controller: lonAct,
                         decoration: new InputDecoration(
-                          hintText: activity.location[0],
+                          hintText: activity.location.coordinates[0],
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10.0)),
@@ -186,7 +186,7 @@ class _UpdateActivityScreenState extends State<UpdateActivityScreen> {
                     child: TextField(
                         controller: latAct,
                         decoration: new InputDecoration(
-                          hintText: activity.location[1],
+                          hintText: activity.location.coordinates[1],
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10.0)),
@@ -255,12 +255,12 @@ class _UpdateActivityScreenState extends State<UpdateActivityScreen> {
                       lanUp = languageAct.text;
 
                     if (latAct.text == '')
-                      latUp = activity.location[0];
+                      latUp = activity.location.coordinates[0];
                     else
                       latUp = latAct.text;
 
                     if (lonAct.text == '')
-                      lonUp = activity.location[1];
+                      lonUp = activity.location.coordinates[1];
                     else
                       lonUp = lonAct.text;
 

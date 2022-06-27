@@ -102,6 +102,19 @@ class ActivityService {
       //return Activity.fromJson(json.decode(res.body));
     }
   }
+  static Future<List<Activity>> getActivitiesByDistance(
+      String distance, String id) async {
+    var res =
+        await http.get(Uri.parse(baseURL + '/' + id + '/distance/' + distance));
+    List<Activity> allActivities = [];
+    if (res.statusCode == 200) {
+      var decoded = jsonDecode(res.body);
+      decoded.forEach((activity) => allActivities.add(Activity.fromJson(activity)));
+      print("Activities by distance get correct");
+      return allActivities;
+    }
+    return [];
+  }
 
   static Future<bool> addUserToActivity(
       String idUser, String idActivity) async {

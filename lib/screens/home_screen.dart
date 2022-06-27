@@ -31,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late String name;
   String locations = "";
   bool viewMode = true;
+  var storage;
 
   void initState() {
     super.initState();
@@ -42,6 +43,14 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _isLoading = false;
     });
+  }
+
+  Future<void> getActivitiesByDistance() async {
+    storage = LocalStorage('Users');
+    await storage.ready;
+    var id = storage.getItem('userID');
+    activities = await ActivityService.getActivitiesByDistance("50000",id);
+    
   }
 
   /*void toggle() {
@@ -170,7 +179,11 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                // Add your onPressed code here!
+               
+                setState(() {
+                  getActivitiesByDistance(); 
+                   build(context);                 
+                });                
               },
               //label: const Text(''),
               child: const Icon(Icons.filter_alt),
