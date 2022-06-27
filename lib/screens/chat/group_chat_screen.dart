@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-//import 'package:frontend/screens/videocall_screen.dart';
+import 'package:frontend/screens/chat/videocall_screen.dart';
 import 'package:socket_io_client/socket_io_client.dart';
-import 'package:frontend/models/chat_model.dart';
+import 'package:frontend/models/group_chat_model.dart';
 
-class ChatScreen extends StatefulWidget {
+class GroupChatScreen extends StatefulWidget {
   final String username;
-  const ChatScreen({
+  const GroupChatScreen({
     Key? key,
     required this.username,
   }) : super(key: key);
@@ -14,17 +14,11 @@ class ChatScreen extends StatefulWidget {
   _ChatScreenState createState() => _ChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
-
-
-  
-
-
-
+class _ChatScreenState extends State<GroupChatScreen> {
 
   final TextEditingController _messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
-  final List<ChatModel> _messages = [];
+  final List<GroupChat> _messages = [];
 
   final bool _showSpinner = false;
   final bool _showVisibleWidget = false;
@@ -54,7 +48,7 @@ class _ChatScreenState extends State<ChatScreen> {
       });
 
       socket.on('message', (data) {
-        var message = ChatModel.fromJson(data);
+        var message = GroupChat.fromJson(data);
         setStateIfMounted(() {
           _messages.add(message);
         });
@@ -73,12 +67,17 @@ class _ChatScreenState extends State<ChatScreen> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
-            centerTitle: true,
-            title: const Text('Community Chat'),
-            foregroundColor: Colors.black.withOpacity(0.5),
-            backgroundColor: Color.fromARGB(255, 255, 255, 255)),
+          automaticallyImplyLeading: false,
+          leading: new IconButton(
+            icon: new Icon(Icons.arrow_back, color: Colors.black.withOpacity(0.5)),
+            onPressed: () => Navigator.of(context).pop(),
+          ), 
+          centerTitle: true,
+          title: const Text('Community Chat'),
+          foregroundColor: Colors.black.withOpacity(0.5),
+          backgroundColor: Color.fromARGB(255, 255, 255, 255)),
         body: SafeArea(
-            child: Container(
+          child: Container(
           color: const Color(0xFFEAEFF2),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -152,7 +151,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
                           socket.emit(
                               "message",
-                              ChatModel(
+                              GroupChat(
                                       id: socket.id!,
                                       message: message,
                                       username: widget.username,
@@ -178,12 +177,12 @@ class _ChatScreenState extends State<ChatScreen> {
                         heroTag: null,
                         backgroundColor: Color.fromARGB(255, 158, 217, 107),
                         onPressed: () {
-                          /*xfinal route = MaterialPageRoute(
+                          final route = MaterialPageRoute(
                               //VideoCallScreen
                               builder: (context) => VideoCallScreen(
                                   username:
                                       widget.username)); //Canviar a Signup
-                          Navigator.push(context, route);*/
+                          Navigator.push(context, route);
                         },
                         mini: true,
                         child: const Icon(Icons.video_camera_front_outlined,

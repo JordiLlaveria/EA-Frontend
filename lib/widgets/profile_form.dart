@@ -100,7 +100,7 @@ class _ProfileFormState extends State<ProfileForm>{
                     },
                   ),
                   SizedBox(height: 20),
-                  InputModText(
+                  /* InputModText(
                     label: snapshot.data!.password,
           /*           hint:'Password',
                     obsecure: true, */
@@ -109,7 +109,7 @@ class _ProfileFormState extends State<ProfileForm>{
                       password1 = data;
                     },
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 20), */
                   InputModText(
                     label: snapshot.data!.email,
           /*           hint:'Email',
@@ -140,7 +140,7 @@ class _ProfileFormState extends State<ProfileForm>{
                     },
                   ),
                   SizedBox(height: 20),
-                  InputModText(
+                  /* InputModText(
                     label: snapshot.data!.location.coordinates[0].toString() + ", " + snapshot.data!.location.coordinates[1].toString(),
           /*           hint:'[Longitude],[Latitude]',
                     keyboard: TextInputType.text, */
@@ -149,8 +149,8 @@ class _ProfileFormState extends State<ProfileForm>{
                       location = data.split(',');
                     },
                   ),
-                  SizedBox(height: 20),
-                  InputModText(
+                  SizedBox(height: 20), */
+                  /* InputModText(
                     label: snapshot.data!.photo,
           /*           hint:'[Longitude],[Latitude]',
                     keyboard: TextInputType.text, */
@@ -159,7 +159,7 @@ class _ProfileFormState extends State<ProfileForm>{
                       photo = data;
                     },
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 20), */
                   /* Material(
                     borderRadius: BorderRadius.circular(30),
                     color: Colors.redAccent,

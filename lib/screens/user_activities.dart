@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/screens/past_activities.dart';
 import 'package:frontend/screens/profile_screen.dart';
 import 'package:frontend/screens/search_screen.dart';
-import 'package:frontend/screens/user_activities.dart';
+import 'package:frontend/screens/update_activity_screen.dart';
 import 'package:frontend/services/activity_service.dart';
 import 'package:frontend/services/activity_service.dart';
 import 'package:localstorage/localstorage.dart';
@@ -14,62 +14,53 @@ import '../models/activities_model.dart';
 import '../models/user_model.dart';
 import 'activity_screen.dart';
 import 'add_activity_screen.dart';
+import 'home_screen.dart';
 
-class HomeScreen extends StatefulWidget {
-  final String username;
-
-  const HomeScreen({required this.username});
+class UserActivities extends StatefulWidget {
+  const UserActivities();
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _UserActivitiesState createState() => _UserActivitiesState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _UserActivitiesState extends State<UserActivities> {
   String username = LocalStorage('Users').getItem('username');
+  String idUser = LocalStorage('Users').getItem('userID');
+
   List<Activity> activities = [];
   bool _isLoading = true;
   late String name;
   String locations = "";
   bool viewMode = true;
-  var storage;
 
   void initState() {
     super.initState();
-    getActivities();
+    getActivitiesByOrganizer(idUser);
   }
 
-  Future<void> getActivities() async {
-    activities = await ActivityService.getActivities();
-    setState(() {
-      _isLoading = false;
-    });
-  }
+  Future<void> getActivitiesByOrganizer(String idOrganizer) async {
+    activities = await ActivityService.getActivitiesByOrganizer(idOrganizer);
+    print(idOrganizer);
+    print(idUser);
 
-  Future<void> getActivitiesByDistance() async {
-    storage = LocalStorage('Users');
-    await storage.ready;
-    var id = storage.getItem('userID');
-    activities = await ActivityService.getActivitiesByDistance("50000",id);
-    
+    setState(() {});
   }
-
-  /*void toggle() {
-    setState(() => viewMode = !viewMode);
-  }*/
 
   void onSelected(BuildContext context, int item) {
     switch (item) {
       case 0:
-        setState(() {});
+        var newPage = MaterialPageRoute(
+            builder: (context) =>
+                HomeScreen(username: username)); //Canviar a Signup
+        Navigator.push(context, newPage);
         break;
       case 1:
-        final route = MaterialPageRoute(builder: (context) => UserActivities());
-        Navigator.push(context, route);
-
+        setState(() {});
         break;
       case 2:
-        var route = MaterialPageRoute(builder: (context) => PastActivities());
-        Navigator.push(context, route);
+        var newPage = MaterialPageRoute(
+            builder: (context) => PastActivities()); //Canviar a Signup
+        Navigator.push(context, newPage);
         break;
     }
   }
@@ -79,10 +70,10 @@ class _HomeScreenState extends State<HomeScreen> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-            appBar: AppBar(
+          appBar: AppBar(
               backgroundColor: Color.fromARGB(166, 211, 62, 59),
               title: Text(
-                "Xerra!",
+                "Your Activities",
                 style: TextStyle(color: Colors.black),
               ),
               leading: Container(
@@ -122,73 +113,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Text('Activity Archive')
                               ])),
                         ]),
-              ),
-              actions: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(right: 20.0),
-                  child: IconButton(
-                    color: Colors.black,
-                    //hoverColor: Color.fromARGB(166, 211, 62, 59),
-                    icon: Icon(Icons.note_add, size: 25, color: Colors.black),
-                    onPressed: () {
-                      final route = MaterialPageRoute(
-                          builder: (context) =>
-                              AddActivityScreen()); //Canviar a Signup
-                      Navigator.push(context, route);
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(right: 20.0),
-                  child: Row(
-                      /* children: [
-                      Text('MAP',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 192, 62, 68),
-                          )),
-                      Switch(
-                          value: viewMode,
-                          activeColor: Color.fromARGB(255, 192, 62, 68),
-                          inactiveTrackColor: Color.fromARGB(255, 192, 62, 68),
-                          onChanged: (val) {
-                            toggle();
-                          }),
-                      Text('LIST',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 192, 62, 68),
-                          )),
-                    ],*/
-                      ),
-                ),
+              )),
+          body: Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                _activityList(activities, locations, username)
               ],
             ),
-            body: Container(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  viewMode
-                      ? _activityList(activities, locations, username)
-                      : _mapList(),
-                ],
-              ),
-            ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-               
-                setState(() {
-                  getActivitiesByDistance(); 
-                   build(context);                 
-                });                
-              },
-              //label: const Text(''),
-              child: const Icon(Icons.filter_alt),
-              backgroundColor: Color.fromARGB(255, 192, 62, 68),
-            )));
+          ),
+          bottomNavigationBar: _navigation(widget),
+        ));
   }
 }
 
@@ -315,15 +251,15 @@ Widget _activityList(
                                         Color.fromARGB(255, 192, 62, 68),
                                     onPressed: () {
                                       final route = MaterialPageRoute(
-                                          builder: (context) => ActivityScreen(
-                                              activityName:
-                                                  activities[index].name,
-                                              username:
-                                                  username)); //Canviar a Signup
+                                          builder: (context) =>
+                                              UpdateActivityScreen(
+                                                activityName:
+                                                    activities[index].name,
+                                              )); //Canviar a Signup
                                       Navigator.push(context, route);
                                     },
                                     mini: true,
-                                    child: const Icon(Icons.add, size: 20)),
+                                    child: const Icon(Icons.edit, size: 20)),
                               ),
                             ),
                           ]),
@@ -331,8 +267,29 @@ Widget _activityList(
           }));
 }
 
-Widget _mapList() {
-  return Container(
-    child: Text('MAP'),
+_navigation(widget) {
+  int currentScreen = 0;
+
+  return BottomNavigationBar(
+    currentIndex: currentScreen,
+    onTap: (index) {
+      widget.setState(() {
+        currentScreen = index;
+      });
+    },
+    type: BottomNavigationBarType.fixed,
+    backgroundColor: Colors.white,
+    unselectedItemColor: Colors.black.withOpacity(0.5),
+    selectedItemColor: Colors.blue,
+    items: [
+      BottomNavigationBarItem(
+        icon: Icon(Icons.home_filled),
+        label: 'Home',
+      ),
+      BottomNavigationBarItem(icon: Icon(Icons.chat_rounded), label: 'Chat'),
+      BottomNavigationBarItem(
+          icon: Icon(Icons.people_rounded), label: 'Search'),
+      BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+    ],
   );
 }

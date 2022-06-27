@@ -1,25 +1,34 @@
+import 'dart:convert';
 import 'dart:js_util';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:frontend/services/activity_service.dart';
+import 'package:frontend/services/user_service.dart';
 import 'package:latlong2/latlong.dart';
 
 import 'package:flutter/cupertino.dart';
+import 'package:localstorage/localstorage.dart';
 import '../models/activities_model.dart';
+import '../models/user_model.dart';
+
+import 'package:intl/intl.dart';
 
 class ActivityScreen extends StatefulWidget {
   final String activityName;
+  final String username;
 
-  const ActivityScreen({
-    required this.activityName,
-  });
+  const ActivityScreen({required this.activityName, required this.username});
 
   @override
   _ActivityScreenState createState() => _ActivityScreenState();
 }
 
 class _ActivityScreenState extends State<ActivityScreen> {
+  String username = LocalStorage('Users').getItem('username');
+  String idUser = LocalStorage('Users').getItem('userID');
+  bool joinActivity = false;
   ActivityService activityService = ActivityService();
   String locations = "";
   late Activity activity;
@@ -30,8 +39,17 @@ class _ActivityScreenState extends State<ActivityScreen> {
 
   Future<Activity> getActivity(String name) async {
     activity = await ActivityService.getActivity(widget.activityName);
-    print('ACTIVITY loaded');
+
     return activity;
+  }
+
+  Future<bool> addUserToActivity(String idUser, String idActivity) async {
+    joinActivity = await ActivityService.addUserToActivity(idUser, idActivity);
+
+    print(idUser);
+    print(idActivity);
+
+    return joinActivity;
   }
 
   @override
@@ -49,18 +67,35 @@ class _ActivityScreenState extends State<ActivityScreen> {
                 builder: (context, AsyncSnapshot snapshot) => snapshot.hasData
                     ? Container(
                         child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          _activity(activity),
-                        ],
-                      ))
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[_activity(activity)]))
                     : Center(
                         child: CircularProgressIndicator(),
                       )),
             floatingActionButton: FloatingActionButton.extended(
-              onPressed: () {
-                // Add your onPressed code here!
+              onPressed: () async {
+                bool success = await addUserToActivity(idUser, activity.id);
+                if (success == true)
+                  setState(() {});
+                else {
+                  showDialog<String>(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      title: const Text('Error!'),
+                      content:
+                          const Text('You have already joined this activity'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, 'OK'),
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+
+                // Falten Alerts
               },
               label: const Text('Join Activity'),
               icon: const Icon(Icons.add),
@@ -70,126 +105,150 @@ class _ActivityScreenState extends State<ActivityScreen> {
 }
 
 Widget _activity(Activity activity) {
-  return Container(
-      padding: EdgeInsets.fromLTRB(25, 15, 25, 15),
-      width: double.maxFinite,
-      child: Column(children: [
-        Text(activity.name,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 35,
-              fontWeight: FontWeight.bold,
-              color: Color.fromARGB(255, 192, 62, 68),
-            )),
-        Row(
-          children: [
-            SizedBox(height: 30, width: 30, child: Icon(Icons.list)),
-            SizedBox(width: 25, height: 40),
-            Text(activity.description,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 24,
-                  //fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ))
-          ],
-        ),
-        Row(
-          children: [
-            SizedBox(
-                height: 30,
-                width: 30,
-                child: Icon(Icons.chat_bubble,
-                    color: Color.fromARGB(234, 80, 80, 80))),
-            SizedBox(width: 25, height: 40),
-            Text('Language: ',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                )),
-            Text(activity.language,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 24,
-                  //fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ))
-          ],
-        ),
-        Row(
-          children: [
-            SizedBox(
-              height: 30,
-              width: 30,
-              child: Icon(Icons.person, color: Color.fromARGB(234, 80, 80, 80)),
-            ),
-            SizedBox(width: 25, height: 40),
-            Text('Organizer: ',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                )),
-            Text(activity.organizer['username'],
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 24,
-                  //fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ))
-          ],
-        ),
-        Row(
-          children: [
-            SizedBox(
-                height: 30,
-                width: 30,
-                child:
-                    Icon(Icons.people, color: Color.fromARGB(234, 80, 80, 80))),
-            SizedBox(width: 25, height: 40),
-            Text('Participants: ',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ))
-            //_userList(activity)
-          ],
-        ),
-        Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-          SizedBox(
-              height: 30,
-              width: 30,
-              child: Icon(Icons.map_outlined,
-                  color: Color.fromARGB(234, 80, 80, 80))),
-          SizedBox(width: 25, height: 40),
-          Column(children: [
-            Text('Location: ',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                )),
-            // _Map(activity)
-          ])
-        ]),
-      ]));
+  return Expanded(
+      child: Container(
+          padding: EdgeInsets.fromLTRB(50, 25, 20, 25),
+          width: double.maxFinite,
+          child: ListView(
+              shrinkWrap: true,
+              physics: ScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              children: [
+                Column(children: [
+                  Text(activity.name,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 35,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 192, 62, 68),
+                      )),
+                  Row(
+                    children: [
+                      SizedBox(height: 30, width: 30, child: Icon(Icons.list)),
+                      SizedBox(width: 25, height: 60),
+                      Text(activity.description,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 24,
+                            //fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(234, 80, 80, 80),
+                          ))
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                          height: 30,
+                          width: 30,
+                          child: Icon(Icons.chat_bubble,
+                              color: Color.fromARGB(234, 80, 80, 80))),
+                      SizedBox(width: 25, height: 60),
+                      Container(
+                          padding: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Color.fromARGB(166, 211, 62, 59),
+                          ),
+                          child: Text(activity.language,
+                              style: TextStyle(
+                                  fontSize: 22,
+                                  color: Color.fromARGB(255, 255, 255, 255)))),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        height: 30,
+                        width: 30,
+                        child: Icon(Icons.person,
+                            color: Color.fromARGB(234, 80, 80, 80)),
+                      ),
+                      SizedBox(width: 25, height: 60),
+                      Text('Organized by:  ',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: Colors.black,
+                          )),
+                      Text(activity.organizer['username'],
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontStyle: FontStyle.italic,
+                            //fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 192, 62, 68),
+                          ))
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        height: 30,
+                        width: 30,
+                        child: Icon(Icons.calendar_month_outlined,
+                            color: Color.fromARGB(234, 80, 80, 80)),
+                      ),
+                      SizedBox(width: 25, height: 60),
+                      Text(getDate(activity),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 24,
+                            //fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 192, 62, 68),
+                          ))
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                          height: 30,
+                          width: 30,
+                          child: Icon(Icons.people,
+                              color: Color.fromARGB(234, 80, 80, 80))),
+                      SizedBox(width: 25, height: 60),
+                      Text('Participants: ',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: Colors.black,
+                          )),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      _userList(activity.users),
+                      SizedBox(width: 25, height: 60)
+                    ],
+                  ),
+                  Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                    Column(children: [
+                      SizedBox(
+                          height: 30,
+                          width: 30,
+                          child: Icon(
+                            Icons.map_outlined,
+                            color: Color.fromARGB(234, 80, 80, 80),
+                          ))
+                    ]),
+                  ]),
+                  Row(children: [
+                    Column(children: [_Map(activity)])
+                  ])
+                ])
+              ])));
 }
-/*
+
 Widget _Map(Activity activity) {
   return Container(
-    height: 500,
-    width: 300,
+    alignment: Alignment.center,
+    height: 250,
+    width: 150,
+    margin: const EdgeInsets.only(left: 60),
     child: new FlutterMap(
       options: new MapOptions(
         //center: new LatLng(41.441392, 2.186303), //AQUI!!
-        center: new LatLng(double.parse(activity.location[0]),
-            double.parse(activity.location[1])), //AQUI!!
+        center: new LatLng(double.parse(activity.location.coordinates[0]),
+            double.parse(activity.location.coordinates[1])), //AQUI!!
         zoom: 13.0,
       ),
       layers: [
@@ -204,12 +263,12 @@ Widget _Map(Activity activity) {
           Marker(
               width: 80.0,
               height: 80.0,
-              point: new LatLng(double.parse(activity.location[0]),
-                  double.parse(activity.location[1])), //AQUÍ!!
+              point: new LatLng(double.parse(activity.location.coordinates[0]),
+                  double.parse(activity.location.coordinates[1])), //AQUÍ!!
               builder: (context) => new Container(
                     child: IconButton(
                       icon: Icon(Icons.location_on),
-                      color: Colors.red,
+                      color: Color.fromARGB(255, 192, 62, 68),
                       iconSize: 45.0,
                       onPressed: () {
                         print('Marker tapped');
@@ -221,18 +280,37 @@ Widget _Map(Activity activity) {
     ),
   );
 }
-*/
 
-/*Widget _userList(Activity activity) {
+Widget _userList(List<dynamic> users) {
   return Expanded(
-      child: ListView.builder(
-// scrollDirection: Axis.horizontal,
-          itemCount: activity.users?.length,
-          itemBuilder: (context, index) {
-            return Text(activity.users?[index]['username']);
-          }));
-}*/
+      child: Container(
+          margin: const EdgeInsets.only(left: 60),
+          child: SingleChildScrollView(
+            physics: ScrollPhysics(),
+            child: Column(
+              children: <Widget>[
+                ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: users.length,
+                    itemBuilder: (context, index) {
+                      return Text(users[index]['username'],
+                          style: TextStyle(
+                            fontSize: 22,
+                            color: Color.fromARGB(234, 80, 80, 80),
+                          ));
+                    })
+              ],
+            ),
+          )));
+}
 
 Widget loadingWidget() {
   return const CircularProgressIndicator();
+}
+
+String getDate(Activity activity) {
+  DateTime date = DateTime.parse(activity.date);
+  var newDt = DateFormat.yMMMEd().format(date);
+  print(newDt);
+  return newDt;
 }
