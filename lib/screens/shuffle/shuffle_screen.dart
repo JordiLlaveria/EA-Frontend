@@ -33,7 +33,7 @@ class _ShuffleViewState extends BaseState<ShuffleView> {
           break;
         case ListStatus.empty:
           return Center(
-            child: Text("Data not available"),
+            child: Text("You have not liked anyone"),
           );
           break;
         default:
