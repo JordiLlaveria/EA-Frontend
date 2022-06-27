@@ -32,7 +32,7 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
   final TextEditingController dateAct = TextEditingController();
   final TextEditingController lonAct = TextEditingController();
   final TextEditingController latAct = TextEditingController();
-
+  static bool accessible = false;
   final TextEditingController languageAct = TextEditingController();
 
   void initState() {
@@ -40,15 +40,15 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
   }
 
   Future<void> addActivity(String name, String description, String language,
-      String latitude, String longitude, String date) async {
+      String latitude, String longitude, String date, bool accessible) async {
     var dateFormatted = DateTime.parse(date);
 
     List<String> locationFormat = [];
     locationFormat.add(latitude);
     locationFormat.add(longitude);
 
-    var newActivity = await ActivityService.addActivity(
-        name, description, organizerId, language, locationFormat, date, token);
+    var newActivity = await ActivityService.addActivity(name, description,
+        organizerId, language, locationFormat, date, accessible, token);
     //return newActivity;
   }
 
@@ -230,6 +230,27 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
                                   width: 2)),
                         ))),
                 SizedBox(height: 20),
+                Row(
+                  children: [
+                    Text('Accessibility: ',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color.fromARGB(255, 85, 85, 85),
+                        )),
+                    SizedBox(width: 20),
+                    Container(
+                        child: Checkbox(
+                      checkColor: Colors.white,
+                      value: accessible,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          accessible = value!;
+                        });
+                      },
+                    )),
+                  ],
+                ),
+                SizedBox(height: 20),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     primary: Color.fromARGB(255, 192, 62, 68),
@@ -242,7 +263,8 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
                         languageAct.text,
                         latAct.text,
                         lonAct.text,
-                        dateAct.text);
+                        dateAct.text,
+                        accessible);
                     setState(() {});
                     final route = MaterialPageRoute(
                         builder: (context) =>

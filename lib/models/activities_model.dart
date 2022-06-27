@@ -2,41 +2,41 @@ import 'package:frontend/models/user_model.dart';
 import 'package:frontend/models/location_model.dart';
 
 class Activity {
-  String id;
+  String? id;
   String name;
   String description;
   dynamic organizer;
   String language;
-  List<dynamic> users;
+  List<dynamic>? users;
   Location location;
   String date;
   //List<dynamic>? ratings;
+  bool accessibility;
 
-  Activity({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.language,
-    required this.organizer,
-    required this.users,
-    required this.location,
-    //this.ratings,
-    required this.date,
-  });
+  Activity(
+      {this.id,
+      required this.name,
+      required this.description,
+      required this.language,
+      required this.organizer,
+      this.users,
+      required this.location,
+      //this.ratings,
+      required this.date,
+      required this.accessibility});
 
   factory Activity.fromJson(Map<String, dynamic> json) {
     return Activity(
-      id: json['_id'],
-      name: json['name'],
-      description: json['description'],
-      language: json['language'],
-      organizer: json['organizer'],
-      users: json['users'],
-      location: Location.fromJson(json['location']),
-      date: json['date']
-      );
-      //ratings: json['ratings'],
-    
+        id: json['_id'],
+        name: json['name'],
+        description: json['description'],
+        language: json['language'],
+        organizer: json['organizer'],
+        users: json['users'],
+        location: Location.fromJson(json['location']),
+        date: json['date'],
+        accessibility: json['accessibility']);
+    //ratings: json['ratings'],
   }
 
   static Map<String, dynamic> toJson(Activity act) {
@@ -49,7 +49,8 @@ class Activity {
       'users': act.users,
       'location': location,
       //'ratings': act.ratings,
-      'date': act.date
+      'date': act.date,
+      'accessibility': act.accessibility
     };
   }
 }
