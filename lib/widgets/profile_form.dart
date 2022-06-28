@@ -69,8 +69,9 @@ class _ProfileFormState extends State<ProfileForm>{
             return Form(
               child: Column(
                 children: <Widget>[
-                  SizedBox(height: 20),
-                  InputModText(
+                  SizedBox(height: 10),
+                  SizedBox(height: 50,
+                  child: InputModText(
                     label: snapshot.data!.name,
                     /* hint:'Name', */
                     /* keyboard: TextInputType.name, */
@@ -78,8 +79,10 @@ class _ProfileFormState extends State<ProfileForm>{
                     onChanged: (data){
                       name = data;
                     },
-                  ),
-                  SizedBox(height: 20),
+                  )),
+                  SizedBox(height: 10),
+                  SizedBox(height: 50,
+                  child:
                   InputModText(
                     label: snapshot.data!.surname,
           /*           hint:'Surname', */
@@ -88,8 +91,10 @@ class _ProfileFormState extends State<ProfileForm>{
                     onChanged: (data){
                       surname = data;
                     },
-                  ),
-                  SizedBox(height: 20),
+                  )),
+                  SizedBox(height: 10),
+                  SizedBox(height: 50,
+                  child:
                   InputModText(
                     label: snapshot.data!.username,
           /*           hint:'Username',
@@ -98,8 +103,8 @@ class _ProfileFormState extends State<ProfileForm>{
                     onChanged: (data){
                       username = data;
                     },
-                  ),
-                  SizedBox(height: 20),
+                  )),
+                  SizedBox(height: 10),
                   /* InputModText(
                     label: snapshot.data!.password,
           /*           hint:'Password',
@@ -110,7 +115,8 @@ class _ProfileFormState extends State<ProfileForm>{
                     },
                   ),
                   SizedBox(height: 20), */
-                  InputModText(
+                  SizedBox(height: 50,
+                  child:InputModText(
                     label: snapshot.data!.email,
           /*           hint:'Email',
                     keyboard: TextInputType.emailAddress, */
@@ -118,9 +124,10 @@ class _ProfileFormState extends State<ProfileForm>{
                     onChanged: (data){
                       email = data;
                     },
-                  ),
-                  SizedBox(height: 20),
-                  InputModText(
+                  )),
+                  SizedBox(height: 10),
+                  SizedBox(height: 50,
+                  child: InputModText(
                     label: snapshot.data!.phone,
           /*           hint:'Phone',
                     keyboard: TextInputType.phone, */
@@ -128,9 +135,10 @@ class _ProfileFormState extends State<ProfileForm>{
                     onChanged: (data){
                       phone = data;
                     },
-                  ),        
-                  SizedBox(height: 20),
-                  InputModText(
+                  )),        
+                  SizedBox(height: 10),
+                  SizedBox(height: 50,
+                  child:InputModText(
                     label: snapshot.data!.languages.toString(),
           /*           hint:'Languages',
                     keyboard: TextInputType.text, */
@@ -138,8 +146,8 @@ class _ProfileFormState extends State<ProfileForm>{
                     onChanged: (data){
                       languages = data.split(',');
                     },
-                  ),
-                  SizedBox(height: 20),
+                  )),
+                  SizedBox(height: 10),
                   /* InputModText(
                     label: snapshot.data!.location.coordinates[0].toString() + ", " + snapshot.data!.location.coordinates[1].toString(),
           /*           hint:'[Longitude],[Latitude]',

@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:frontend/icons/search_icons.dart';
 
 import 'package:frontend/services/user_service.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import '../models/user_model.dart';
 import '../widgets/search_user_form.dart';
 import '../widgets/icon_container.dart';
@@ -29,12 +30,139 @@ class _SearchScreenState extends State<SearchScreen> {
   late String token;
   String? languageselected;
 
+  GlobalKey keyUser = GlobalKey();
+  GlobalKey keyButtons = GlobalKey();
+  GlobalKey keyFilter = GlobalKey();
+
+   var storageTutorial;
+
+  List<TargetFocus> targets = <TargetFocus>[];
+
+  late TutorialCoachMark tutorialCoachMark;
+
   void initState() {
+    initTarget();
+    WidgetsBinding.instance?.addPostFrameCallback(_afterlayaout);
     super.initState();
-    //initiateVariables();
     getUser();
     getUsers();
   }
+
+  void _afterlayaout(_) {
+    Future.delayed(Duration(milliseconds: 100));
+    showTutorial();
+  }
+
+  void showTutorial() async {
+    storageTutorial = LocalStorage('Tutorial');
+    await storageTutorial.ready;
+    if(storageTutorial.getItem('search') == true){      
+      storageTutorial.setItem('search', false);
+    tutorialCoachMark = TutorialCoachMark(
+      context,
+      targets: targets,
+      alignSkip: Alignment.topRight,
+      colorShadow: Theme.of(context).cardColor,
+      opacityShadow: 0.95,
+    )..show();
+    }
+  }
+
+  void initTarget() {
+    targets.add(TargetFocus(
+        identify: "User",
+        targetPosition: TargetPosition(Size(400,400), Offset(190,100)),
+        shape: ShapeLightFocus.Circle,
+        enableOverlayTab: true,
+        contents: [
+          TargetContent(
+              align: ContentAlign.bottom,
+              child: Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "WELCOME TO THE SEARCH SCREEN",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black54,
+                          fontSize: 30.0,
+                          fontFamily: 'FredokaOne'),
+                    ),
+                    Text(
+                      "In this screen you can find users and see which language they speak and their location. If you like a user you can swipe them right and if you don't like them you can swipe them left.",
+                      style: TextStyle(
+                        color: Colors.redAccent,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ))
+        ]));
+      targets.add(TargetFocus(
+        identify: "Buttons",
+        keyTarget: keyButtons,
+        shape: ShapeLightFocus.RRect,
+        radius: 20,
+        enableOverlayTab: true,
+        contents: [
+          TargetContent(
+              align: ContentAlign.top,
+              child: Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    
+                    Text(
+                      "You can also use the buttons to like a user.",
+                      style: TextStyle(
+                        color: Colors.redAccent,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ))
+        ]));
+      targets.add(TargetFocus(
+        identify: "Filter",
+        keyTarget: keyFilter,
+        shape: ShapeLightFocus.RRect,
+        radius: 20,
+        enableOverlayTab: true,
+        contents: [
+          TargetContent(
+              align: ContentAlign.top,
+              child: Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[     
+                    Text(
+                      "FILTER",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black54,
+                          fontSize: 20.0,
+                          fontFamily: 'FredokaOne'),
+                    ),               
+                    Text(
+                      "To filter the users by their languages you can use this field",
+                      style: TextStyle(
+                        color: Colors.redAccent,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ))
+        ]));
+   }
+
+  
 
   Future<void> updateUser() async {
     await UserService.updateUserByID(id, token, peopleliked, peopledisliked);
@@ -201,6 +329,7 @@ class _SearchScreenState extends State<SearchScreen> {
             // ),
             //FilterButton(),
             Container(
+              key: keyFilter,
               padding: EdgeInsets.symmetric(horizontal: 6),
               child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(
@@ -238,7 +367,10 @@ class _SearchScreenState extends State<SearchScreen> {
             //   },
             //   child: Icon(Icons.filter_alt_rounded, color: Colors.grey),
             // ),
-            ElevatedButton(
+            Container(
+              key: keyButtons,
+              child: Row(children: [
+              ElevatedButton(
               style: ElevatedButton.styleFrom(
                   primary: Colors.white,
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
@@ -261,6 +393,8 @@ class _SearchScreenState extends State<SearchScreen> {
                 MovedButton(125, user);
               },
               child: Icon(Icons.favorite, color: Colors.green),
+            )
+              ],)
             ),
           ],
         ));
@@ -278,7 +412,7 @@ class _SearchScreenState extends State<SearchScreen> {
       'Russian',
       'No language filter'
     ];
-    return Container(
+    return Container(        
         height: MediaQuery.of(context).size.height / 20,
         width: MediaQuery.of(context).size.width / 20,
         child: Row(

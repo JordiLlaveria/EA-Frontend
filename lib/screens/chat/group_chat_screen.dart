@@ -170,6 +170,7 @@ class _ChatScreenState extends State<GroupChatScreen> {
                           child: const Icon(Icons.send, size: 20)),
                     ),
                   ),
+                  SizedBox(width: 10),
                   SizedBox(
                     height: 43,
                     width: 42,

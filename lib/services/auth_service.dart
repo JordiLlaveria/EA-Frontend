@@ -12,6 +12,7 @@ class AuthService {
       String.fromEnvironment('API_URL', defaultValue: 'http://localhost:3000');
   var baseURL = apiURL + "/api/auth";
   final LocalStorage storage = LocalStorage('Users');
+  final LocalStorage storageTutorial = LocalStorage('Tutorial');
 
   Future<bool> register(
       String? name,
@@ -71,10 +72,19 @@ class AuthService {
         Map<String, dynamic> payload = Jwt.parseJwt(token.toString());
         storage.setItem('userID', payload['id']);
         storage.setItem('username', payload['username']);
+        
         final SharedPreferences sharedPreferences =
             await SharedPreferences.getInstance();
         await sharedPreferences.setString('user', payload['username']);
         await sharedPreferences.setString('userId', payload['id']);
+
+        storageTutorial.setItem('profile', true);
+        storageTutorial.setItem('search', true);
+        storageTutorial.setItem('shuffle', true);
+        storageTutorial.setItem('chat', true);
+        storageTutorial.setItem('app', true);
+      storageTutorial.setItem('home', true);
+
         return true;
       } else {
         return false;
@@ -98,6 +108,13 @@ class AuthService {
       print("The id of the user is " + payload['id']);
       storage.setItem('username', payload['username']);
       print("The username of the user is " + payload['username']);
+
+      storageTutorial.setItem('profile', false);
+      storageTutorial.setItem('search', false);
+      storageTutorial.setItem('shuffle', false);
+      storageTutorial.setItem('chat', false);
+      storageTutorial.setItem('app', false);
+      storageTutorial.setItem('home', false);
 
       final SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();

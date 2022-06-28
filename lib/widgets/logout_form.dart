@@ -4,7 +4,8 @@ import 'package:frontend/screens/index_screen.dart';
 import '../helper/preferences_helper.dart';
 
 class LogoutForm extends StatefulWidget {
-  LogoutForm({Key? key}) : super(key: key);
+  GlobalKey buttonKey;
+  LogoutForm({Key? key, required this.buttonKey}) : super(key: key);
 
   @override
   State<LogoutForm> createState() => _LogoutFormState();
@@ -16,6 +17,7 @@ class _LogoutFormState extends State<LogoutForm> {
     return Scaffold(
       body: Center(
         child: RaisedButton(
+          key: widget.buttonKey,
           onPressed: () async {
             await SharedPreferencesHelper.shared.removeToken();
             Navigator.of(context).pushAndRemoveUntil(
