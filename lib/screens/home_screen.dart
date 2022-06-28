@@ -7,6 +7,7 @@ import 'package:frontend/screens/user_activities.dart';
 import 'package:frontend/services/activity_service.dart';
 import 'package:frontend/services/activity_service.dart';
 import 'package:localstorage/localstorage.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import '../models/activities_model.dart';
 
 import 'package:frontend/services/user_service.dart';
@@ -32,10 +33,176 @@ class _HomeScreenState extends State<HomeScreen> {
   String locations = "";
   bool viewMode = true;
   var storage;
+  var storageTutorial;
+
+  GlobalKey keyBar = GlobalKey();
+  GlobalKey keyMenu = GlobalKey();
+  GlobalKey keyAct = GlobalKey();
+  GlobalKey keyNear = GlobalKey();
+
+  List<TargetFocus> targets = <TargetFocus>[];
+
+  late TutorialCoachMark tutorialCoachMark;
 
   void initState() {
+    initTarget();
+    WidgetsBinding.instance?.addPostFrameCallback(_afterlayaout);
     super.initState();
     getActivities();
+  }
+
+  void _afterlayaout(_) {
+    Future.delayed(Duration(milliseconds: 100));
+    showTutorial();
+  }
+
+  void showTutorial() async {
+    storageTutorial = LocalStorage('Tutorial');
+    await storageTutorial.ready;
+    if(storageTutorial.getItem('home') == true){      
+      storageTutorial.setItem('home', false);
+    tutorialCoachMark = TutorialCoachMark(
+      context,
+      targets: targets,
+      alignSkip: Alignment.topRight,
+      colorShadow: Theme.of(context).cardColor,
+      opacityShadow: 0.95,
+    )..show();
+    }
+  }
+
+  void initTarget() {
+    targets.add(TargetFocus(
+        identify: "Bar",
+        keyTarget: keyBar,
+        shape: ShapeLightFocus.Circle,
+        enableOverlayTab: true,
+        contents: [
+          TargetContent(
+              align: ContentAlign.bottom,
+              child: Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "WELCOME TO THE HOME SCREEN",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black54,
+                          fontSize: 30.0,
+                          fontFamily: 'FredokaOne'),
+                    ),
+                    Text(
+                      "In this screen you can see the activities. You can join them with the + button.",
+                      style: TextStyle(
+                        color: Colors.redAccent,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ))
+        ]));
+        targets.add(TargetFocus(
+        identify: "menu",
+        keyTarget: keyMenu,
+        shape: ShapeLightFocus.RRect,
+        radius: 20,
+        enableOverlayTab: true,
+        contents: [
+          TargetContent(
+              align: ContentAlign.bottom,
+              child: Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Menu",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black54,
+                          fontSize: 20.0,
+                          fontFamily: 'FredokaOne'),
+                    ),
+                    Text(
+                      "You can access to your activities in this menu",
+                      style: TextStyle(
+                        color: Colors.redAccent,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ))
+        ]));
+        targets.add(TargetFocus(
+        identify: "create",
+        keyTarget: keyAct,
+        shape: ShapeLightFocus.RRect,
+        radius: 20,
+        enableOverlayTab: true,
+        contents: [
+          TargetContent(
+              align: ContentAlign.bottom,
+              child: Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Create Activity",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black54,
+                          fontSize: 20.0,
+                          fontFamily: 'FredokaOne'),
+                    ),
+                    Text(
+                      "You can create an activity using this button.",
+                      style: TextStyle(
+                        color: Colors.redAccent,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ))
+        ]));
+        targets.add(TargetFocus(
+        identify: "find",
+        keyTarget: keyNear,
+        shape: ShapeLightFocus.RRect,
+        radius: 40,
+        enableOverlayTab: true,
+        contents: [
+          TargetContent(
+              align: ContentAlign.top,
+              child: Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "NEAR YOU",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black54,
+                          fontSize: 20.0,
+                          fontFamily: 'FredokaOne'),
+                    ),
+                    Text(
+                      "You can filter by the activities that are near you with this button",
+                      style: TextStyle(
+                        color: Colors.redAccent,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ))
+        ]));
   }
 
   Future<void> getActivities() async {
@@ -80,14 +247,15 @@ class _HomeScreenState extends State<HomeScreen> {
         debugShowCheckedModeBanner: false,
         home: Scaffold(
             appBar: AppBar(
+              key: keyBar,
               backgroundColor: Color.fromARGB(166, 211, 62, 59),
               title: Text(
                 "Xerra!",
                 style: TextStyle(color: Colors.black),
               ),
-              leading: Container(
-                child: PopupMenuButton<int>(
-                    icon: Icon(Icons.menu, color: Colors.black),
+              leading: Container(                
+                child: PopupMenuButton<int>(                    
+                    icon: Icon(Icons.menu, color: Colors.black, key: keyMenu),
                     padding: const EdgeInsets.all(15.0),
                     onSelected: (item) => onSelected(context, item),
                     itemBuilder: (context) => [
@@ -127,6 +295,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Padding(
                   padding: EdgeInsets.only(right: 20.0),
                   child: IconButton(
+                    key: keyAct,
                     color: Colors.black,
                     //hoverColor: Color.fromARGB(166, 211, 62, 59),
                     icon: Icon(Icons.note_add, size: 25, color: Colors.black),
@@ -178,6 +347,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             floatingActionButton: FloatingActionButton.extended(
+              key: keyNear,
               onPressed: () {
                
                 setState(() {

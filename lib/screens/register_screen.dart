@@ -144,7 +144,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      "Choose the languages you speak and your profile picture.",
+                      "Choose the languages you speak and your profile picture. You can obtain your location by clicking on the button or you can enter it manually.",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.redAccent,
@@ -157,7 +157,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ]));
     targets.add(TargetFocus(
         identify: "Button",
-        keyTarget: keyLanguages,
+        keyTarget: keyButton,
         shape: ShapeLightFocus.RRect,
         radius: 20,
         enableOverlayTab: true,
@@ -205,7 +205,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       child: Column(
                         children: [
                           Container(
-                            width: 100.0,
+                            width: 100,
                             height: 110.0,
                             child: CircleAvatar(
                               radius: 200.0,
@@ -217,12 +217,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           Text(
                             'SIGN UP',
                             style: TextStyle(
-                                fontSize: 30.0, fontFamily: 'FredokaOne'),
+                                fontSize: 30, fontFamily: 'FredokaOne'),
                           ),
                         ],
                       )),
                   Divider(
-                    height: 10.0,
+                    height: 5.0,
                   ),
                   RegisterForm(keyName: keyName, keyUsername: keyUsername, keyLanguages: keyLanguages, keyButton: keyButton,),
                 ],

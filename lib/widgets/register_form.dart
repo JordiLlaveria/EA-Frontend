@@ -101,7 +101,9 @@ class _RegisterFormState extends State<RegisterForm> {
               key: widget.keyName,
               child: Column(
                 children: [
-                  InputText(
+                  SizedBox(
+                    height: 50,
+                    child: InputText(
                     label: 'Your name',
                     hint: 'Name',
                     keyboard: TextInputType.name,
@@ -110,9 +112,12 @@ class _RegisterFormState extends State<RegisterForm> {
                     onChanged: (data) {
                       name = data;
                     },
+                  )
                   ),
-                  SizedBox(height: 20),
-                  InputText(
+                  SizedBox(height: 15),
+                   SizedBox(
+                    height: 50,
+                    child: InputText(
                     label: 'Your surname',
                     hint: 'Surname',
                     keyboard: TextInputType.name,
@@ -121,9 +126,12 @@ class _RegisterFormState extends State<RegisterForm> {
                     onChanged: (data) {
                       surname = data;
                     },
-                  ),
-                  SizedBox(height: 20),
-                  InputText(
+                  )
+                   ),
+                  SizedBox(height: 15),
+                   SizedBox(
+                    height: 50,
+                    child: InputText(
                     label: 'Your email',
                     hint: 'Email',
                     keyboard: TextInputType.emailAddress,
@@ -132,9 +140,13 @@ class _RegisterFormState extends State<RegisterForm> {
                     onChanged: (data) {
                       email = data;
                     },
-                  ),
-                  SizedBox(height: 20),
-                  InputText(
+                  )
+                   ),
+                  SizedBox(height: 15),
+                   SizedBox(
+                    height: 50,
+                    child:
+                    InputText(
                     label: 'Your phone',
                     hint: 'Phone',
                     keyboard: TextInputType.phone,
@@ -143,14 +155,18 @@ class _RegisterFormState extends State<RegisterForm> {
                     onChanged: (data) {
                       phone = data;
                     },
-                  ),
+                  )
+                   ),
                 ],
               )),
-          SizedBox(height: 20),
+          SizedBox(height: 15),
           Container(
               key: widget.keyUsername,
               child: Column(
                 children: [
+                   SizedBox(
+                    height: 50,
+                    child:
                   InputText(
                     label: 'Choose a username',
                     hint: 'Username',
@@ -160,25 +176,34 @@ class _RegisterFormState extends State<RegisterForm> {
                     onChanged: (data) {
                       username = data;
                     },
-                  ),
-                  SizedBox(height: 20),
+                  )
+                   ),
+                  SizedBox(height: 15),
+                   SizedBox(
+                    height: 50,
+                    child:
                   passwordInputText(
                       label: "Choose a password",
                       onChanged: (data) {
                         password1 = data;
-                      }),
-                  SizedBox(height: 20),
+                      }
+                   )),
+                  SizedBox(height: 15),
+                   SizedBox(
+                    height: 50,
+                    child:
                   passwordInputText(
                       label: "Repeat your password",
                       onChanged: (data) {
                         password2 = data;
-                      }),
+                      })),
                 ],
               )),
-          SizedBox(height: 20),
+          SizedBox(height: 15),
+          
           Container(
             key: widget.keyLanguages,
-            child: Column(children: [
+            child: Column(children: [               
               Container(
                 decoration: BoxDecoration(
                   border: Border.all(
@@ -201,7 +226,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   title: Text(
                     "Language",
                     style: TextStyle(
-                        fontSize: 15.0,
+                        fontSize: 15,
                         color: Colors.white,
                         fontFamily: 'FredokaOne'),
                   ),
@@ -246,7 +271,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   cancelButtonLabel: 'CANCEL',
                   hintWidget: Text(
                     'Please choose one or more',
-                    style: TextStyle(color: Colors.white, fontSize: 12.0),
+                    style: TextStyle(color: Colors.white, fontSize: 12),
                   ),
                   initialValue: _myLanguages,
                   onSaved: (value) {
@@ -260,13 +285,16 @@ class _RegisterFormState extends State<RegisterForm> {
                   },
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 15),
+               SizedBox(
+                    height: 50,
+                    child:
               locationInputText(
                 label: 'Your location',
                 onChanged: (data) {
                   location = data.split(',');
                 },
-              ),
+              )),
               Container(
                 child: Column(children: <Widget>[
                   FlatButton(
@@ -278,18 +306,18 @@ class _RegisterFormState extends State<RegisterForm> {
                       onPressedMethod(location.toString());
                     },
                     color: Colors.red,
-                    child: Text("Find My Location"),
+                    child: Text("Find My Location", style: TextStyle(fontSize: 10)),
                   )
                 ]),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 10),
               photoButton(
                   title: 'Pick photo',
                   icon: Icons.camera_alt_outlined,
                   onClicked: () => pickImage()),
             ]),
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 15),
           Container(
             key: widget.keyButton,
             child: Material(
@@ -313,7 +341,7 @@ class _RegisterFormState extends State<RegisterForm> {
               ),
             ),
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 15),
         ],
       ),
     );
@@ -329,15 +357,15 @@ class _RegisterFormState extends State<RegisterForm> {
           minimumSize: Size.fromHeight(56),
           primary: Colors.transparent,
           onPrimary: Colors.white,
-          textStyle: TextStyle(fontSize: 20),
+          textStyle: TextStyle(fontSize: 15),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(40),
           ),
         ),
         child: Row(
           children: [
-            Icon(icon, size: 28),
-            const SizedBox(width: 16),
+            Icon(icon, size: 20),
+            const SizedBox(width: 12),
             Text(title),
           ],
         ),
@@ -388,9 +416,9 @@ class _RegisterFormState extends State<RegisterForm> {
             labelStyle: TextStyle(
                 color: Color.fromARGB(255, 238, 241, 243),
                 fontFamily: 'FredokaOne',
-                fontSize: 15.0),
+                fontSize: 15),
             suffixIcon:
-                Icon(Icons.lock, color: Color.fromARGB(255, 255, 255, 255)),
+                Icon(Icons.lock, color: Color.fromARGB(255, 255, 255, 255),size: 15,),
             suffixIconColor: Colors.white,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20.0),
@@ -402,7 +430,9 @@ class _RegisterFormState extends State<RegisterForm> {
               borderSide: BorderSide(color: Colors.amber),
               borderRadius: BorderRadius.circular(20.0),
             ),
-            errorStyle: TextStyle(color: Colors.white)),
+            errorStyle: TextStyle(color: Colors.white)
+            ),
+            
       ),
     );
   }
@@ -425,7 +455,7 @@ class _RegisterFormState extends State<RegisterForm> {
             labelStyle: TextStyle(
                 color: Color.fromARGB(255, 238, 241, 243),
                 fontFamily: 'FredokaOne',
-                fontSize: 15.0),
+                fontSize: 15),
             suffixIcon: Icon(Icons.add_location_alt,
                 color: Color.fromARGB(255, 255, 255, 255)),
             suffixIconColor: Colors.white,

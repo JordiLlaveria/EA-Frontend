@@ -22,23 +22,17 @@ class IndexScreen extends StatefulWidget {
 }
 
 class _IndexScreenState extends State<IndexScreen> {
-  late TutorialCoachMark tutorialCoachMark;
-  List<TargetFocus> targets = <TargetFocus>[];
+
   Sign signup = Sign();
   late User? usergoogle;
 
-  GlobalKey key = GlobalKey();
-  GlobalKey key1 = GlobalKey();
-  GlobalKey key2 = GlobalKey();
-  GlobalKey key3 = GlobalKey();
+
 
   bool isLogged = false;
   String user = '';
 
   @override
   void initState() {
-    initTarget();
-    WidgetsBinding.instance?.addPostFrameCallback(_afterlayaout);
     super.initState();
   }
 
@@ -65,96 +59,9 @@ class _IndexScreenState extends State<IndexScreen> {
 
   void _afterlayaout(_) {
     Future.delayed(Duration(milliseconds: 100));
-    showTutorial();
   }
 
-  void showTutorial() {
-    tutorialCoachMark = TutorialCoachMark(
-      context,
-      targets: targets,
-      colorShadow: Theme.of(context).cardColor,
-      opacityShadow: 0.95,
-    )..show();
-  }
-
-  void initTarget() {
-    targets.clear();
-    targets.add(
-      TargetFocus(
-          identify: "key1",
-          keyTarget: key1,
-          alignSkip:
-              Alignment.lerp(Alignment.bottomLeft, Alignment.centerLeft, 0.12),
-          paddingFocus: 0,
-          contents: [
-            TargetContent(
-                child: Container(
-              child: Column(
-                children: [
-                  Text(
-                    "DO YOU HAVE AN ACOUNT ALREADY? SIGN IN! CLICK ON LOGIN",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-            ))
-          ]),
-    );
-    targets.add(
-      TargetFocus(
-          identify: "key2",
-          keyTarget: key2,
-          alignSkip:
-              Alignment.lerp(Alignment.bottomLeft, Alignment.centerLeft, 0.12),
-          paddingFocus: 0,
-          contents: [
-            TargetContent(
-                child: Container(
-              child: Column(
-                children: [
-                  Text(
-                    "ARE YOU NEW IN XERRA? SIGN UP! CLICK ON REGISTER",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-            ))
-          ]),
-    );
-    targets.add(
-      TargetFocus(
-          identify: "key3",
-          keyTarget: key3,
-          alignSkip:
-              Alignment.lerp(Alignment.bottomLeft, Alignment.centerLeft, 0.12),
-          paddingFocus: 0,
-          contents: [
-            TargetContent(
-                child: Container(
-              child: Column(
-                children: [
-                  Text(
-                    "ARE YOU NEW IN XERRA? SIGN UP! CLICK ON REGISTER",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-            ))
-          ]),
-    );
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -188,7 +95,7 @@ class _IndexScreenState extends State<IndexScreen> {
                     height: 20.0,
                   ),
                   SizedBox(
-                    key: key1,
+                    
                     width: double.infinity,
                     height: 60.0,
                     child: TextButton(
@@ -211,7 +118,6 @@ class _IndexScreenState extends State<IndexScreen> {
                     height: 20.0,
                   ),
                   SizedBox(
-                    key: key2,
                     width: double.infinity,
                     height: 60.0,
                     child: TextButton(
@@ -235,7 +141,6 @@ class _IndexScreenState extends State<IndexScreen> {
                     height: 20.0,
                   ),
                   SizedBox(
-                      key: key3,
                       width: double.infinity,
                       height: 60.0,
                       child: FlatButton(

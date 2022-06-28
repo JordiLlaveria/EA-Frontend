@@ -6,7 +6,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 
 
 class ShuffleList extends StatelessWidget {
-
+  
   final vm = getIt<ShufListState>();
 
   @override

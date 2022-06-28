@@ -12,7 +12,7 @@ import 'group_chat_screen.dart';
 
 const appId = "c3ff506b3e894f05850712bdade6cc8e";
 const token =
-    "006c3ff506b3e894f05850712bdade6cc8eIAC6xoQYefpqm67KHcQV+4mH2Im0d4bXkSyBcOcxT1bvOrnYDM0AAAAAEABF5qhUePalYgEAAQB29qVi";
+    "006c3ff506b3e894f05850712bdade6cc8eIADCLFBKvZqN9kbz/s7z/o0wb7npAnTLrMLQ61Y+6sUwQ7nYDM0AAAAAEACJVdSD1G+7YgEAAQDUb7ti";
 const channel = "EA";
 
 class VideoCallScreen extends StatefulWidget {
@@ -143,10 +143,13 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                 height: 50,
                 width: 50,
                 child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        primary: Color.fromRGBO(255, 255, 58, 58)),
+                    style: ElevatedButton.styleFrom(primary: Colors.red),
                     onPressed: _switchMicrophone,
-                    child: const Icon(Icons.mic_none_outlined, size: 20)),
+                    child: const Icon(
+                      Icons.mic_none_outlined,
+                      size: 20,
+                      color: Colors.white,
+                    )),
               ),
             ),
             SizedBox(width: 50), // give it width

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/services/storage_service.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import '../models/location_model.dart';
 import '../models/user_model.dart';
 
@@ -19,18 +20,21 @@ class _SearchUserState extends State<SearchUserForm> {
   String locations = "";
   String languages = "";
 
+  
+
   _SearchUserState({required this.user});
   @override
   Widget build(BuildContext context) {
     //print("The user shown is " + user.username);
     return Center(
         child: Container(
+      
       height: MediaQuery.of(context).size.height / 1.2,
       width: MediaQuery.of(context).size.width / 1.2,
       child: Stack(
         children: [
           ShowImage(user),
-          Container(
+          Container(            
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(

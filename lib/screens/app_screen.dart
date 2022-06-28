@@ -40,6 +40,7 @@ class _AppScreenState extends State<AppScreen> {
   GlobalKey keySearch = GlobalKey();
   GlobalKey keyProfile = GlobalKey();
   GlobalKey keyNavigation = GlobalKey();
+  var storage;
 
   List<TargetFocus> targets = <TargetFocus>[];
 
@@ -56,7 +57,11 @@ class _AppScreenState extends State<AppScreen> {
     showTutorial();
   }
 
-  void showTutorial() {
+  void showTutorial() async {
+    storage = LocalStorage('Tutorial');
+    await storage.ready;
+    if(storage.getItem('app') == true){      
+      storage.setItem('app', false);
     tutorialCoachMark = TutorialCoachMark(
       context,
       targets: targets,
@@ -64,6 +69,7 @@ class _AppScreenState extends State<AppScreen> {
       colorShadow: Theme.of(context).cardColor,
       opacityShadow: 0.95,
     )..show();
+    }
   }
 
   void initTarget() {
@@ -226,7 +232,7 @@ class _AppScreenState extends State<AppScreen> {
                           fontFamily: 'FredokaOne'),
                     ),
                     Text(
-                      "In the profile screen you can see your data and modify it",
+                      "In the profile screen you can see your data",
                       style: TextStyle(
                         color: Colors.redAccent,
                         fontSize: 20,
@@ -236,6 +242,7 @@ class _AppScreenState extends State<AppScreen> {
                 ),
               ))
         ]));
+        
   }
 
   @override
@@ -280,7 +287,7 @@ class _AppScreenState extends State<AppScreen> {
                   ),
                   label: 'Search'),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.person), label: 'Profile')
+                  icon: Icon(Icons.person, key: keyProfile), label: 'Profile')
             ],
           ),
         ));

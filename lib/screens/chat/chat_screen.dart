@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class ChatScreen extends StatefulWidget {
   final String receiverID;
@@ -40,10 +41,75 @@ class _ChatScreenState extends BaseState<ChatScreen> {
   var vm = getIt<ChatListState>();
   final state = getIt<ShufListState>();
 
+  GlobalKey keyChat = GlobalKey();
+
+  List<TargetFocus> targets = <TargetFocus>[];
+
+  late TutorialCoachMark tutorialCoachMark;
+  var storage;
+
+
   @override
   void initState() {
+    initTarget();
+    WidgetsBinding.instance?.addPostFrameCallback(_afterlayaout);
     super.initState();
     getMessages();
+  }
+
+   void _afterlayaout(_) {
+    Future.delayed(Duration(milliseconds: 100));
+    showTutorial();
+  }
+
+  void showTutorial() async{
+    storage = LocalStorage('Tutorial');
+    await storage.ready;
+    if(storage.getItem('chat') == true){      
+      storage.setItem('chat', false);
+    tutorialCoachMark = TutorialCoachMark(
+      context,
+      targets: targets,
+      alignSkip: Alignment.topRight,
+      colorShadow: Theme.of(context).cardColor,
+      opacityShadow: 0.95,
+    )..show();
+    }
+  }
+
+  void initTarget() {
+    targets.add(TargetFocus(
+        identify: "Chat",
+        keyTarget: keyChat,
+        shape: ShapeLightFocus.Circle,
+        enableOverlayTab: true,
+        contents: [
+          TargetContent(
+              align: ContentAlign.top,
+              child: Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "WELCOME TO THE INDIVIDUAL CHAT SCREEN",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black54,
+                          fontSize: 30.0,
+                          fontFamily: 'FredokaOne'),
+                    ),
+                    Text(
+                      "You can start typing a text for this user or you can click to the green button to start a videocall",
+                      style: TextStyle(
+                        color: Colors.redAccent,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ))
+        ]));
   }
 
   @override
@@ -154,7 +220,9 @@ class _ChatScreenState extends BaseState<ChatScreen> {
               color: Colors.white,
                 padding: const EdgeInsets.only(
                     bottom: 10, left: 20, right: 10, top: 5),
-              child: Row(children: <Widget>[
+              child: Row(
+                key: keyChat,
+                children: <Widget>[
                   Flexible(
                     child: Container(
                       child: TextField(
@@ -194,6 +262,7 @@ class _ChatScreenState extends BaseState<ChatScreen> {
                           angle: 5.79449,
                           child: const Icon(Icons.send, size: 20)),
                   )),
+                  SizedBox(width: 10),
                   SizedBox(
                   height: 43,
                   width: 42,
